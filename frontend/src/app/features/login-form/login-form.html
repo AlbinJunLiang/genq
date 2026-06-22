@@ -1,0 +1,75 @@
+<div class="login-content">
+  <img src="rabbit.png" alt="Imagen de la página" height="60px" />
+  <h1 style="margin-bottom: 0">{{ languageService.translate('LOGIN') }}</h1>
+  <p>{{ languageService.translate('INTRO') }}</p>
+
+  <form [formGroup]="form" class="form-container">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ languageService.translate('EMAIL') }}:</mat-label>
+      <input formControlName="email" matInput autocomplete="username"/>
+      @let emailCtrl = form.get('email');
+
+      @if (emailCtrl?.hasError('required')) {
+        <mat-error style="width: 100%">{{ languageService.translate('EMAIL_REQUIRED') }}</mat-error>
+      }
+
+      @if (emailCtrl?.hasError('email')) {
+        <mat-error style="width: 100%">{{ languageService.translate('EMAIL_INVALID') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ languageService.translate('PASSWORD') }}:</mat-label>
+      <input
+        formControlName="password"
+        matInput
+        type="password"
+        [type]="hidePassword() ? 'password' : 'text'"
+        autocomplete="current-password"
+      />
+      <mat-icon (click)="togglePassword($event)" matSuffix style="cursor: pointer">{{
+        hidePassword() ? 'visibility_off' : 'visibility'
+      }}</mat-icon>
+
+      @if (form.get('password')?.hasError('required')) {
+        <mat-error style="width: 100%">{{
+          languageService.translate('PASSWORD_REQUIRED')
+        }}</mat-error>
+      }
+
+      @if (form.get('password')?.hasError('minlength')) {
+        <mat-error style="width: 100%">{{
+          languageService.translate('PASSWORD_LENGTH')
+        }}</mat-error>
+      }
+    </mat-form-field>
+
+    <div (click)="openForgot()" class="forgot-password-container">
+      <span class="forgot-link">{{ languageService.translate('FORGOT_PASSWORD') }}</span>
+    </div>
+
+    <button (click)="onLogin()" mat-flat-button class="login-button full-width">
+      @if (isLoading() === false) {
+        {{ languageService.translate('ENTER') }}
+      } @else {
+        <mat-spinner class="spinner-white" diameter="20"></mat-spinner>
+      }
+    </button>
+    <button mat-flat-button class="close-btn full-width" (click)="closeSlide()">
+      {{ languageService.translate('EXIT') }}
+    </button>
+    <p (click)="goToRegister()" class="login-prompt">
+      {{ languageService.translate('NEW_HERE') }}
+      <span class="register-link">{{ languageService.translate('REGISTER') }}.</span>
+    </p>
+
+    <button (click)="loginWithGoogle()" class="google-link-button">
+      <img src="google.svg" alt="Google" class="google-icon" />
+      @if (isLoadingWithProvider() === false) {
+        <span>Sign in with Google</span>
+      } @else {
+        <mat-spinner diameter="15"></mat-spinner>
+      }
+    </button>
+  </form>
+</div>

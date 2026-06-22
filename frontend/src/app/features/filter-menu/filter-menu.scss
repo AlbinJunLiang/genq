@@ -1,0 +1,21 @@
+::ng-deep .mat-mdc-menu-content {
+  padding: 0 !important;
+}
+
+/* Obliga al contenedor del menú a tener el ancho que deseas */
+::ng-deep .mat-mdc-menu-panel {
+  max-width: none !important; /* Quita la restricción de Material */
+  margin-right: 25px;
+  background-color: white !important;
+}
+
+::ng-deep .mat-mdc-menu-item-text {
+  font-family: 'Finlandica Text', sans-serif !important;
+}
+
+.menu-title {
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.54) !important;
+  opacity: 1 !important; /* Para que no se vea gris muy claro */
+  cursor: default !important;
+}

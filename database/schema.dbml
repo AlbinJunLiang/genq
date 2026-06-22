@@ -1,0 +1,89 @@
+Table users {
+  id integer [primary key, increment]
+  auth_id varchar(255) [unique, not null]
+  email varchar(255) [unique, not null]
+  name varchar(100) [not null]
+  last_name varchar(100) [not null]
+  role varchar(50) [not null]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+}
+
+Table quizzes {
+  id integer [primary key, increment]
+  uuid uuid [unique, not null]
+
+  title varchar(255) [not null]
+  description text
+
+  visibility enum(
+    'PUBLIC',
+    'PRIVATE',
+    'ACCESS_ONLY_VIA_LINK',
+    'INACTIVE'
+  ) [not null]
+
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  end_at datetime
+
+  duration_seconds bigint [not null]
+  attempts int [default: 1]
+
+  user_id integer [not null, ref: > users.id]
+}
+
+Table quiz_attempts {
+  id integer [primary key, increment]
+  uuid uuid [unique, not null]
+
+  user_id integer [not null, ref: > users.id]
+  quiz_id integer [not null, ref: > quizzes.id]
+
+  quiz_attempted_content json
+
+  score decimal(5,2)
+
+  duration_seconds bigint
+
+  status enum(
+    'IN_PROGRESS',
+    'COMPLETED',
+    'EXPIRED',
+    'CANCELLED'
+  )
+  finished_at datetime
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+}
+
+Table questions {
+  id integer [primary key, increment]
+
+  content text [not null]
+
+  type enum(
+    'UNIQUE',
+    'MULTIPLE',
+    'OTHER'
+  )
+
+  status enum(
+    'ACTIVE',
+    'INACTIVE'
+  )
+
+  quiz_id integer [not null, ref: > quizzes.id]
+}
+
+Table answers {
+  id integer [primary key, increment]
+
+  content text [not null]
+
+  is_correct boolean [default: false]
+
+  status enum(
+    'ACTIVE',
+    'INACTIVE'
+  )
+
+  question_id integer [not null, ref: > questions.id]
+}

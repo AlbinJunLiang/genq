@@ -1,0 +1,21 @@
+<nav class="bottom-nav">
+  <button (click)="goToHome()" class="nav-btn" mat-icon-button>
+    <img src="home.svg" alt="Home" class="nav-icon" />
+    <span>Inicio</span>
+  </button>
+  <button routerLink="/quizzes" class="nav-btn" mat-icon-button>
+    <img src="quiz.svg" alt="Quiz" class="nav-icon" />
+    <span>Cuestionarios</span>
+  </button>
+  <button class="nav-btn" mat-icon-button>
+    <img src="history.svg" alt="History" class="nav-icon" />
+    <span>Historial</span>
+  </button>
+</nav>
+
+@if (
+ ( changeSlideViewService.currentView() === 'EDIT_QUIZ_FORM' ||
+  changeSlideViewService.currentView() === 'CREATE_QUIZ_FORM') && slideInModalService.isOpen()
+) {
+  <app-fixed-bottom-left></app-fixed-bottom-left>
+}

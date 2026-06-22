@@ -1,0 +1,27 @@
+<div class="cards-container">
+
+  @for (quiz of quizStore.quizzes(); track quiz.id) {
+    <div class="card">
+      <h2 class="card-title">{{ quiz.title }}</h2>
+      <p class="card-subtitle">{{ quiz.description }}</p>
+      <div class="card-actions">
+        <button class="card-btn">Ver más</button>
+        @if (authUserStore.userSyncData()?.user?.id == quiz.userId) {
+          <button (click)="selectQuiz(quiz)" mat-icon-button class="edit-btn"><mat-icon>edit</mat-icon></button>
+        }
+      </div>
+    </div>
+  } @empty {
+    <div class="no-data-message">
+      <p>No hay quizzes disponibles.</p>
+    </div>
+  }
+</div>
+
+<nav class="pagination-container">
+  <button class="page-btn" (click)="prevPage()">Anterior</button>
+  <span class="page-info"
+    >Página {{ quizStore.currentPage() }} de {{ quizStore.totalPages() }}</span
+  >
+  <button class="page-btn" (click)="nextPage()">Siguiente</button>
+</nav>

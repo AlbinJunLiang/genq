@@ -1,0 +1,90 @@
+* {
+  font-family: 'Finlandica Text', sans-serif;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  z-index: 1000;
+
+  /* Transición de derecha a izquierda */
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  /* Para centrar contenido interno */
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: flex-start; /* PEGA EL CONTENIDO ARRIBA */
+  overflow-y: auto; /* Permite scroll si el contenido es largo */
+}
+
+/* Esta clase se activa con Angular */
+.modal-overlay.active {
+  transform: translateX(0);
+}
+
+.modal-content {
+  justify-content: flex-start;
+  width: 100%;
+}
+
+/**
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  overflow: hidden;
+  background: #07082a;
+
+  transform: translateX(100%);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+}
+
+.modal-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 30%, rgba(100, 160, 220, 0.3) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 80% 70%, rgba(80, 110, 180, 0.25) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 55% 20%, rgba(120, 170, 230, 0.2) 0%, transparent 65%);
+  filter: blur(36px);
+  animation: drift 18s ease-in-out infinite;
+}
+
+.modal-overlay.active {
+  transform: translateX(0);
+  visibility: visible;
+}
+
+@keyframes drift {
+  0%   { transform: translate(0px, 0px) scale(1); opacity: 1; }
+  33%  { transform: translate(18px, -12px) scale(1.04); opacity: 0.85; }
+  66%  { transform: translate(-14px, 10px) scale(0.97); opacity: 0.95; }
+  100% { transform: translate(0px, 0px) scale(1); opacity: 1; }
+}
+
+.modal-content {
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  max-width: 600px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(15px);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+*/

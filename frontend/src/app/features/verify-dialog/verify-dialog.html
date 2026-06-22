@@ -1,0 +1,30 @@
+<div class="modal-overlay">
+  <div class="modal-card">
+    <button mat-dialog-close class="modal-close-btn">
+      <mat-icon style="font-size: 20px;">close</mat-icon>
+    </button>
+
+    <div class="modal-body">
+      @if (step() === 'initial') {
+        <div class="modal-icon-wrapper"><mat-icon>mail</mat-icon></div>
+        <h2 class="modal-title">{{ languageService.translate('VERIFY_YOUR_ACCOUNT') }}</h2>
+        <p class="modal-description">
+          {{ languageService.translate('VERIFY_ACCOUNT_MESSAGE') }} <b>{{ authService.user()?.email }}</b>.
+        </p>
+        <button (click)="sendVerification()" class="modal-submit-btn">
+          {{ languageService.translate('SEND_LINK') }}
+        </button>
+      } @else {
+        <div class="modal-icon-wrapper modal-icon-wrapper--success">
+          <mat-icon>mark_email_read</mat-icon>
+        </div>
+        <h2 class="modal-title">{{ languageService.translate('EMAIL_SENT') }}</h2>
+        <p class="modal-description">{{ languageService.translate('CHECK_INBOX') }}</p>
+        <span class="modal-countdown-timer">{{ countdown() }}</span>
+        <button mat-dialog-close class="modal-submit-btn">
+          {{ languageService.translate('UNDERSTOOD') }}
+        </button>
+      }
+    </div>
+  </div>
+</div>

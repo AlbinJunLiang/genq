@@ -1,0 +1,1 @@
+export type Voice = 'NATIVE' | 'GOOGLE';

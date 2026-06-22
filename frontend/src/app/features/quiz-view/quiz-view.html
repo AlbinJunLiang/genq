@@ -1,0 +1,24 @@
+<div class="quiz-container">
+  <div class="subtitle-container">
+    <h2 class="content-title">Cuestionarios</h2>
+  </div>
+  <div class="actions-header">
+    <button
+      (click)="openCreateQuizView();"
+      class="create-button"
+      style="background-color: rgb(37, 100, 194)"
+      mat-flat-button
+      color="primary"
+    >
+      <img src="hand.svg" alt="IA" class="btn-icon" />Crear cuestionario
+    </button>
+
+    <button class="create-button generate-btn" mat-flat-button color="primary">
+      <img src="magic.svg" alt="IA" class="btn-icon" /> Generar con IA
+    </button>
+  </div>
+
+  <section class="content-section">
+    <app-quiz-grid></app-quiz-grid>
+  </section>
+</div>

@@ -1,0 +1,28 @@
+.main-container {
+  min-height: calc(100vh - 64px); /* 64px es la altura estándar del toolbar */
+  background: white;
+}
+
+
+.search-overlay {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white; /* O el color de tu toolbar */
+  padding: 0 16px;
+}
+
+.search-overlay.show {
+  max-height: 100px; /* Suficiente para mostrar el buscador */
+  opacity: 1;
+  padding: 15px 16px; /* Padding que aparece al desplegarse */
+}
+
+.loading-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100dvh; 
+  width: 100%;
+}

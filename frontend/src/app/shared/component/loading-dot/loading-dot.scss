@@ -1,0 +1,29 @@
+/* loading-dots.component.css */
+svg {
+  width: 120px;
+  height: 50px;
+}
+
+.dot {
+  fill: #1a3a5c;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: wave 1.1s ease-in-out infinite;
+}
+
+.d2 {
+  animation-delay: 0.2s;
+}
+.d3 {
+  animation-delay: 0.4s;
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}

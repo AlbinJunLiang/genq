@@ -1,0 +1,41 @@
+<mat-dialog-content style="background-color: white !important">
+  <form [formGroup]="answerForm">
+    <h2 style="margin-top: 5px; font-size: 25px; text-align: center">
+      {{ data.mode === 'EDIT' ? 'Editar respuesta' : 'Añadir respuesta' }}
+    </h2>
+
+    <div style="width: 100%">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Respuesta</mat-label>
+        <textarea matInput formControlName="content" rows="5"></textarea>
+        @if (answerForm.get('content')?.hasError('required')) {
+          <mat-error style="width: 100%">Campo obligatorio.</mat-error>
+        }
+
+        @if (answerForm.get('content')?.hasError('maxlength')) {
+          <mat-error>
+            No puede superar los
+            {{ answerForm.get('content')?.getError('maxlength').requiredLength }} caracteres.
+          </mat-error>
+        }
+      </mat-form-field>
+
+      <div style="margin-bottom: 16px">
+        <mat-checkbox formControlName="isCorrect"> Marcar como correcta </mat-checkbox>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions style="background-color: white !important" align="end">
+  <button style="border-radius: 8px" mat-button (click)="close()">Cancelar</button>
+  <button
+    (click)="submitAnswer()"
+    class="save-answer-button"
+    mat-raised-button
+    color="primary"
+    cdkFocusInitial
+  >
+    Aceptar
+  </button>
+</mat-dialog-actions>

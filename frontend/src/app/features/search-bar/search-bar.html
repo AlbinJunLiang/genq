@@ -1,0 +1,18 @@
+<div class="search-container">
+  <div class="search-input-wrapper">
+    <button (click)="search()" mat-icon-button>
+      <mat-icon class="search-icon">search</mat-icon>
+    </button>
+    <input
+      type="text"
+      [value]="searchService.query()"
+      (input)="onInput($event)"
+      placeholder="Buscar cuestionario..."
+      class="modern-input"
+    />
+
+    <button mat-icon-button (click)="close()" class="clear-button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>

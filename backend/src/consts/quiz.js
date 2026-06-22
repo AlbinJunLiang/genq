@@ -1,0 +1,6 @@
+export const QuizzesType = {
+    PUBLIC: 'PUBLIC',
+    PRIVATE: 'PRIVATE',
+    ACCESS_ONLY_VIA_LINK: 'ACCESS_ONLY_VIA_LINK',
+    INACTIVE: 'INACTIVE'
+};

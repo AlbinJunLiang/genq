@@ -1,0 +1,80 @@
+.quiz-container {
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+}
+
+.actions-header {
+  width: 100%;
+  padding-top: 25px;
+  display: flex; /* Permite alinear el botón fácilmente */
+  justify-content: center; /* Puedes cambiar a 'flex-end' o 'center' */
+  display: flex;
+}
+
+.content-section {
+  margin-top: 20px; 
+  padding-bottom: 20px;
+
+}
+
+.subtitle-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.content-title {
+  font-family: 'Finlandica Text', sans-serif;
+  margin: 0;
+  max-width: 800px;
+  margin-top: 20px;
+  font-size: 35px;
+  color: rgb(3, 3, 77);
+}
+
+.create-button {
+  margin-left: 25px;
+  border-radius: 5px;
+  width: 200px;
+}
+
+.btn-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.generate-btn {
+  background: linear-gradient(90deg, #040433, #3b82f6, #040433);
+  background-size: 200% 100%;
+  color: white !important;
+  font-weight: bolder;
+  animation: shine 3s linear infinite !important;
+
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+@keyframes shine {
+  0% {
+    background-position: 0% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .actions-header {
+    flex-direction: column; /* Se apilan */
+    align-items: center; /* Centra el bloque de botones */
+    gap: 12px; /* Espacio vertical entre los botones apilados */
+  }
+
+  .create-button {
+    width: 90%;
+    margin: 0px !important;
+  }
+}

@@ -1,0 +1,5 @@
+export const UserStatus = {
+  REGISTERED: "REGISTETED",
+  VERIFIED: "VERIFIED",
+  INACTIVE: "INACTIVE"
+};

@@ -1,0 +1,90 @@
+/* Contenedor del logo */
+.logo-container {
+  display: flex;
+  align-items: center;
+  flex: 1; /* Ocupa 1/3 del espacio */
+  margin-left: 10px;
+}
+
+/* Contenedor de botones centrales */
+.center-buttons {
+  display: flex;
+  justify-content: center; /* Centra los botones dentro de este bloque */
+  font-family: 'Finlandica Text', sans-serif !important;
+  flex: 1; /* Ocupa el espacio central restante */
+}
+
+.center-button {
+  font-family: 'Finlandica Text', sans-serif !important;
+  font-size: 16px;
+  color: rgb(4, 10, 64) !important;
+}
+
+/* Contenedor de iconos */
+.right-icons {
+  display: flex;
+  justify-content: flex-end; /* Empuja los iconos al borde derecho */
+  flex: 1; /* Ocupa el último 1/3 del espacio */
+  margin-right: 5px;
+}
+
+/* Estilos de tus elementos */
+.logo-app {
+  height: 35px;
+  object-fit: contain;
+  user-select: none;
+}
+
+.app-name {
+  font-size: 30px;
+  font-weight: bolder;
+  font-family: 'Finlandica Text', sans-serif !important;
+  user-select: none;
+
+  /* El secreto: Definir el degradado */
+  background: linear-gradient(
+    90deg,
+    #040433,
+    /* Color inicial */ #3b82f6,
+    /* Color medio (puedes cambiarlo) */ #040433
+      /* Color final igual al inicial para un ciclo suave */
+  );
+
+  background-size: 200% 100%; /* Hacemos el fondo más ancho que el texto */
+  -webkit-background-clip: text; /* Recorta el fondo a la forma del texto */
+  background-clip: text;
+
+  /* Hacemos que el color del texto sea transparente para que se vea el fondo */
+  color: transparent;
+
+  /* Animación */
+  animation: gradient-flow 3s linear infinite;
+}
+
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+mat-toolbar {
+  padding: 0 !important;
+  width: 100vw; /* Asegura que ocupe el ancho de la vista */
+  overflow: hidden; /* Evita que los hijos se desborden */
+}
+
+mat-toolbar button {
+  margin: 0 !important;
+}
+
+@media (max-width: 650px) {
+  .center-buttons {
+    display: none; /* Ocultamos los botones para que no se amontonen */
+  }
+  .toolbar-main-menu {
+    margin-right: 0px !important;
+  }
+}

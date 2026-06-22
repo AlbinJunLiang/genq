@@ -1,0 +1,67 @@
+.quiz-container {
+  margin: 20px auto;
+  padding-top: 15px;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 50px;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+  & > mat-form-field {
+    flex: 1;
+  }
+}
+.btn-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submit-button,
+.cancel-button {
+  margin-left: 5px;
+  width: 200px;
+  border-radius: 4px;
+  color: black;
+}
+
+.submit-button {
+  color: rgb(255, 255, 255);
+  background-color: rgb(14, 96, 168);
+}
+
+::ng-deep .mat-mdc-form-field-error-wrapper {
+  padding: 0 !important;
+}
+
+mat-form-field {
+  margin-top: 5px;
+}
+
+:host ::ng-deep .spinner-white circle {
+  stroke: #ffffff !important; /* Código HEX para el Indigo 600 */
+}
+
+@media (max-width: 600px) {
+  .btn-container {
+    display: inline;
+  }
+
+  .submit-button,
+  .cancel-button {
+    width: 100%;
+    margin-bottom: 15px;
+    margin-left: 0px;
+  }
+
+  .quiz-container {
+    margin: 20px auto;
+    padding: 15px;
+    padding-bottom: 50px;
+  }
+}

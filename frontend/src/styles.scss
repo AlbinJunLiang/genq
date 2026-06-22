@@ -1,0 +1,50 @@
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+@import url('https://fonts.googleapis.com/css2?family=Finlandica+Text:ital,wght@0,100..900;1,100..900&family=Jost:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+// 1. Incluir el núcleo de Material
+@include mat.core();
+
+// 2. Definir el tema usando los nuevos bloques de configuración
+$my-theme: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      // 'light' o 'dark'
+      primary: mat.$azure-palette,
+      // Paleta azulada
+      tertiary: mat.$blue-palette,
+      // Paleta azulada complementaria
+    ),
+    typography: (
+      brand-family: 'Finlandica Text',
+      bold-weight: 700,
+    ),
+  )
+);
+
+// 3. Aplicar el tema a los componentes
+@include mat.all-component-themes($my-theme);
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden; /* Esto elimina la barra de scroll horizontal */
+}
+
+/* El "box-sizing: border-box" evita que el padding sume ancho al elemento */
+* {
+  box-sizing: border-box;
+}
+
+main {
+  flex: 1; /* Esto obliga al main a estirarse y empujar el footer al fondo */
+}
+

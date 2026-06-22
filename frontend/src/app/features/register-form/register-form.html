@@ -1,0 +1,97 @@
+<div class="register-content">
+  <img src="rabbit.png" alt="Imagen de la página" height="60px" />
+  <h1>{{ languageService.translate('REGISTER') }}</h1>
+
+  <form [formGroup]="form" class="form-container">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ languageService.translate('EMAIL') }}:</mat-label>
+      <input formControlName="email" matInput autocomplete="username"/>
+      @let emailCtrl = form.get('email');
+
+      @if (emailCtrl?.hasError('required')) {
+        <mat-error style="width: 100%">{{ languageService.translate('EMAIL_REQUIRED') }}</mat-error>
+      }
+
+      @if (emailCtrl?.hasError('email')) {
+        <mat-error style="width: 100%">{{ languageService.translate('EMAIL_INVALID') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ languageService.translate('PASSWORD') }}:</mat-label>
+      <input
+        formControlName="password"
+        matInput
+        type="password"
+        [type]="hidePassword() ? 'password' : 'text'"
+        autocomplete="current-password"
+      />
+      <mat-icon (click)="togglePassword($event)" matSuffix style="cursor: pointer">{{
+        hidePassword() ? 'visibility_off' : 'visibility'
+      }}</mat-icon>
+
+      @if (form.get('password')?.hasError('required')) {
+        <mat-error style="width: 100%">{{
+          languageService.translate('PASSWORD_REQUIRED')
+        }}</mat-error>
+      }
+
+      @if (form.get('password')?.hasError('minlength')) {
+        <mat-error style="width: 100%">{{
+          languageService.translate('PASSWORD_LENGTH')
+        }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="width: 100% !important">
+      <mat-label>{{ languageService.translate('CONFIRM_PASSWORD') }}</mat-label>
+      <input
+        formControlName="confirmPassword"
+        matInput
+        [type]="hidePasswordConfirm() ? 'password' : 'text'"
+        autocomplete="current-password"
+      />
+
+      <mat-icon (click)="togglePasswordConfirm($event)" matSuffix style="cursor: pointer">{{
+        hidePasswordConfirm() ? 'visibility_off' : 'visibility'
+      }}</mat-icon>
+
+      @if (form.get('confirmPassword')?.hasError('required')) {
+        <mat-error style="width: 100%">{{
+          languageService.translate('CONFIRM_PASSWORD')
+        }}</mat-error>
+      }
+
+      @if (form.get('confirmPassword')?.hasError('minlength')) {
+        <mat-error style="width: 100%">{{
+          languageService.translate('PASSWORD_LENGTH')
+        }}</mat-error>
+      }
+
+      @if (form.hasError('mustMatch')) {
+        <mat-error style="width: 100%">{{
+          languageService.translate('PASSWORD_DO_NOT_MATCH')
+        }}</mat-error>
+      }
+    </mat-form-field>
+    <div (click)="openForgot()" class="forgot-password-container">
+      <span class="forgot-link">{{ languageService.translate('FORGOT_PASSWORD') }}</span>
+    </div>
+
+    <button (click)="onRegister()" mat-flat-button class="register-button full-width">
+      @if (isLoading() === false) {
+        {{ languageService.translate('REGISTER') }}
+      } @else {
+        <mat-spinner class="spinner-white" diameter="20"></mat-spinner>
+      }
+    </button>
+    <button (click)="goToLogin()" mat-flat-button class="close-btn full-width">
+      {{ languageService.translate('GO_BACK') }}
+    </button>
+
+    <button class="google-link-button">
+      <img src="google.svg" alt="Google" class="google-icon" />
+      <span>Sign in with Google</span>
+    </button>
+  </form>
+</div>

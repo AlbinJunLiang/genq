@@ -1,0 +1,23 @@
+@if (quizStore.quizzes().length === 0 || quizStore.isLoading()) {
+  <div class="loading-wrapper">
+    <app-loading-dot />
+  </div>
+} @else {
+  <app-toolbar></app-toolbar>
+
+  <div class="search-overlay" [class.show]="searchService.isSearching()">
+    <app-search-bar (closeEvent)="searchService.setSearching(false)"></app-search-bar>
+  </div>
+
+  <main class="main-container">
+    <router-outlet></router-outlet>
+
+    <app-footer></app-footer>
+  </main>
+}
+<app-slide-in>
+  <app-slide-container></app-slide-container>
+</app-slide-in>
+
+<app-bottom-nav></app-bottom-nav>
+

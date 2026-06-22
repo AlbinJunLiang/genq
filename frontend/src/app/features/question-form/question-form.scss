@@ -1,0 +1,121 @@
+.w-100 {
+  width: 100%;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submit-button {
+  margin-left: 5px;
+  width: 200px;
+  border-radius: 4px;
+  color: rgb(255, 255, 255);
+  background-color: rgb(14, 96, 168);
+}
+
+.cancel-button {
+  margin-left: 5px;
+  width: 200px;
+  border-radius: 4px;
+  color: black;
+}
+.question-container {
+  background: rgb(255, 255, 255);
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 0;
+  margin: 25px 0px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08) !important;
+}
+
+.answers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0px; /* Espacio entre cada fila */
+  margin-top: 16px;
+}
+
+.answer-item {
+  display: flex;
+  align-items: center; /* Alinea verticalmente el texto con el grupo de botones */
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #ffffff;
+  padding-right: 5px;
+}
+
+.answer-item:hover {
+  background: #f1f1f1; /* Efecto al pasar el mouse */
+}
+
+.answer-text {
+  font-size: 14px;
+  color: #000000;
+  overflow: hidden;
+}
+
+.question-button-group {
+  display: flex;
+  justify-content: flex-start;
+}
+
+mat-form-field {
+  margin-bottom: 8px;
+}
+
+.edit-btn,
+.option-btn {
+  flex-shrink: 0; /* Evita que el botón se encoja si el texto es largo */
+}
+
+.edit-question-btn,
+.delete-question-btn,
+.add-question-btn {
+  background-color: transparent !important;
+  color: black;
+}
+
+.edit-question-btn:hover {
+  background-color: transparent !important;
+  color: rgb(5, 30, 169);
+}
+
+.delete-question-btn:hover {
+  background-color: transparent !important;
+  color: rgb(169, 5, 41);
+}
+
+.add-question-btn:hover {
+  background-color: transparent !important;
+  color: rgb(14, 76, 5);
+}
+
+.search-container {
+  margin-top: 20px;
+  width: 100% !important;
+}
+
+@media (max-width: 600px) {
+  .btn-container {
+    display: inline;
+  }
+
+  .submit-button,
+  .cancel-button {
+    width: 100%;
+    margin-bottom: 15px;
+    margin-left: 0px;
+  }
+
+  .edit-question-btn,
+  .delete-question-btn,
+  .add-question-btn {
+    width: 33%;
+  }
+
+  .question-button-group {
+    display: flex;
+    justify-content: center;
+  }
+}

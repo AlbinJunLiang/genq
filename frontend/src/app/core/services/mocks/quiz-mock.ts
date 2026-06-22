@@ -1,0 +1,111 @@
+import { Quiz } from "../../interfaces/quiz-interface";
+
+export const MOCK_QUIZZES: Quiz[] = [
+    {
+        uuid: '550e8400-e29b-41d4-a716-446655440000',
+        id: 1,
+        title: 'Fundamentos de Angular',
+        description: 'Examen básico sobre componentes y señales.',
+        visibility: 'PUBLIC',
+        endAt: new Date('2026-12-31T23:59:59Z'),
+        durationSeconds: 1800, // 30 minutos
+        attemptsLimit: 3,
+        userId: 101,
+        createdAt: '2026-06-01T10:00:00Z'
+    },
+    {
+        uuid: '7b9b1234-5678-90ab-cdef-1234567890ab',
+        id: 2,
+        title: 'Quiz Privado de RRHH',
+        description: 'Evaluación interna de procesos de selección.',
+        visibility: 'PRIVATE',
+        endAt: '2026-07-15T15:00:00Z',
+        durationSeconds: 3600, // 60 minutos
+        attemptsLimit: 1,
+        userId: 102,
+        createdAt: '2026-06-10T09:30:00Z'
+    },
+    {
+        uuid: 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+        id: 3,
+        title: 'Reto de Algoritmos',
+        description: 'Solo accesible mediante el enlace compartido.',
+        visibility: 'ACCESS_ONLY_VIA_LINK',
+        endAt: new Date(),
+        durationSeconds: 900, // 15 minutos
+        attemptsLimit: 5,
+        userId: 101,
+        createdAt: '2026-06-15T12:00:00Z'
+    },
+    {
+        uuid: 'f87a9b0e-3d2c-4b5a-9e1f-8c7d6b5a4f3e',
+        id: 4,
+        title: 'Cuestionario Inactivo',
+        description: 'Este examen ya no está disponible.',
+        visibility: 'INACTIVE',
+        endAt: '2026-01-01T00:00:00Z',
+        durationSeconds: 600,
+        attemptsLimit: 1,
+        userId: 103,
+        createdAt: '2026-01-01T00:00:00Z'
+    }, {
+        uuid: 'a1b2c3d4-e5f6-4789-9876-543210fedcba',
+        id: 5,
+        title: 'Introducción a TypeScript',
+        description: 'Conceptos básicos de tipos y interfaces.',
+        visibility: 'PUBLIC',
+        endAt: '2026-12-31T23:59:59Z',
+        durationSeconds: 2700,
+        attemptsLimit: 2,
+        userId: 104,
+        createdAt: '2026-06-15T08:00:00Z'
+    },
+    {
+        uuid: 'b2c3d4e5-f6a7-4890-a987-6543210fedcb',
+        id: 6,
+        title: 'Quiz de Lógica Matemática',
+        description: 'Desafíos sobre conjuntos y lógica proposicional.',
+        visibility: 'PUBLIC',
+        endAt: '2026-09-30T18:00:00Z',
+        durationSeconds: 3600,
+        attemptsLimit: 3,
+        userId: 105,
+        createdAt: '2026-06-16T09:00:00Z'
+    },
+    {
+        uuid: 'c3d4e5f6-a7b8-4901-b987-76543210fedc',
+        id: 7,
+        title: 'Proyecto Secreto X',
+        description: 'Acceso restringido solo mediante enlace directo.',
+        visibility: 'ACCESS_ONLY_VIA_LINK',
+        endAt: '2027-01-01T00:00:00Z',
+        durationSeconds: 7200,
+        attemptsLimit: 1,
+        userId: 106,
+        createdAt: '2026-06-16T10:30:00Z'
+    },
+    {
+        uuid: 'd4e5f6a7-b8c9-4012-c987-876543210fed',
+        id: 8,
+        title: 'Evaluación de Rendimiento Interno',
+        description: 'Procesos operativos del trimestre.',
+        visibility: 'PRIVATE',
+        endAt: '2026-07-20T12:00:00Z',
+        durationSeconds: 1800,
+        attemptsLimit: 1,
+        userId: 104,
+        createdAt: '2026-06-16T11:15:00Z'
+    },
+    {
+        uuid: 'd4e5f6a7-k8c9-4012-c987-876543210fed',
+        id: 9,
+        title: 'Evaluación de Rendimiento Interno 2',
+        description: 'Procesos operativos del trimestre.',
+        visibility: 'PRIVATE',
+        endAt: '2026-07-20T12:00:00Z',
+        durationSeconds: 1800,
+        attemptsLimit: 1,
+        userId: 104,
+        createdAt: '2026-06-16T11:15:00Z'
+    }
+];

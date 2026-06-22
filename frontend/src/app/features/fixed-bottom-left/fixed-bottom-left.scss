@@ -1,0 +1,37 @@
+.buttons-container {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 9999;
+
+  display: flex; /* Alinea los botones en fila */
+  gap: 1rem; /* Crea espacio entre los botones */
+}
+
+.button-float {
+  /* Mantenemos tus estilos originales */
+  padding: 1rem 2rem;
+  background: #d5dbf9 !important;
+  color: rgb(50, 12, 120) !important;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  /* Aseguramos que el botón tenga display flex para el icono y texto */
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+}
+
+.button-float:hover {
+  transform: scale(1.05);
+}
+
+@media (max-width: 1200px) {
+  .hide {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+}

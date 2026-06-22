@@ -1,0 +1,79 @@
+.close-btn {
+  cursor: pointer;
+  border-radius: 10px !important;
+  background: white !important;
+  color: black !important;
+}
+
+.register-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column; /* <-- Esto hace que se pongan en vertical */
+  align-items: center; /* Centra horizontalmente */
+  padding-top: 50px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column; /* Esto es lo que los apila */
+  align-items: center; /* Los centra horizontalmente */
+  gap: 16px; /* Espacio entre los campos */
+  width: 100%;
+  max-width: 300px; /* Controla el ancho máximo aquí */
+}
+
+.full-width {
+  width: 100%; /* Ocupa todo el espacio del contenedor */
+}
+
+.register-button {
+  height: 45px;
+  color: white;
+  border-radius: 10px !important;
+  margin-top: -5px; /* Valores negativos mueven el elemento hacia arriba */
+}
+
+.google-link-button {
+  /* Estilo visual de link */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 14px;
+
+  /* Alineación del icono y el texto */
+  display: inline-flex;
+  align-items: center; /* Centra verticalmente */
+  gap: 8px; /* Espacio entre icono y texto */
+  transition: color 0.2s;
+}
+
+.google-link-button:hover {
+  color: #0056b3; /* Un azul más oscuro al pasar el cursor */
+}
+
+.google-icon {
+  width: 18px;
+  height: 18px;
+}
+
+::ng-deep .mat-mdc-form-field-error-wrapper {
+  padding: 0 !important;
+}
+
+.forgot-password-container {
+  width: 100%;
+  text-align: center;
+  /* Ajusta estos valores para moverlo hacia arriba */
+  margin-top: -20px; /* Valores negativos mueven el elemento hacia arriba */
+}
+
+.forgot-link {
+  font-size: 12px;
+  color: #007bff;
+  cursor: pointer;
+}
+
+:host ::ng-deep .spinner-white circle {
+  stroke: #ffffff !important; /* Código HEX para el Indigo 600 */
+}
