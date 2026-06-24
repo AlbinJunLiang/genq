@@ -1,256 +1,130 @@
-<div class="container">
-  <div class="quiz-container">
-    <div class="wrap">
-      <main class="card" role="region" aria-label="Evaluación de conocimientos">
-        <div class="content">
-          <h2
-            id="title-test"
-            title="Instrucciones: Lea cuidadosamente cada pregunta y seleccione la respuesta correcta. En el caso de selección múltiple, puede elegir más de una opción."
-          >
-            Ciberseguridad.
-          </h2>
 
-          <div class="summary">
-            Instrucciones: Lea cuidadosamente cada pregunta y seleccione la respuesta correcta. En
-            el caso de selección múltiple, puede elegir más de una opción.
-          </div>
+<div class="quiz-container">
+  <div class="wrap">
+    <main class="card" role="region" aria-label="Evaluación de conocimientos">
+      <div class="content">
+        <app-quiz-navbar
+          [userAnswers]="userAnswers()"
+          [questions]="quiz().questions"
+          [questionQuantity]="quiz().questions.length"
+        ></app-quiz-navbar>
 
-          <div id="div-stack" class="stack" aria-label="Listado de preguntas">
-            <section id="pregunta-1" class="q-block exit-left" data-tipo="unica">
-              <div class="q-meta">
-                <span class="pill">Pregunta 1/7</span>
-                <span class="muted">Selección única</span>
-              </div>
-              <h2 class="q-title">¿Qué es el phishing?</h2>
-              <div class="options">
-                <div id="option-11-1" class="option">
-                  <span class="bullet"><span class="dot-small"></span></span>
-                  <span class="option-text"
-                    >Un ataque para robar información haciéndose pasar por alguien confiable</span
-                  >
-                </div>
-                <div id="option-12-1" class="option">
-                  <span class="bullet"><span class="dot-small"></span></span>
-                  <span class="option-text">Un tipo de antivirus</span>
-                </div>
-                <div id="option-13-1" class="option selected">
-                  <span class="bullet"><span class="dot-small"></span></span>
-                  <span class="option-text">Una VPN</span>
-                </div>
-              </div>
-              <div class="q-footer">
-                <div class="left"><div class="result"></div></div>
-                <div class="right">
-                  <button class="ghost next" data-target="1" type="button">Siguiente</button>
-                </div>
-              </div>
-            </section>
-            <section id="pregunta-2" class="q-block exit-left" data-tipo="unica">
-              <div class="q-meta">
-                <span class="pill">Pregunta 2/7</span>
-                <span class="muted">Selección única</span>
-              </div>
-              <h2 class="q-title">¿Qué característica hace una contraseña segura?</h2>
-              <div class="options">
-                <div id="option-21-2" class="option">
-                  <span class="bullet"><span class="dot-small"></span></span>
-                  <span class="option-text">Tener letras, números y símbolos</span>
-                </div>
-                <div id="option-22-2" class="option">
-                  <span class="bullet"><span class="dot-small"></span></span>
-                  <span class="option-text">Ser corta y fácil de recordar</span>
-                </div>
-                <div id="option-23-2" class="option selected">
-                  <span class="bullet"><span class="dot-small"></span></span>
-                  <span class="option-text">Usar tu nombre o fecha de nacimiento</span>
-                </div>
-              </div>
-              <div class="q-footer">
-                <div
-                  class="error-message"
-                  style="color: rgb(220, 38, 38); margin-top: 10px; font-size: 14px"
-                ></div>
-                <div class="left"><div class="result"></div></div>
-                <div class="right">
-                  <button class="ghost prev" data-target="0" type="button">Anterior</button
-                  ><button class="ghost next" data-target="2" type="button">Siguiente</button>
-                </div>
-              </div>
-            </section>
-            <section id="pregunta-3" class="q-block exit-left" data-tipo="unica">
-              <div class="q-meta">
-                <span class="pill">Pregunta 3/7</span>
-                <span class="muted">Selección única</span>
-              </div>
-              <h2 class="q-title">¿Qué es un firewall?</h2>
-              <div class="options">
-                <div id="option-31-3" class="option">
-                  <span class="bullet"><span class="dot-small"></span></span>
-                  <span class="option-text">Un sistema que filtra conexiones de red</span>
-                </div>
-                <div id="option-32-3" class="option selected">
-                  <span class="bullet"><span class="dot-small"></span></span>
-                  <span class="option-text">Un programa para editar videos</span>
-                </div>
-              </div>
-              <div class="q-footer">
-                <div class="left"><div class="result"></div></div>
-                <div class="right">
-                  <button class="ghost prev" data-target="1" type="button">Anterior</button
-                  ><button class="ghost next" data-target="3" type="button">Siguiente</button>
-                </div>
-              </div>
-            </section>
-            <section id="pregunta-4" class="q-block exit-left" data-tipo="multiple">
-              <div class="q-meta">
-                <span class="pill">Pregunta 4/7</span>
-                <span class="muted">Selección múltiple</span>
-              </div>
-              <h2 class="q-title">Seleccione ejemplos de malware.</h2>
-              <div class="options">
-                <div id="option-41-4" class="option">
-                  <span class="bullet"><span class="dot-small"></span></span>
-                  <span class="option-text">Troyanos</span>
-                </div>
-                <div id="option-42-4" class="option">
-                  <span class="bullet"><span class="dot-small"></span></span>
-                  <span class="option-text">Ransomware</span>
-                </div>
-                <div id="option-43-4" class="option">
-                  <span class="bullet"><span class="dot-small"></span></span>
-                  <span class="option-text">Rootkits</span>
-                </div>
-                <div id="option-44-4" class="option selected">
-                  <span class="bullet"><span class="dot-small"></span></span>
-                  <span class="option-text">Microsoft Word</span>
-                </div>
-              </div>
-              <div class="q-footer">
-                <div class="left"><div class="result"></div></div>
-                <div class="right">
-                  <button class="ghost prev" data-target="2" type="button">Anterior</button
-                  ><button class="ghost next" data-target="4" type="button">Siguiente</button>
-                </div>
-              </div>
-            </section>
-            <section id="pregunta-5" class="q-block exit-left"     [class.active]="!isActive()"
-              [class.exit-left]="isActive()" data-tipo="multiple">
-              <div class="q-meta">
-                <span class="pill">Pregunta 5/7</span>
-                <span class="muted">Selección múltiple</span>
-              </div>
-              <h2 class="q-title">¿Qué acciones ayudan a proteger datos personales?</h2>
-              <div class="options">
-                <div id="option-51-5" class="option">
-                  <span class="bullet"><span class="dot-small"></span></span>
-                  <span class="option-text">Usar contraseñas fuertes</span>
-                </div>
-                <div id="option-52-5" class="option">
-                  <span class="bullet"><span class="dot-small"></span></span>
-                  <span class="option-text">Mantener software actualizado</span>
-                </div>
-                <div id="option-53-5" class="option selected">
-                  <span class="bullet"><span class="dot-small"></span></span>
-                  <span class="option-text">Compartir contraseñas con compañeros de trabajo</span>
-                </div>
-                <div id="option-54-5" class="option">
-                  <span class="bullet"><span class="dot-small"></span></span>
-                  <span class="option-text">Descargar archivos desconocidos</span>
-                </div>
-              </div>
-              <div class="q-footer">
-                <div class="left"><div class="result"></div></div>
-                <div class="right">
-                  <button class="ghost prev" data-target="3" type="button">Anterior</button
-                  ><button class="ghost next" data-target="5" type="button">Siguiente</button>
-                </div>
-              </div>
-            </section>
-            <section
-              id="pregunta-6"
-              class="q-block exit-left"
-              data-tipo="unica"
-              [class.active]="!isActive()"
-              [class.exit-left]="isActive()"
-            >
-              <div class="q-meta">
-                <span class="pill">Pregunta 6/7</span>
-                <span class="muted">Selección única</span>
-              </div>
-              <h2 class="q-title">¿Qué es un ataque de fuerza bruta?</h2>
-              <div class="options">
-                <div id="option-61-6" class="option">
-                  <span class="bullet"><span class="dot-small"></span></span>
-                  <span class="option-text"
-                    >Intentar adivinar contraseñas probando muchas combinaciones</span
-                  >
-                </div>
-                <div id="option-62-6" class="option selected">
-                  <span class="bullet"><span class="dot-small"></span></span>
-                  <span class="option-text">Un ataque que apaga computadoras</span>
-                </div>
-              </div>
-              <div class="q-footer">
-                <div class="left"><div class="result"></div></div>
-                <div class="right">
-                  <button (click)="toggleClase()" class="ghost prev" data-target="4" type="button">
-                    Anterior</button
-                  ><button (click)="toggleClase()" class="ghost next" data-target="6" type="button">
-                    Siguiente
-                  </button>
-                </div>
-              </div>
-            </section>
-            <section
-              id="pregunta-7"
-              class="q-block"
-              [class.active]="isActive()"
-              [class.exit-right]="!isActive()"
-              data-tipo="multiple"
-            >
-              <div class="q-meta">
-                <span class="pill">Pregunta 7/7</span>
-                <span class="muted">Selección múltiple</span>
-              </div>
-              <h2 class="q-title">Seleccione métodos de autenticación segura.</h2>
-              <div class="options">
-                <div id="option-71-7" class="option">
-                  <span class="bullet"><span class="dot-small"></span></span>
-                  <span class="option-text">Contraseña + código SMS</span>
-                </div>
-                <div id="option-72-7" class="option">
-                  <span class="bullet"><span class="dot-small"></span></span>
-                  <span class="option-text">Contraseña + token físico</span>
-                </div>
-                <div id="option-73-7" class="option">
-                  <span class="bullet"><span class="dot-small"></span></span>
-                  <span class="option-text">Compartir credenciales</span>
-                </div>
-              </div>
-              <div class="q-footer">
-                <div class="left"><div class="result"></div></div>
-                <div class="right">
-                  <button (click)="toggleClase()" class="ghost prev" data-target="5" type="button">
-                    Anterior</button
-                  ><button class="ghost finish" type="button">Finalizar</button>
-                </div>
-              </div>
-            </section>
-          </div>
+        <h2
+          id="title-test"
+          title="Instrucciones: Lea cuidadosamente cada pregunta y seleccione la respuesta correcta. En el caso de selección múltiple, puede elegir más de una opción."
+        >
+          Ciberseguridad.
+        </h2>
 
-          <div class="footer-global">
-            <div class="right">
-              <button id="btn-reset" class="primary m" style="">Reiniciar quiz</button>
-            </div>
-            <div class="left">
-              <div class="content-pet">
-                Preguntas sobre ciberseguridad.
-                <img src="rabbit.png" alt="Superdato" class="pet-icon" />
-              </div>
-            </div>
-          </div>
+        <div class="summary">
+          Instrucciones: Lea cuidadosamente cada pregunta y seleccione la respuesta correcta. En el
+          caso de selección múltiple, puede elegir más de una opción.
         </div>
-      </main>
-    </div>
+
+        <div id="div-stack" class="stack" aria-label="Listado de preguntas">
+          @for (question of quiz().questions; track question.id; let i = $index) {
+            <section
+              class="q-block"
+              [class.active]="quizNavService.currentPosition() === i"
+              [class.exit-left]="i < quizNavService.currentPosition()"
+              [class.exit-rigth]="i > quizNavService.currentPosition()"
+            >
+              <div class="q-meta">
+                <span class="pill no-copy"
+                  >Pregunta
+                  {{ `${quizNavService.currentPosition() + 1}/${quiz().questions.length}` }}</span
+                >
+                <span class="muted no-copy">{{
+                  question.type === 'UNIQUE' ? 'Selección única' : 'Selección múltiple'
+                }}</span>
+              </div>
+              <h2 class="q-title">{{ question.content }}</h2>
+              <div class="options">
+                @for (option of question.answers; track option.id) {
+                  <div
+                    (click)="selectAnswer(question, option)"
+                    class="option no-copy"
+                    [class.selected]="option.isSelected"
+                  >
+                    @if (question.type === 'UNIQUE') {
+                      <span class="bullet"><span class="dot-small"></span></span>
+                    } @else {
+                      <span class="checkbox-box"></span>
+                    }
+
+                    <span class="option-text">{{ option.content }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          }
+
+          @if (!isMobile()) {
+            <div class="q-footer">
+              <div class="left"><div class="result"></div></div>
+              <div class="right">
+                @if (quizNavService.currentPosition() > 0) {
+                  <button
+                    (click)="quizNavService.goToPrevQuestion()"
+                    class="ghost prev"
+                    data-target="3"
+                    type="button"
+                  >
+                    Anterior
+                  </button>
+                }
+
+                @if (quizNavService.currentPosition() < quiz().questions.length - 1) {
+                  <button
+                    (click)="quizNavService.goToNextQuestion()"
+                    [disabled]="!isCurrentQuestionAnswered()"
+                  >
+                    class="ghost next" data-target="1" type="button" > Siguiente
+                  </button>
+                } @else {
+                  <button
+                  (click)="evaluateQuiz()"
+                    [disabled]="!isCurrentQuestionAnswered()"
+                    class="ghost finish"
+                    type="button"
+                  >
+                    Finalizar
+                  </button>
+                }
+              </div>
+            </div>
+          } @else {
+            <nav class="bottom-nav">
+              <button
+                (click)="quizNavService.goToPrevQuestion()"
+                [disabled]="quizNavService.currentPosition() === 0"
+                class="nav-btn"
+                mat-flat-button
+              >
+                <span>Anterior</span>
+              </button>
+
+              @if (quizNavService.currentPosition() < quiz().questions.length - 1) {
+                <button
+                  (click)="quizNavService.goToNextQuestion()"
+                  [disabled]="
+                    quizNavService.currentPosition() === quiz().questions.length - 1 ||
+                    !isCurrentQuestionAnswered()
+                  "
+                  class="nav-btn"
+                  mat-flat-button
+                >
+                  <span>Siguiente</span>
+                </button>
+              } @else {
+                <button (click)="evaluateQuiz()" [disabled]="!isCurrentQuestionAnswered()" class="nav-btn" mat-flat-button>
+                  <span>Finalizar</span>
+                </button>
+              }
+            </nav>
+          }
+        </div>
+      </div>
+    </main>
   </div>
 </div>

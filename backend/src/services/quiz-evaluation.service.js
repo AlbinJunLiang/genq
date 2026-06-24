@@ -15,7 +15,7 @@ export const getQuizAnswersData = async (uuid) => {
                     {
                         model: Answer,
                         as: 'answers',
-                        required: true, // Solo preguntas con respuestas
+                        required: true, 
                     }
                 ]
             }
@@ -52,11 +52,22 @@ function evaluate(questions, quizAttempData) {
             [...correctSet].every(id => submittedSet.has(id));
 
         if (isCorrect) {
-            console.log(question.answers)
             score += 1;
         }
-        review.push({ questionId: question.id, answers: question.answers, feedback: question.feedback });
 
+        const answersWithSelection = question.answers.map(ans => ({
+            ...ans,
+            isSelected: submittedIds.includes(ans.id)
+        }));
+
+        review.push(
+            {
+                questionId: question.id,
+                answers: answersWithSelection,
+                content: question.content,
+                type: question.type,
+                feedback: question.feedback
+            });
     }
 
     return {
@@ -65,7 +76,8 @@ function evaluate(questions, quizAttempData) {
         percentage:
             questions.length > 0
                 ? Number(((score / questions.length) * 100).toFixed(2))
-                : 0, review
+                : 0,
+        review
     };
 }
 

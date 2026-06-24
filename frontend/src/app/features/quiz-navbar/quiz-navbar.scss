@@ -1,0 +1,46 @@
+/* Contenedor principal que centra la barra */
+.test-navbar-container {
+  display: flex;
+  justify-content: center;
+  padding: 20 20 5 20;
+}
+
+.test-navbar {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  max-width: 100%;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE y Edge antiguo */
+}
+
+.test-navbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+/* Estilo de cada cuadro numérico */
+.test-item {
+  min-width: 40px; /* Tamaño mínimo para que no se compriman */
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+  box-sizing: border-box; /* Vital para que el border no agrande el elemento */
+}
+
+/* Estilo del ítem activo */
+.test-item.active {
+  background-color: #6f49fa;
+  color: white;
+  border-color: #0056b3;
+}
+
+.test-item:hover {
+  background-color: #341696;
+    color: white;
+
+}

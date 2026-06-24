@@ -1,58 +1,11 @@
 <div class="test-navbar-container">
   <div class="test-navbar">
-    <div class="test-item active">1</div>
-    <div class="test-item">2</div>
-    <div class="test-item">3</div>
-    <div class="test-item">4</div>
-    <div class="test-item">5</div>
-    <div class="test-item">6</div>
-    <div class="test-item">7</div>
-    <div class="test-item">8</div>
-    <div class="test-item">9</div>
-    <div class="test-item">10</div>
+    @for (q of questions(); track q.id; let i = $index) {
+      @let answer = userAnswers().find(a => a.questionId === q.id);
+
+      <div class="test-item" [class.active]="!!answer" >
+        {{ i + 1 }}
+      </div>
+    }
   </div>
 </div>
-
-<style>
-  /* Contenedor principal que centra la barra */
-  .test-navbar-container {
-    display: flex;
-    justify-content: center;
-    padding: 20 20 5 20;
-  }
-
-  /* La barra que contiene los cuadros */
-  .test-navbar {
-    display: flex;
-    gap: 10px; /* Espacio entre los cuadros */
-    overflow-x: auto; /* Permite scroll horizontal */
-    max-width: 100%; /* No se sale del ancho de la pantalla */
-    padding-bottom: 10px; /* Espacio para la barra de scroll */
-    scrollbar-width: thin; /* Estilo para Firefox */
-  }
-
-  /* Estilo de cada cuadro numérico */
-  .test-item {
-    min-width: 40px; /* Tamaño mínimo para que no se compriman */
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-
-  /* Estilo del ítem activo */
-  .test-item.active {
-    background-color: #007bff;
-    color: white;
-    border-color: #0056b3;
-  }
-
-  .test-item:hover {
-    background-color: #f0f0f0;
-  }
-</style>

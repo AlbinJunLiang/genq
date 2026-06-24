@@ -188,6 +188,7 @@ export const getQuizEvaluation = async (req, res) => {
             validation.data
         );
 
+
         if (!result) {
             return res.status(404).json({
                 message: "Quiz not found"

@@ -25,13 +25,14 @@
         <img src="search.svg" style="width: 24px; height: 24px" />
       </mat-icon>
     </button>
-        <app-filter-menu class="toolbar-main-menu"> </app-filter-menu>
 
+    @if (authService.isLoggedIn()) {
+      <app-filter-menu class="toolbar-main-menu"> </app-filter-menu>
+    }
 
     <app-toolbar-main-menu
       class="toolbar-main-menu"
       style="margin-right: 10px"
     ></app-toolbar-main-menu>
-
   </div>
 </mat-toolbar>

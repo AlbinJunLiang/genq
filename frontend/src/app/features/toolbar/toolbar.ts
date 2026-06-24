@@ -8,6 +8,7 @@ import { SlideInModalService } from '../../core/services/ui/slide-in-modal-servi
 import { ToolbarMainMenu } from "../toolbar-main-menu/toolbar-main-menu";
 import { RouterLink } from "@angular/router";
 import { FilterMenu } from "../filter-menu/filter-menu";
+import { AuthService } from '../../auth/auth-service';
 
 
 
@@ -19,5 +20,7 @@ import { FilterMenu } from "../filter-menu/filter-menu";
 })
 export class Toolbar {
   protected searchService = inject(SearchService);
- 
+  protected authService = inject(AuthService);
+
+
 }

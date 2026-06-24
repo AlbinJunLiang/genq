@@ -4,6 +4,7 @@ export interface Answer {
   isCorrect?: boolean;
   questionId: number;
   status: 'ACTIVE' | 'INACTIVE'; // O puedes usar un tipo global para status
+  isSelected? : boolean;
 }
 
 export interface AnswerResponse {

@@ -1,5 +1,6 @@
 import { Pagination } from "./offset-pagination-interface";
 import { Question, QuestionFromQuiz, QuestionResponse } from "./question-interface";
+import { UserAnswer } from "./user-answer-interface";
 
 export interface Quiz {
     uuid?: string;
@@ -39,7 +40,16 @@ export interface QuizListResponse {
     pagination: Pagination;
 }
 
+export interface QuizApiResponse {
+  quiz: QuizDetail;
+}
 
+
+export interface EvaluationRequest {
+  quizId: number;
+  attemptId: string;
+  answers: UserAnswer[];
+}
 export type CreateQuizDto = Omit<Quiz, 'uuid' | 'id' | 'createdAt' | 'userId'>;
 
 export type UpdateQuizDto = Partial<Omit<Quiz, 'uuid' | 'id' | 'created_at' | 'user_id'>>;

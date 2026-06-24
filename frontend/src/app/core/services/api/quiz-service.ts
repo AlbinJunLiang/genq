@@ -1,10 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { catchError, from, map, Observable, of, throwError } from 'rxjs';
-import { CreateQuizDto, Quiz, QuizCreateResponse, QuizListResponse, UpdateQuizDto } from '../../interfaces/quiz-interface';
+import { CreateQuizDto, EvaluationRequest, Quiz, QuizApiResponse, QuizCreateResponse, QuizDetail, QuizListResponse, UpdateQuizDto } from '../../interfaces/quiz-interface';
 import { environment } from '../../../../environments/environments';
 import { generateRandomString } from '../../../shared/util/random-string';
 import { MOCK_USER_RESPONSE } from '../mocks/user-response-mock';
+import { EvaluationResult } from '../../interfaces/quiz-review-interface';
 
 
 @Injectable({
@@ -114,7 +115,7 @@ export class QuizService {
     }
 
 
-        getQuizzes(page: number = 1, limit: number = 8): Observable<QuizListResponse> {
+    getQuizzes(page: number = 1, limit: number = 8): Observable<QuizListResponse> {
         if (environment.mockeable) {
             return from(this.loadMocks()).pipe(
                 map((allMocks) => {
@@ -141,7 +142,7 @@ export class QuizService {
 
 
 
-    
+
     searchQuizzes(page: number = 1, limit: number = 8, query: string = ''): Observable<QuizListResponse> {
         if (environment.mockeable) {
             return from(this.loadMocks()).pipe(
@@ -219,6 +220,21 @@ export class QuizService {
             catchError(this.handleError)
         );
     }
+
+
+    getQuizByUuid(uuid: string): Observable<QuizDetail> {
+        return this.http.get<QuizApiResponse>(`${this.apiUrl}/uuid/${uuid}`).pipe(
+            map(response => response.quiz), // ¡Aquí extraes el quiz y olvidas el envoltorio!
+            catchError(this.handleError)
+        );
+    }
+    // En tu quiz-service.ts
+    evaluateQuiz(uuid: string, payload: EvaluationRequest): Observable<EvaluationResult> {
+        return this.http.post<EvaluationResult>(`${this.apiUrl}/evaluate/${uuid}`, payload).pipe(
+            catchError(this.handleError)
+        );
+    }
+
 
     private handleError(error: HttpErrorResponse) {
         return throwError(() => error);
