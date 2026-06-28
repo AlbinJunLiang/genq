@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { db } from './src/config/firebase.js';
 import app from './src/app.js';
 import sequelize from './src/config/database.js';
@@ -20,7 +19,7 @@ const startServer = async () => {
             // 4. Sincronización explícita
             // Nota: Usar { alter: true } es correcto para desarrollo, 
             // pero asegúrate de haber nombrado tus índices como te sugerí antes.
-            //await sequelize.sync({ alter: true });
+            await sequelize.sync({ alter: true });
             console.log('✅ Modelos sincronizados.');
         }
 

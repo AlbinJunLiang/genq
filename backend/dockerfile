@@ -1,0 +1,27 @@
+# Usamos la versión Alpine para una imagen ultra ligera
+FROM node:24-alpine
+
+# Crear usuario seguro
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+WORKDIR /app
+
+# Copiar archivos de dependencias
+COPY package*.json ./
+
+# Instalar dependencias (incluyendo las de desarrollo solo si fueran necesarias, 
+# pero aquí instalamos todo para el entorno de producción)
+RUN npm install
+
+# Copiar el código fuente
+COPY . .
+
+# Cambiar permisos al usuario no-root para que pueda acceder a los archivos
+RUN chown -R appuser:appgroup /app
+
+USER appuser
+
+EXPOSE 3000
+
+# Usamos el script "start" de tu package.json
+CMD ["npm", "start"]

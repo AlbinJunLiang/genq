@@ -1,0 +1,16 @@
+FROM node:24-alpine
+
+# Instalar dependencias necesarias para compilar módulos de Node en Alpine
+RUN apk add --no-cache libc6-compat
+
+WORKDIR /app
+COPY package*.json ./
+
+# Instalar dependencias
+RUN npm install --legacy-peer-deps
+
+COPY . .
+
+EXPOSE 4200
+CMD ["npm", "start"]
+
