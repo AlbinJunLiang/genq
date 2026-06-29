@@ -14,8 +14,8 @@
 </nav>
 
 @if (
- ( changeSlideViewService.currentView() === 'EDIT_QUIZ_FORM' ||
-  changeSlideViewService.currentView() === 'CREATE_QUIZ_FORM') && slideInModalService.isOpen()
+( changeSlideViewService.currentView() === 'EDIT_QUIZ_FORM' ||
+changeSlideViewService.currentView() === 'CREATE_QUIZ_FORM') && slideInModalService.isOpen()
 ) {
-  <app-fixed-bottom-left></app-fixed-bottom-left>
+<app-fixed-bottom-left></app-fixed-bottom-left>
 }

@@ -1,0 +1,64 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: white;
+}
+
+/* El contenido ocupa todo el espacio sobrante */
+mat-dialog-content {
+    flex: 1 1 auto;
+    overflow-y: auto;
+}
+
+/* Las acciones se quedan siempre al fondo */
+mat-dialog-actions {
+    flex: 0 0 auto;
+    margin: 0 !important;
+    padding: 16px 24px !important;
+    background: #ffffff;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.header {
+    margin: 0 !important;
+    padding: 25px 24px 10px 24px !important;
+    display: flex;
+    text-align: center;
+}
+
+.message {
+    display: flex;
+    flex-direction: column;
+    /* Apila las líneas */
+    gap: 12px;
+    /* Espacio entre cada línea */
+    padding: 20px !important;
+}
+
+.line {
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    /* Label arriba, valor abajo (opcional) */
+    /* Si quieres el label y el valor en la misma línea, usa 'row' */
+}
+
+.label {
+    font-size: 15px;
+    font-weight: 700;
+    color: #041c50;
+    /* Color destacado para etiquetas */
+    margin-bottom: 4px;
+    /* Espacio entre etiqueta y texto */
+}
+
+.value {
+    color: #404040;
+    line-height: 1.5;
+    word-wrap: break-word;
+    /* Asegura que el texto largo no desborde */
+}

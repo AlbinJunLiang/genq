@@ -48,3 +48,9 @@ main {
   flex: 1; /* Esto obliga al main a estirarse y empujar el footer al fondo */
 }
 
+
+/* Esto cambia el color del círculo del spinner */
+::ng-deep .mat-mdc-progress-spinner circle {
+  stroke: #08053f;
+  /* Tu color personalizado */
+}

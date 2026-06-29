@@ -1,15 +1,15 @@
 @let valor = changeSlideViewService.currentView();
 
 @if (valor === 'LOGIN') {
-  <app-login-form />
+<app-login-form />
 } @else if (valor === 'REGISTER') {
-  <app-register-form />
+<app-register-form />
 
 } @else if (valor === 'UPDATE_PASSWORD' || valor === 'FORGOT_PASSWORD') {
-  <app-update-password-form />
+<app-update-password-form />
 
 } @else if (valor === 'CREATE_QUIZ_FORM' || valor === 'EDIT_QUIZ_FORM') {
-  <app-quiz-form />
+<app-quiz-form />
 } @else {
-  <app-login-form />
+<app-login-form />
 }

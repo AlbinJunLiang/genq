@@ -15,7 +15,7 @@ export const getQuizAnswersData = async (uuid) => {
                     {
                         model: Answer,
                         as: 'answers',
-                        required: true, 
+                        required: true,
                     }
                 ]
             }
@@ -26,62 +26,60 @@ export const getQuizAnswersData = async (uuid) => {
 };
 
 
-
 function evaluate(questions, quizAttempData) {
-    let score = 0;
+    let totalScore = 0;
     let review = [];
 
     for (const submitted of quizAttempData.answers) {
-        const question = questions.find(
-            q => q.id === submitted.questionId
-        );
-
+        const question = questions.find(q => q.id === submitted.questionId);
         if (!question) continue;
 
-        const correctIds = question.answers
-            .filter(a => a.isCorrect)
-            .map(a => a.id);
-
+        const correctAnswers = question.answers.filter(a => a.isCorrect);
         const submittedIds = submitted.answerIds;
 
-        const correctSet = new Set(correctIds);
-        const submittedSet = new Set(submittedIds);
+        let questionScore = 0;
 
-        const isCorrect =
-            correctSet.size === submittedSet.size &&
-            [...correctSet].every(id => submittedSet.has(id));
+        if (question.type === 'UNIQUE') {
+            const isCorrect = submittedIds.length === 1 &&
+                correctAnswers.some(a => a.id === submittedIds[0]);
+            questionScore = isCorrect ? 1 : 0;
+        } else {
+            const correctIds = correctAnswers.map(a => a.id);
+            const hits = submittedIds.filter(id => correctIds.includes(id)).length;
+            const misses = submittedIds.filter(id => !correctIds.includes(id)).length;
 
-        if (isCorrect) {
-            score += 1;
+            // Calculamos puntaje: (Aciertos - Errores) / Total de correctas
+            const points = (hits - misses) / correctIds.length;
+            questionScore = Math.max(0, points);
         }
+
+        totalScore += questionScore;
 
         const answersWithSelection = question.answers.map(ans => ({
             ...ans,
             isSelected: submittedIds.includes(ans.id)
         }));
 
-        review.push(
-            {
-                questionId: question.id,
-                answers: answersWithSelection,
-                content: question.content,
-                type: question.type,
-                feedback: question.feedback
-            });
+        // Añadimos el puntaje individual aquí
+        review.push({
+            questionId: question.id,
+            score: Number(questionScore.toFixed(2)), // <--- Puntaje por pregunta
+            answers: answersWithSelection,
+            content: question.content,
+            type: question.type,
+            feedback: question.feedback
+        });
     }
 
     return {
-        score,
+        score: Number(totalScore.toFixed(2)),
         totalQuestions: questions.length,
-        percentage:
-            questions.length > 0
-                ? Number(((score / questions.length) * 100).toFixed(2))
-                : 0,
+        percentage: questions.length > 0
+            ? Number(((totalScore / questions.length) * 100).toFixed(2))
+            : 0,
         review
     };
 }
-
-
 
 export const getReview = async (uuid, quizAttempData) => {
     const quizAnswerData = await getQuizAnswersData(uuid);

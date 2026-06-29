@@ -1,12 +1,9 @@
-<mat-toolbar
-  style="
+<mat-toolbar style="
     background-color: white;
     display: flex;
     align-items: center;
     justify-content: space-between;
-  "
-  color="primary"
->
+  " color="primary">
   <div class="logo-container">
     <img src="rabbit.png" alt="GenQ" class="logo-app" draggable="false" />
     <span class="app-name">GenQ</span>
@@ -20,6 +17,8 @@
   </div>
 
   <div class="right-icons">
+
+
     <button mat-icon-button (click)="searchService.setSearching(true)">
       <mat-icon>
         <img src="search.svg" style="width: 24px; height: 24px" />
@@ -27,12 +26,10 @@
     </button>
 
     @if (authService.isLoggedIn()) {
-      <app-filter-menu class="toolbar-main-menu"> </app-filter-menu>
+    <app-filter-menu class="toolbar-main-menu"> </app-filter-menu>
     }
 
-    <app-toolbar-main-menu
-      class="toolbar-main-menu"
-      style="margin-right: 10px"
-    ></app-toolbar-main-menu>
+
+    <app-toolbar-main-menu class="toolbar-main-menu" style="margin-right: 10px"></app-toolbar-main-menu>
   </div>
 </mat-toolbar>

@@ -4,7 +4,7 @@ export const createAnswerValidationRules = [
     body("content")
         .trim()
         .notEmpty().withMessage("Content is required")
-        .isLength({ min: 2, max: 600 }).withMessage("Name must be between 2 and 600 characters"),
+        .isLength({ min: 1, max: 600 }).withMessage("Content must be between 1 and 600 characters"),
 
     body('isCorrect')
         .exists().withMessage('isCorrect is required')
@@ -27,7 +27,7 @@ export const updateAnswerValidationRules = [
     body("content")
         .trim()
         .notEmpty().withMessage("Content is required")
-        .isLength({ min: 2, max: 600 }).withMessage("Name must be between 2 and 600 characters"),
+        .isLength({ min: 1, max: 600 }).withMessage("Content must be between 1 and 600 characters"),
     body('isCorrect')
         .exists().withMessage('isCorrect is required')
         .notEmpty().withMessage('isCorrect cannot be empty')

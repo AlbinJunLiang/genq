@@ -10,16 +10,18 @@
   font-family: 'Finlandica Text', sans-serif;
 
   /* AQUÍ LA CLAVE PARA EL CENTRADO */
-  min-height: 400px; /* O el tamaño que necesites para que se vea bien */
+  min-height: 800px;
+  /* O el tamaño que necesites para que se vea bien */
 }
 
 /* Forzamos que el contenedor del mensaje ocupe todo el espacio del grid */
 .no-data-message {
-  grid-column: 1 / -1; /* Ocupa todas las columnas disponibles */
+  grid-column: 1 / -1;
+  /* Ocupa todas las columnas disponibles */
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 60vh;
 }
 
 @media (min-width: 768px) {
@@ -27,6 +29,7 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
 @media (min-width: 1200px) {
   .cards-container {
     grid-template-columns: repeat(4, 1fr);
@@ -40,6 +43,9 @@
   padding: 30px;
   display: flex;
   flex-direction: column;
+  min-height: 320px;
+  max-height: 400px;
+
 
   /* CAMBIO: Alineación a la izquierda */
   align-items: flex-start;
@@ -76,7 +82,7 @@
 .card-btn {
   background-color: rgb(0, 103, 184);
   color: #fff;
-  padding: 12px 20px;
+  padding: 10px 20px;
   border: none;
   cursor: pointer;
   width: fit-content;
@@ -93,7 +99,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px; /* Separación entre botones y texto */
+  gap: 20px;
+  /* Separación entre botones y texto */
 }
 
 .page-info {
@@ -122,9 +129,12 @@
 }
 
 .card-actions {
-  display: flex; /* Pone los elementos en fila */
-  gap: 10px; /* Espacio entre los botones */
-  justify-content: flex-start; /* O 'center' si los quieres en medio */
+  display: flex;
+  /* Pone los elementos en fila */
+  gap: 10px;
+  /* Espacio entre los botones */
+  justify-content: flex-start;
+  /* O 'center' si los quieres en medio */
 }
 
 .card-btn {
@@ -136,14 +146,25 @@
 .edit-btn {
   background-color: rgb(32, 98, 221);
   color: #fff;
-  padding: 10px 10px;
+  padding: 6px 10px;
   border: none;
   cursor: pointer;
   width: fit-content;
   font-weight: 600;
   transition: background 0.3s;
-  width: 45px;
+  width: 40px;
   height: 40px;
-  flex: 1; /* Opcional: hace que ambos botones ocupen el mismo ancho */
+  flex: 1;
   border-radius: 5px;
 }
+
+.spinner-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  width: 100%;
+  min-height: 400px;
+}
+
+

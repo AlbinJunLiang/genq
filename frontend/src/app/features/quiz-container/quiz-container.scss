@@ -36,7 +36,7 @@ h1 {
   width: 100%;
   height: 100%;
   background: #fff;
-  box-shadow: 0 10px 25px rgba(2, 6, 23, 0.08);
+  /*box-shadow: 0 10px 25px rgba(2, 6, 23, 0.08);*/
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -105,12 +105,14 @@ h1 {
 
 #title-test {
   font-size: 20px;
+  margin-left: 5px;
 }
 
 @keyframes girar {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -122,7 +124,8 @@ h1 {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.q-block {
+
+.question-block {
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -141,21 +144,21 @@ h1 {
   height: auto;
 }
 
-.q-block.active {
+.question-block.active {
   left: 0;
   opacity: 1;
   position: relative;
 }
 
-.q-block.exit-left,
-.q-block.exit-right {
+.question-block.exit-left,
+.question-block.exit-right {
   left: var(--exit-position, -100%);
   opacity: 0;
   position: absolute;
   visibility: hidden;
 }
 
-.q-block.exit-right {
+.question-block.exit-right {
   --exit-position: 100%;
 }
 
@@ -197,7 +200,8 @@ h1 {
   overflow-wrap: normal;
   word-break: normal;
 }
-.icono-respuesta {
+
+.answer-icon {
   margin-left: 2px;
   width: 30px;
   height: 30px;
@@ -214,6 +218,7 @@ h1 {
   border-color: #2563eb;
   outline: 2px solid rgba(37, 99, 235, 0.15);
 }
+
 
 .option-text {
   flex: 1 1 auto;
@@ -246,24 +251,28 @@ h1 {
 .option.selected .dot-small {
   background: #2563eb;
 }
+
 .checkbox-box {
   /* Tamaño fijo garantizado */
   width: 20px;
   height: 20px;
-  min-width: 20px; /* Evita que se encoja */
+  min-width: 20px;
+  /* Evita que se encoja */
   min-height: 20px;
-  
-  box-sizing: border-box; /* El borde se queda dentro del tamaño de 20x20 */
+
+  box-sizing: border-box;
+  /* El borde se queda dentro del tamaño de 20x20 */
   border: 2px solid #64748b;
   border-radius: 4px;
-  
+
   display: grid;
   place-items: center;
   cursor: pointer;
-  
+
   /* Flexbox settings para mantenerlo fijo */
-  flex-shrink: 0; 
-  position: relative; /* Para posicionar el indicador */
+  flex-shrink: 0;
+  position: relative;
+  /* Para posicionar el indicador */
 }
 
 /* Indicador interior */
@@ -273,7 +282,7 @@ h1 {
   height: 10px;
   background-color: #2563eb;
   border-radius: 2px;
-  
+
   /* Estado inicial: invisible */
   transform: scale(0);
   transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -282,7 +291,8 @@ h1 {
 /* Cuando el contenedor tiene la clase 'selected' (o está marcado) */
 /* Asegúrate de que el div padre tenga la clase .selected */
 .selected .checkbox-box::after {
-  transform: scale(1); /* Muestra el indicador */
+  transform: scale(1);
+  /* Muestra el indicador */
 }
 
 .option.selected .checkbox-box {
@@ -290,8 +300,83 @@ h1 {
 }
 
 .option.selected .checkbox-box::after {
-  transform: scale(1); /* Aparece al seleccionar */
+  transform: scale(1);
+  /* Aparece al seleccionar */
 }
+
+
+/* Opción correcta seleccionada */
+.option.correct-selected {
+  border-color: #16a34a;
+  /* Verde */
+  background-color: #f0fdf4;
+  /* Fondo traslúcido verde */
+}
+
+/* Opción incorrecta seleccionada */
+.option.wrong-selected {
+  border-color: #dc2626;
+  /* Rojo */
+  background-color: #fef2f2;
+  /* Fondo traslúcido rojo */
+}
+
+/* Opcional: Asegurar que los bordes mantengan el color al hacer hover */
+.option.correct-selected:hover {
+  border-color: #16a34a;
+}
+
+.option.wrong-selected:hover {
+  border-color: #dc2626;
+}
+
+
+/* --- Estilos para opciones Correctas --- */
+.option.correct-selected .bullet {
+  border-color: #16a34a;
+  /* Borde verde */
+}
+
+.option.correct-selected .dot-small {
+  background: #16a34a;
+  /* Punto verde */
+}
+
+
+/* --- Estilos para opciones Incorrectas --- */
+.option.wrong-selected .bullet {
+  border-color: #dc2626;
+  /* Borde rojo */
+}
+
+.option.wrong-selected .dot-small {
+  background: #dc2626;
+  /* Punto rojo */
+}
+
+
+/* --- Correcto: Fondo del checkbox y su marca --- */
+.option.correct-selected .checkbox-box {
+  border-color: #16a34a;
+}
+
+.option.correct-selected .checkbox-box::after {
+  background-color: #16a34a !important;
+  /* Fuerza el color verde */
+  transform: scale(1);
+}
+
+/* --- Incorrecto: Fondo del checkbox y su marca --- */
+.option.wrong-selected .checkbox-box {
+  border-color: #dc2626;
+}
+
+.option.wrong-selected .checkbox-box::after {
+  background-color: #dc2626 !important;
+  /* Fuerza el color rojo */
+  transform: scale(1);
+}
+
 
 .option input {
   position: absolute;
@@ -373,10 +458,19 @@ button:disabled {
 }
 
 .summary {
+  width: 100%;
   font-weight: 400;
   color: rgba(0, 0, 0, 1);
   margin-left: 5px;
 }
+
+.qualification {
+  width: 100%;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 1);
+  text-align: center;
+}
+
 
 .instructions {
   background: white;
@@ -397,7 +491,7 @@ button:disabled {
   color: #fff;
 }
 
-.retroalimentacion {
+.feedback {
   margin-top: 2px;
   color: rgba(0, 0, 0, 1);
 }
@@ -417,9 +511,20 @@ button:disabled {
   overflow-wrap: normal;
 }
 
+
+/* Esto fuerza al icono a ignorar la fuente de tu diseño Glassmorphism */
+mat-icon {
+  font-family: 'Material Icons' !important;
+}
+
+button.mat-mdc-icon-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media (max-width: 768px) {
-  .header,
-  .q-meta {
+  .header {
     flex-direction: column;
     align-items: flex-start;
   }
@@ -474,6 +579,18 @@ button:disabled {
     color: #fff;
     border-color: transparent;
   }
+
+  .question-block {
+    padding: 16px;
+    border: none;
+  }
+
+  .content {
+    padding: 5px;
+
+  }
+
+
 }
 
 .bottom-nav {
@@ -481,14 +598,17 @@ button:disabled {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 65px; /* Altura ideal */
+  height: 65px;
+  /* Altura ideal */
   background-color: white;
   display: flex;
-  justify-content: space-around; /* Reparte equitativamente */
+  justify-content: space-around;
+  /* Reparte equitativamente */
   align-items: center;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  box-sizing: border-box; /* ¡Clave! */
+  box-sizing: border-box;
+  /* ¡Clave! */
   display: none !important;
 }
 
@@ -521,7 +641,8 @@ button:disabled {
 .nav-icon {
   width: 24px;
   height: 24px;
-  object-fit: contain; /* Evita que el SVG se deforme */
+  object-fit: contain;
+  /* Evita que el SVG se deforme */
   margin-bottom: 4px;
 }
 
@@ -538,7 +659,8 @@ button:disabled {
 /* 2. Solo lo mostramos cuando el ancho de pantalla es menor a 600px */
 @media (max-width: 768px) {
   .bottom-nav {
-    display: flex !important; /* Volvemos a mostrarlo */
+    display: flex !important;
+    /* Volvemos a mostrarlo */
     position: fixed;
     bottom: 0;
     left: 0;
@@ -564,7 +686,28 @@ button:disabled {
 }
 
 .no-copy {
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 y 11 */
-  user-select: none; /* Estándar moderno */
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 y 11 */
+  user-select: none;
+  /* Estándar moderno */
+}
+
+
+
+.spinner-wrapper {
+  // Asegura que ocupe toda la pantalla
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  // Flexbox para centrar el contenido
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 9999; 
 }

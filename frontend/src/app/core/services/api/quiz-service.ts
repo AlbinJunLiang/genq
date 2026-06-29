@@ -6,6 +6,7 @@ import { environment } from '../../../../environments/environments';
 import { generateRandomString } from '../../../shared/util/random-string';
 import { MOCK_USER_RESPONSE } from '../mocks/user-response-mock';
 import { EvaluationResult } from '../../interfaces/quiz-review-interface';
+import { INITIAL_QUIZ_MOCK } from '../mocks/quiz-start-mock';
 
 
 @Injectable({
@@ -222,8 +223,11 @@ export class QuizService {
     }
 
 
-    getQuizByUuid(uuid: string): Observable<QuizDetail> {
-        return this.http.get<QuizApiResponse>(`${this.apiUrl}/uuid/${uuid}`).pipe(
+    startQuizByUuid(uuid: string): Observable<QuizDetail> {
+        if (environment.mockeable) {
+            return of(INITIAL_QUIZ_MOCK);
+        }
+        return this.http.post<QuizApiResponse>(`${this.apiUrl}/uuid/${uuid}`,{}).pipe(
             map(response => response.quiz), // ¡Aquí extraes el quiz y olvidas el envoltorio!
             catchError(this.handleError)
         );

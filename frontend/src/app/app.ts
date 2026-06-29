@@ -1,4 +1,4 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Toolbar } from "./features/toolbar/toolbar";
 import { SlideIn } from "./features/slide-in/slide-in";
@@ -13,12 +13,12 @@ import { SearchService } from './core/services/ui/search-service';
 import { SearchBar } from "./features/search-bar/search-bar";
 import { QuizStore } from './core/stores/quiz-store';
 import { LoadingDot } from "./shared/component/loading-dot/loading-dot";
-import { QuizContainer } from "./features/quiz-container/quiz-container";
+import { RouteService } from './core/services/ui/route-service';
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, Toolbar, SlideIn, Footer,
-    SlideContainer, BottomNav, SearchBar, LoadingDot, QuizContainer],
+    SlideContainer, BottomNav, SearchBar, LoadingDot],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
@@ -29,10 +29,17 @@ export class App {
   private authUserStore = inject(AuthUserStore);
   protected searchService = inject(SearchService);
   protected quizStore = inject(QuizStore);
+  protected isReady = signal(false);
+  protected routeService = inject(RouteService);
+  protected isNotQuizRoute = computed(() => !this.routeService.isRoute('/quiz/'));
 
   ngOnInit() {
-    this.quizStore.loadMyQuizzes(1, 8);
+    this.isReady.set(false);
+    setTimeout(() => {
+      this.isReady.set(true);
+    }, 1000);
   }
+
 
   constructor() {
     this.authUserStore.initSync();
@@ -67,4 +74,7 @@ export class App {
       exitAnimationDuration: '0ms'
     });
   }
+
+
+
 }

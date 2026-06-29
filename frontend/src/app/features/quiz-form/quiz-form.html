@@ -1,9 +1,9 @@
 <div class="quiz-container">
   <h2 style="text-align: center; margin-top: 0; font-size: 35px">
     {{
-      changeSlideModalService.currentView() === slideView.CREATE_QUIZ_FORM
-        ? 'Crear cuestionario'
-        : 'Editar cuestionario'
+    changeSlideModalService.currentView() === slideView.CREATE_QUIZ_FORM
+    ? 'Crear cuestionario'
+    : 'Editar cuestionario'
     }}
   </h2>
   <form [formGroup]="quizForm" (ngSubmit)="onSubmit()">
@@ -11,13 +11,13 @@
       <mat-label>Título del Quiz</mat-label>
       <input matInput formControlName="title" placeholder="Ej: Fundamentos de IA" />
       @if (quizForm.get('title')?.hasError('required')) {
-        <mat-error style="width: 100%">Campo obligatorio.</mat-error>
+      <mat-error style="width: 100%">Campo obligatorio.</mat-error>
       }
       @if (quizForm.get('title')?.hasError('maxlength')) {
-        <mat-error>
-          No puede superar los
-          {{ quizForm.get('title')?.getError('maxlength').requiredLength }} caracteres.
-        </mat-error>
+      <mat-error>
+        No puede superar los
+        {{ quizForm.get('title')?.getError('maxlength').requiredLength }} caracteres.
+      </mat-error>
       }
     </mat-form-field>
 
@@ -26,13 +26,13 @@
       <textarea matInput formControlName="description" rows="3"></textarea>
 
       @if (quizForm.get('description')?.hasError('required')) {
-        <mat-error style="width: 100%">Campo obligatorio.</mat-error>
+      <mat-error style="width: 100%">Campo obligatorio.</mat-error>
       }
       @if (quizForm.get('description')?.hasError('maxlength')) {
-        <mat-error>
-          No puede superar los
-          {{ quizForm.get('description')?.getError('maxlength').requiredLength }} caracteres.
-        </mat-error>
+      <mat-error>
+        No puede superar los
+        {{ quizForm.get('description')?.getError('maxlength').requiredLength }} caracteres.
+      </mat-error>
       }
     </mat-form-field>
 
@@ -52,9 +52,9 @@
         <input matInput min="0" type="number" formControlName="attemptsLimit" />
 
         @if (quizForm.get('attemptsLimit')?.hasError('min')) {
-          <mat-error>
-            El valor mínimo debe ser {{ quizForm.get('attemptsLimit')?.getError('min').min }}
-          </mat-error>
+        <mat-error>
+          El valor mínimo debe ser {{ quizForm.get('attemptsLimit')?.getError('min').min }}
+        </mat-error>
         }
       </mat-form-field>
     </div>
@@ -68,10 +68,10 @@
       <mat-datepicker #picker></mat-datepicker>
 
       @if (quizForm.get('endAt')?.hasError('invalidDateFormat')) {
-        <mat-error>La fecha es incorrecta.</mat-error>
+      <mat-error>La fecha es incorrecta.</mat-error>
       }
       @if (quizForm.get('endAt')?.hasError('required')) {
-        <mat-error>Ingrese una fecha válida.</mat-error>
+      <mat-error>Ingrese una fecha válida.</mat-error>
       }
     </mat-form-field>
 
@@ -80,47 +80,41 @@
       <input matInput [min]="0" type="number" formControlName="durationSeconds" />
 
       @if (quizForm.get('durationSeconds')?.hasError('min')) {
-        <mat-error>
-          El valor mínimo debe ser {{ quizForm.get('durationSeconds')?.getError('min').min }}
-        </mat-error>
+      <mat-error>
+        El valor mínimo debe ser {{ quizForm.get('durationSeconds')?.getError('min').min }}
+      </mat-error>
       }
     </mat-form-field>
     <div class="btn-container">
       <button mat-raised-button color="primary" type="submit" class="submit-button">
         @if (quizStore.isLoading()) {
-          <mat-spinner class="spinner-white" diameter="20"></mat-spinner>
+        <mat-spinner class="spinner-white" diameter="20"></mat-spinner>
         } @else {
-          {{
-            changeSlideModalService.currentView() === slideView.CREATE_QUIZ_FORM
-              ? 'Guardar Cuestionario'
-              : 'Editar Cuestionario'
-          }}
+        {{
+        changeSlideModalService.currentView() === slideView.CREATE_QUIZ_FORM
+        ? 'Guardar Cuestionario'
+        : 'Editar Cuestionario'
+        }}
         }
       </button>
 
       @if (changeSlideModalService.currentView() === slideView.EDIT_QUIZ_FORM) {
-        <button
-          (click)="onDeleteQuiz()"
-          mat-raised-button
-          style="
+      <button (click)="onDeleteQuiz()" mat-raised-button style="
             background: rgb(14,96,168) !important;
             color: white;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-          "
-          type="button"
-          class="submit-button warn"
-        >
-          @if (!isDeleting()) {
-            <mat-icon style="margin: 0">delete</mat-icon>
-          }
-          @if (isDeleting()) {
-            <mat-spinner class="spinner-white" diameter="20"></mat-spinner>
-          } @else {
-            <span style="vertical-align: middle">Eliminar</span>
-          }
-        </button>
+          " type="button" class="submit-button warn">
+        @if (!isDeleting()) {
+        <mat-icon style="margin: 0">delete</mat-icon>
+        }
+        @if (isDeleting()) {
+        <mat-spinner class="spinner-white" diameter="20"></mat-spinner>
+        } @else {
+        <span style="vertical-align: middle">Eliminar</span>
+        }
+      </button>
       }
 
       <button class="cancel-button" (click)="closeForm()" mat-raised-button>Cancelar</button>
@@ -129,7 +123,7 @@
     <mat-divider style="margin-top: 30px"></mat-divider>
 
     @if (changeSlideModalService.currentView() === slideView.EDIT_QUIZ_FORM) {
-      <app-question-form [quizId]="localQuiz()?.id ?? 0"></app-question-form>
+    <app-question-form [quizId]="localQuiz()?.id ?? 0"></app-question-form>
     }
   </form>
 </div>

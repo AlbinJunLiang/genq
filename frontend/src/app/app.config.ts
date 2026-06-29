@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 
@@ -20,6 +20,6 @@ export const appConfig: ApplicationConfig = {
       initializeApp(environment.firebaseConfig)
     ),
     provideAuth(() => getAuth()),
-    provideRouter(routes)
+    provideRouter(routes, withComponentInputBinding())
   ]
 };

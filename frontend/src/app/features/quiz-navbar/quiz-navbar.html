@@ -1,11 +1,24 @@
 <div class="test-navbar-container">
   <div class="test-navbar">
-    @for (q of questions(); track q.id; let i = $index) {
-      @let answer = userAnswers().find(a => a.questionId === q.id);
 
-      <div class="test-item" [class.active]="!!answer" >
-        {{ i + 1 }}
-      </div>
+    @if(isFinalized() && reviews()){
+    @for (q of reviews(); track q.questionId; let i = $index) {
+
+    <div (click)="quizNavService.goToQuestion(i)" class="test-item" [class.wrong]="(q.score <1)"
+      [class.correct]="(q.score === 1)">
+      {{ i + 1 }}
+    </div>
     }
+
+    }@else {
+    @for (q of questions(); track q.id; let i = $index) {
+    @let answer = userAnswers().find(a => a.questionId === q.id);
+
+    <div class="test-item" [class.active]="!!answer">
+      {{ i + 1 }}
+    </div>
+    }
+    }
+
   </div>
 </div>

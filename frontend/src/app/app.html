@@ -1,28 +1,26 @@
-<!--
-@if (quizStore.quizzes().length === 0 || quizStore.isLoading()) {
-  <div class="loading-wrapper">
-    <app-loading-dot />
-  </div>
+@if (!isReady()) {
+<div class="loading-wrapper">
+  <app-loading-dot />
+</div>
 } @else {
-  <app-toolbar></app-toolbar>
+<app-toolbar></app-toolbar>
 
-  <div class="search-overlay" [class.show]="searchService.isSearching()">
-    <app-search-bar (closeEvent)="searchService.setSearching(false)"></app-search-bar>
-  </div>
+<div class="search-overlay" [class.show]="searchService.isSearching()">
+  <app-search-bar (closeEvent)="searchService.setSearching(false)"></app-search-bar>
+</div>
 
-  <main class="main-container">
-    <router-outlet></router-outlet>
+<main class="main-container">
+  <router-outlet></router-outlet>
+  @if (isNotQuizRoute()) {
 
-    <app-footer></app-footer>
-  </main>
+  <app-footer></app-footer>
+  }
+</main>
 }
 <app-slide-in>
   <app-slide-container></app-slide-container>
 </app-slide-in>
 
+@if (isNotQuizRoute()) {
 <app-bottom-nav></app-bottom-nav>
-
-
--->
-
-<app-quiz-container></app-quiz-container>
+}

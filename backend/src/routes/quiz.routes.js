@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { create, getMyQuizzes, getPublicQuizzes, getQuizByUuid, 
+import { create, getMyQuizzes, getPublicQuizzes, startQuizByUuid, 
      getQuizEvaluation, remove, search, update } from '../controllers/quiz.controller.js';
 import { verifyFirebaseToken, verifyFirebaseTokenAndUser } from '../middlewares/firebase-middleware.js';
 import { authorize } from '../middlewares/authorize-middleware.js';
@@ -206,7 +206,7 @@ quizRouter.get('/', paginationValidationRules, validateRequest, getPublicQuizzes
 /**
  * @swagger
  * /api/v1/quizzes/uuid/{uuid}:
- *   get:
+ *   post:
  *     summary: Obtener un quiz por UUID (con preguntas y respuestas)
  *     tags: [Quizzes]
  *     parameters:
@@ -280,7 +280,7 @@ quizRouter.get('/', paginationValidationRules, validateRequest, getPublicQuizzes
  *       404:
  *         description: Quiz no encontrado o visibilidad no permitida
  */
-quizRouter.get('/uuid/:uuid', getQuizByUuid);
+quizRouter.post('/uuid/:uuid', startQuizByUuid);
 
 
 /**

@@ -4,10 +4,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-    selector: 'app-confirm-dialog',
-    standalone: true,
-    imports: [MatButtonModule, MatIconModule, MatDialogModule],
-    styles: [`
+  selector: 'app-confirm-dialog',
+  standalone: true,
+  imports: [MatButtonModule, MatIconModule, MatDialogModule],
+  styles: [`
         :host { display: block; border-radius: 16px; overflow: hidden; }
         .header { display: flex; align-items: center;  gap: 12px; margin-bottom: 8px; width: 100%; margin-top: 10px }
         .header mat-icon { font-size: 28px; width: 28px; height: 28px; }
@@ -15,7 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
         .actions { padding: 16px 24px !important; background: #fafafa; border-top: 1px solid #eee; }
         button { border-radius: 8px !important; }
     `],
-    template: `
+  template: `
     <h2 mat-dialog-title class="header">
       <span style="font-size: 1.25rem; font-weight: 600; text-align: center; align-items: center; width: 100%">{{ data.title }}</span>
     </h2>
@@ -33,11 +33,11 @@ import { MatIconModule } from '@angular/material/icon';
     `
 })
 export class ConfirmDialogComponent {
-    constructor(
-        public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any
-    ) { }
+  constructor(
+    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) { }
 
-    onNoClick(): void { this.dialogRef.close(false); }
-    onConfirm(): void { this.dialogRef.close(true); }
+  onNoClick(): void { this.dialogRef.close(false); }
+  onConfirm(): void { this.dialogRef.close(true); }
 }

@@ -196,28 +196,44 @@ export const deleteQuiz = async (quizId) => {
 };
 
 
+
+// Utilidad para mezclar (Fisher-Yates)
+const shuffleArray = (array) => {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+};
+
 export const getFullQuizByUuid = async (uuid, showAnswers = false) => {
-    return await Quiz.findOne({
+    // 1. Obtención de datos
+    const quiz = await Quiz.findOne({
         where: { uuid },
         include: [{
             model: Question,
             as: 'questions',
-            // Si showCorrectAnswers es false, excluimos campos sensibles
-            attributes: showAnswers
-                ? { exclude: [] }
-                : { exclude: ['feedback'] },
-
+            attributes: showAnswers ? { exclude: [] } : { exclude: ['feedback'] },
             include: [{
                 model: Answer,
                 as: 'answers',
-                attributes: showAnswers
-                    ? { exclude: [] }
-                    : { exclude: ['is_correct'] }
+                attributes: showAnswers ? { exclude: [] } : { exclude: ['is_correct'] }
             }]
         }]
     });
+
+    if (!quiz) return null;
+
+    // 2. Transformación a objeto plano
+    const quizData = quiz.toJSON();
+
+    // 3. Mezclado seguro
+    if (quizData.questions && Array.isArray(quizData.questions)) {
+        // Mezclamos preguntas
+        quizData.questions = shuffleArray(quizData.questions);
+    }
+
+    return quizData;
 };
-
-
-
 

@@ -1,3 +1,6 @@
+import { Answer } from "./answer-interface";
+import { QuestionType } from "./question-interface";
+
 export interface EvaluationResult {
   score: number;
   totalQuestions: number;
@@ -7,11 +10,9 @@ export interface EvaluationResult {
 
 export interface ReviewItem {
   questionId: number;
-  question: string;
-  isCorrect: boolean;
+  score: number;
+  content: string;
   feedback: string;
-  selectedAnswers: number[];
-  correctAnswers: number[];
-  wrongSelected: any[]; // Si el API devuelve objetos complejos aquí, define otra interfaz
-  missingCorrect: any[];
+  type: QuestionType;
+  answers: Answer[]
 }

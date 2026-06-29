@@ -236,7 +236,6 @@ export class QuizForm {
         });
       } else {
         this.isDeleting.set(false);
-
       }
     });
   }

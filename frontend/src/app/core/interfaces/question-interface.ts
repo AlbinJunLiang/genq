@@ -19,6 +19,7 @@ export interface QuestionFromQuiz {
     content: string;
     type: 'MULTIPLE' | 'UNIQUE'; // Ajusta según tus valores de ENUM
     status: string;
+    score?: number;
     quizId: number;
     answers: Answer[];
 }

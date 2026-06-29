@@ -5,6 +5,7 @@ import { SlideInModalService } from '../../core/services/ui/slide-in-modal-servi
 import { ChangeSlideViewService } from '../../core/services/ui/change-slide-view-service';
 import { SlideView } from '../../core/enums/auth-form-type';
 import { SelectedQuizService } from '../../core/services/ui/selected-quiz-service';
+import { QuizStore } from '../../core/stores/quiz-store';
 
 @Component({
   selector: 'app-quiz-view',
@@ -17,6 +18,7 @@ export class QuizView {
   protected slideInModal = inject(SlideInModalService);
   protected changeSlideViewService = inject(ChangeSlideViewService);
   protected selectedQuizService = inject(SelectedQuizService);
+  protected quizStore = inject(QuizStore);
 
 
   openCreateQuizView() {

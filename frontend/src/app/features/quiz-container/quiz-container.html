@@ -1,130 +1,173 @@
-
+@if(!isLoading()){
 <div class="quiz-container">
   <div class="wrap">
     <main class="card" role="region" aria-label="Evaluación de conocimientos">
       <div class="content">
-        <app-quiz-navbar
-          [userAnswers]="userAnswers()"
-          [questions]="quiz().questions"
-          [questionQuantity]="quiz().questions.length"
-        ></app-quiz-navbar>
+        <app-quiz-navbar [userAnswers]="userAnswers()" [questions]="quiz().questions" [isFinalized]="isFinalized()"
+          [reviews]="evaluationResult()?.review">
+        </app-quiz-navbar>
 
-        <h2
-          id="title-test"
-          title="Instrucciones: Lea cuidadosamente cada pregunta y seleccione la respuesta correcta. En el caso de selección múltiple, puede elegir más de una opción."
-        >
-          Ciberseguridad.
+        @if(!isMobile()){
+        <h2 id="title-test">
+          {{quiz().title || 'Cuestionario'}}
         </h2>
 
         <div class="summary">
-          Instrucciones: Lea cuidadosamente cada pregunta y seleccione la respuesta correcta. En el
-          caso de selección múltiple, puede elegir más de una opción.
+          {{quiz().description || ':)'}}
+        </div>
+        }
+        @if(isFinalized())
+        {
+        <div class="qualification">
+          Calificación: <b>{{evaluationResult()?.percentage}}%</b>
         </div>
 
-        <div id="div-stack" class="stack" aria-label="Listado de preguntas">
-          @for (question of quiz().questions; track question.id; let i = $index) {
-            <section
-              class="q-block"
-              [class.active]="quizNavService.currentPosition() === i"
-              [class.exit-left]="i < quizNavService.currentPosition()"
-              [class.exit-rigth]="i > quizNavService.currentPosition()"
-            >
-              <div class="q-meta">
-                <span class="pill no-copy"
-                  >Pregunta
-                  {{ `${quizNavService.currentPosition() + 1}/${quiz().questions.length}` }}</span
-                >
-                <span class="muted no-copy">{{
-                  question.type === 'UNIQUE' ? 'Selección única' : 'Selección múltiple'
-                }}</span>
-              </div>
-              <h2 class="q-title">{{ question.content }}</h2>
-              <div class="options">
-                @for (option of question.answers; track option.id) {
-                  <div
-                    (click)="selectAnswer(question, option)"
-                    class="option no-copy"
-                    [class.selected]="option.isSelected"
-                  >
-                    @if (question.type === 'UNIQUE') {
-                      <span class="bullet"><span class="dot-small"></span></span>
-                    } @else {
-                      <span class="checkbox-box"></span>
-                    }
+        }
 
-                    <span class="option-text">{{ option.content }}</span>
-                  </div>
+
+
+        <div id="div-stack" class="stack" aria-label="Listado de preguntas">
+
+          @if(isFinalized())
+          {
+
+          @for (review of evaluationResult()?.review; track review.questionId; let i = $index) {
+          <section class="question-block" [class.active]="quizNavService.currentPosition() === i"
+            [class.exit-left]="i < quizNavService.currentPosition()"
+            [class.exit-rigth]="i > quizNavService.currentPosition()">
+            <div class="q-meta">
+              <span class="pill no-copy">Pregunta
+                {{ `${quizNavService.currentPosition() + 1}/${quiz().questions.length}` }}</span>
+
+              <button (click)="onResetQuiz()" style="color:black; border: none" mat-icon-button>
+                <mat-icon>restart_alt</mat-icon>
+              </button>
+            </div>
+            <h2 class="q-title">{{ review.content }}</h2>
+            <div class="options">
+              @for (option of review.answers; track option.id) {
+              <div class="option no-copy" [class.correct-selected]="option.isSelected && option.isCorrect"
+                [class.wrong-selected]="option.isSelected && !option.isCorrect">
+                @if (review.type === 'UNIQUE') {
+                <span class="bullet"><span class="dot-small"></span></span>
+                } @else {
+                <span class="checkbox-box"></span>
                 }
+
+                @if(option.isCorrect){
+                <span class="option-text">{{ option.content }}
+
+                  <img src="check.svg" alt="Incorrecto" class="answer-icon" onerror="this.outerHTML='❌'">
+                </span>
+                }@else {
+                <span class="option-text">{{ option.content }}
+
+                  <img src="wrong.svg" alt="Incorrecto" class="answer-icon" onerror="this.outerHTML='❌'">
+                </span>
+                }
+
               </div>
-            </section>
+              }
+            </div>
+
+            <div class="feedback" style="margin-bottom: 1px;">
+              <b>Respuesta:</b>
+              {{review.feedback}}
+
+            </div>
+          </section>
           }
 
-          @if (!isMobile()) {
-            <div class="q-footer">
-              <div class="left"><div class="result"></div></div>
-              <div class="right">
-                @if (quizNavService.currentPosition() > 0) {
-                  <button
-                    (click)="quizNavService.goToPrevQuestion()"
-                    class="ghost prev"
-                    data-target="3"
-                    type="button"
-                  >
-                    Anterior
-                  </button>
-                }
+          }@else {
 
-                @if (quizNavService.currentPosition() < quiz().questions.length - 1) {
-                  <button
-                    (click)="quizNavService.goToNextQuestion()"
-                    [disabled]="!isCurrentQuestionAnswered()"
-                  >
-                    class="ghost next" data-target="1" type="button" > Siguiente
-                  </button>
-                } @else {
-                  <button
-                  (click)="evaluateQuiz()"
-                    [disabled]="!isCurrentQuestionAnswered()"
-                    class="ghost finish"
-                    type="button"
-                  >
-                    Finalizar
-                  </button>
-                }
-              </div>
-            </div>
-          } @else {
-            <nav class="bottom-nav">
-              <button
-                (click)="quizNavService.goToPrevQuestion()"
-                [disabled]="quizNavService.currentPosition() === 0"
-                class="nav-btn"
-                mat-flat-button
-              >
-                <span>Anterior</span>
+
+          @for (question of quiz().questions; track question.id; let i = $index) {
+          <section class="question-block" [class.active]="quizNavService.currentPosition() === i"
+            [class.exit-left]="i < quizNavService.currentPosition()"
+            [class.exit-rigth]="i > quizNavService.currentPosition()">
+            <div class="q-meta">
+              <span class="pill no-copy">Pregunta
+                {{ `${quizNavService.currentPosition() + 1}/${quiz().questions.length}` }}</span>
+
+              <button (click)="onResetQuiz()" style="color:black; border: none" mat-icon-button>
+                <mat-icon>restart_alt</mat-icon>
               </button>
+              
+            </div>
+            <h2 class="q-title">{{ question.content }}</h2>
+            <div class="options">
+              @for (option of question.answers; track option.id) {
+              <div (click)="selectAnswer(question, option)" class="option no-copy" [class.selected]="option.isSelected">
+                @if (question.type === 'UNIQUE') {
+                <span class="bullet"><span class="dot-small"></span></span>
+                } @else {
+                <span class="checkbox-box"></span>
+                }
 
-              @if (quizNavService.currentPosition() < quiz().questions.length - 1) {
-                <button
-                  (click)="quizNavService.goToNextQuestion()"
-                  [disabled]="
+                <span class="option-text">{{ option.content }}</span>
+              </div>
+              }
+            </div>
+          </section>
+          }
+
+          }
+
+
+
+          @if (!isMobile()) {
+          <div class="q-footer">
+            <div class="left">
+              <div class="result"></div>
+            </div>
+            <div class="right">
+              @if (quizNavService.currentPosition() > 0) {
+              <button (click)="quizNavService.goToPrevQuestion()" class="ghost prev" data-target="3" type="button">
+                Anterior
+              </button>
+              }
+
+              @if (quizNavService.currentPosition() < quiz().questions.length - 1) { <button
+                (click)="quizNavService.goToNextQuestion()" [disabled]="!isCurrentQuestionAnswered()" class="ghost next"
+                data-target="1" type="button"> Siguiente
+                </button>
+                } @else {
+                <button [hidden]="isFinalized()" (click)="evaluateQuiz()" [disabled]="!isCurrentQuestionAnswered()"
+                  class="ghost finish" type="button">
+                  Finalizar
+                </button>
+                }
+            </div>
+          </div>
+          } @else {
+          <nav class="bottom-nav">
+            <button (click)="quizNavService.goToPrevQuestion()" [disabled]="quizNavService.currentPosition() === 0"
+              class="nav-btn" mat-flat-button>
+              <span>Anterior</span>
+            </button>
+
+            @if (quizNavService.currentPosition() < quiz().questions.length - 1 ) { <button
+              (click)="quizNavService.goToNextQuestion()" [disabled]="
                     quizNavService.currentPosition() === quiz().questions.length - 1 ||
                     !isCurrentQuestionAnswered()
-                  "
-                  class="nav-btn"
-                  mat-flat-button
-                >
-                  <span>Siguiente</span>
-                </button>
+                  " class="nav-btn" mat-flat-button>
+              <span>Siguiente</span>
+              </button>
               } @else {
-                <button (click)="evaluateQuiz()" [disabled]="!isCurrentQuestionAnswered()" class="nav-btn" mat-flat-button>
-                  <span>Finalizar</span>
-                </button>
+              <button (click)="evaluateQuiz()" [disabled]="!isCurrentQuestionAnswered() || isFinalized()"
+                class="nav-btn" mat-flat-button>
+                <span>Finalizar</span>
+              </button>
               }
-            </nav>
+          </nav>
           }
         </div>
       </div>
     </main>
   </div>
 </div>
+}@else {
+<div class="spinner-wrapper">
+  <mat-spinner diameter="50"></mat-spinner>
+</div>
+}

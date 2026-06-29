@@ -8,10 +8,13 @@ import { Quiz } from '../../core/interfaces/quiz-interface';
 import { SlideInModalService } from '../../core/services/ui/slide-in-modal-service';
 import { ChangeSlideViewService } from '../../core/services/ui/change-slide-view-service';
 import { SlideView } from '../../core/enums/auth-form-type';
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { MatDialog } from '@angular/material/dialog';
+import { QuizDetailDialog } from '../quiz-detail-dialog/quiz-detail-dialog';
 
 @Component({
   selector: 'app-quiz-grid',
-  imports: [MatButtonModule, MatIcon],
+  imports: [MatButtonModule, MatIcon, MatProgressSpinner],
   templateUrl: './quiz-grid.html',
   styleUrl: './quiz-grid.scss',
 })
@@ -22,14 +25,15 @@ export class QuizGrid {
   protected selectedQuizService = inject(SelectedQuizService);
   protected slideInModal = inject(SlideInModalService);
   protected changeSlideViewService = inject(ChangeSlideViewService);
+  private dialog = inject(MatDialog);
 
   ngOnInit() {
-    if (this.quizStore.quizzes().length === 0) {
-      this.quizStore.loadMyQuizzes(1, 8);
-    }
+    this.quizStore.loadQuizzes(1, 8);
   }
 
+
   nextPage() {
+    if (this.quizStore.isLoading()) return;
     const next = this.quizStore.currentPage() + 1;
     if (next <= this.quizStore.totalPages()) {
       this.quizStore.loadMyQuizzes(next, 8);
@@ -37,6 +41,7 @@ export class QuizGrid {
   }
 
   prevPage() {
+    if (this.quizStore.isLoading()) return;
     const prev = this.quizStore.currentPage() - 1;
     if (prev >= 1) {
       this.quizStore.loadMyQuizzes(prev, 8);
@@ -48,5 +53,14 @@ export class QuizGrid {
     this.selectedQuizService.setSelectedQuiz(quiz);
     this.changeSlideViewService.setView(SlideView.CREATE_QUIZ_FORM);
     this.slideInModal.open()
+  }
+
+  protected openQuizDetailDialog(quiz: Quiz) {
+    const dialogRef = this.dialog.open(QuizDetailDialog, {
+      width: '95%',
+      maxWidth: '1000px',
+      height: '80%',
+      data: quiz
+    });
   }
 }

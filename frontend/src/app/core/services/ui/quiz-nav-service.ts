@@ -14,7 +14,7 @@ export class QuizNavService {
   }
 
   public goToNextQuestion() {
-    this._currentPosition.update(val => 
+    this._currentPosition.update(val =>
       // Math.min compara contra el total dinámico
       Math.min(val + 1, this._totalQuestions() - 1)
     );
@@ -26,8 +26,8 @@ export class QuizNavService {
 
   // Método opcional para saltar a una pregunta específica (ej. para tu barra de navegación)
   public goToQuestion(index: number) {
-    if (index >= 0 && index < this._totalQuestions()) {
-      this._currentPosition.set(index);
-    }
+    // Aseguramos que nunca sea mayor al índice máximo permitido
+    const maxIndex = Math.max(0, this._totalQuestions() - 1);
+    this._currentPosition.set(Math.min(index, maxIndex));
   }
 }

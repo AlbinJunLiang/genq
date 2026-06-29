@@ -95,7 +95,7 @@ export const getMyQuizzes = async (req, res) => {
     }
 };
 
-export const getQuizByUuid = async (req, res) => {
+export const startQuizByUuid = async (req, res) => {
     try {
         const quiz = await quizService.getFullQuizByUuid(req.params.uuid);
         // Si el resultado es null o undefined, enviamos 404

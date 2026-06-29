@@ -10,16 +10,21 @@
   gap: 10px;
   overflow-x: auto;
   max-width: 100%;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE y Edge antiguo */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE y Edge antiguo */
 }
 
 .test-navbar::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none;
+  /* Chrome, Safari, Opera */
 }
+
 /* Estilo de cada cuadro numérico */
 .test-item {
-  min-width: 40px; /* Tamaño mínimo para que no se compriman */
+  min-width: 40px;
+  /* Tamaño mínimo para que no se compriman */
   height: 40px;
   display: flex;
   align-items: center;
@@ -29,18 +34,32 @@
   font-weight: bold;
   cursor: pointer;
   transition: background 0.3s;
-  box-sizing: border-box; /* Vital para que el border no agrande el elemento */
+  box-sizing: border-box;
+  /* Vital para que el border no agrande el elemento */
 }
 
 /* Estilo del ítem activo */
 .test-item.active {
-  background-color: #6f49fa;
+  background-color: #2146ff;
   color: white;
   border-color: #0056b3;
 }
 
 .test-item:hover {
-  background-color: #341696;
-    color: white;
+  background-color: #165096;
+  color: white;
+}
 
+
+.test-item.wrong {
+  background-color: #fa497e;
+  color: white;
+  border-color: #b30000;
+}
+
+
+.test-item.correct {
+  background-color: #1f9e06;
+  color: white;
+  border-color: #084315;
 }
