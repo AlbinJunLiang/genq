@@ -14,18 +14,30 @@ const QuizAttempt = sequelize.define('QuizAttempt', {
         defaultValue: DataTypes.UUIDV4,
         allowNull: false,
         unique: {
-            name: 'unique_uuid_idx' 
+            name: 'unique_uuid_idx'
         }
     },
     quiz_attempted_content:
     {
         type: DataTypes.JSON,
-        allowNull: true
+        allowNull: true,
+        get() {
+            const rawValue = this.getDataValue('quiz_attempted_content');
+            return typeof rawValue === 'string' ? JSON.parse(rawValue) : rawValue;
+        },
+        // Setter: Se ejecuta automáticamente al guardar
+        set(value) {
+            this.setDataValue('quiz_attempted_content', (value));
+        }
     },
     score:
     {
         type: DataTypes.DECIMAL(5, 2),
-        allowNull: true
+        allowNull: true,
+        get() {
+            const value = this.getDataValue('score');
+            return value === null ? null : parseFloat(value);
+        }
     },
     duration_seconds:
     {
@@ -45,8 +57,7 @@ const QuizAttempt = sequelize.define('QuizAttempt', {
     },
     user_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        references: { model: 'users', key: 'id' }
+        allowNull: true
     },
     quiz_id: {
         type: DataTypes.INTEGER, allowNull: false,

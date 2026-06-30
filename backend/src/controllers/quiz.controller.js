@@ -95,25 +95,31 @@ export const getMyQuizzes = async (req, res) => {
     }
 };
 
+
 export const startQuizByUuid = async (req, res) => {
     try {
-        const quiz = await quizService.getFullQuizByUuid(req.params.uuid);
-        // Si el resultado es null o undefined, enviamos 404
-        if (!quiz) {
+
+        // 1. Recibimos el objeto que contiene quiz y attemptUuid
+        const result = await quizService.startQuizByUuid(req.params.uuid, false, req.user);
+
+        // 2. Si el servicio lanzó error al no encontrar el quiz, el catch lo manejará.
+        // Pero si result es null, por seguridad:
+        if (!result) {
             return res.status(404).json({ message: 'Quiz not found' });
         }
-        // Si existe, retornamos el quiz completo
-        return res.status(200).json({ quiz: mapQuizWithQuestion(quiz) });
-    } catch (error) {
 
-        if (error.message === 'Quiz not found') {
-            return res.status(404).json({
-                message: error.message
-            });
-        }
-        return res.status(500).json({
-            message: 'Internal server error'
+        // 3. Mapeamos solo la parte del quiz, pero preservamos el attemptUuid
+        return res.status(200).json({
+            quiz: mapQuizWithQuestion(result.quiz),
+            attemptUuid: result.attemptUuid // ¡Aquí está la pieza que faltaba!
         });
+
+    } catch (error) {
+        if (error.message === 'Quiz not found') {
+            return res.status(404).json({ message: error.message });
+        }
+        console.error("Error en startQuizByUuid:", error); // Es bueno loguear el error real
+        return res.status(500).json({ message: 'Internal server error' });
     }
 };
 
@@ -170,8 +176,6 @@ export const remove = async (req, res) => {
 };
 
 
-
-
 export const getQuizEvaluation = async (req, res) => {
     try {
         const validation = submitQuizSchema.safeParse(req.body);
@@ -183,25 +187,26 @@ export const getQuizEvaluation = async (req, res) => {
             });
         }
 
+        // Llamamos a getReview
         const result = await getReview(
             req.params.uuid,
-            validation.data
+            validation.data,
+            req.user
         );
-
-
-        if (!result) {
-            return res.status(404).json({
-                message: "Quiz not found"
-            });
-        }
 
         return res.status(200).json(result);
 
     } catch (error) {
-        console.error(error);
+        console.error("Error en evaluación:", error);
+
+        // Si el error es el que lanzamos en el servicio
+        if (error.message === "Quiz not found") {
+            return res.status(404).json({ message: error.message });
+        }
 
         return res.status(500).json({
             message: "Internal server error"
         });
     }
 };
+

@@ -4,6 +4,7 @@ import { Quiz } from '../models/quiz.model.js';
 import Question from '../models/question.model.js';
 import Answer from '../models/answer.model.js';
 import { mappingQuestionAndAnswerEvaluation } from '../mappers/question-answer-eval-mapper.js';
+import { createAttempt } from './attempt.service.js';
 
 /**
  * const fechaLocal = new Date(); // Esta es tu fecha en Costa Rica
@@ -207,8 +208,11 @@ const shuffleArray = (array) => {
     return arr;
 };
 
-export const getFullQuizByUuid = async (uuid, showAnswers = false) => {
-    // 1. Obtención de datos
+
+
+
+export const startQuizByUuid = async (uuid, showAnswers = false, user = null) => {
+    // 1. Obtención del Quiz
     const quiz = await Quiz.findOne({
         where: { uuid },
         include: [{
@@ -223,17 +227,20 @@ export const getFullQuizByUuid = async (uuid, showAnswers = false) => {
         }]
     });
 
-    if (!quiz) return null;
+    if (!quiz) throw new Error("Quiz no encontrado");
 
-    // 2. Transformación a objeto plano
+    // 2. Si 'user' existe, usamos user.id; si no (invitado), usamos null.
+    const userId = user ? user.id : null;
+    const attempt = await createAttempt({ quiz_id: quiz.id, user_id: userId });
+
+    // 3. Transformación y Mezclado
     const quizData = quiz.toJSON();
-
-    // 3. Mezclado seguro
-    if (quizData.questions && Array.isArray(quizData.questions)) {
-        // Mezclamos preguntas
+    if (quizData.questions) {
         quizData.questions = shuffleArray(quizData.questions);
     }
 
-    return quizData;
+    return {
+        quiz: quizData,
+        attemptUuid: attempt.uuid
+    };
 };
-

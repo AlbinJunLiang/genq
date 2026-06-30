@@ -4,7 +4,7 @@ export const submitQuizSchema = z
     .object({
         quizId: z.number().int().positive(),
 
-        attemptId: z.string().uuid(),
+        attemptUuid: z.string().uuid(),
 
         answers: z
             .array(

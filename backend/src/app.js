@@ -5,6 +5,7 @@ import { env } from './config/env.js';
 import questionRouter from './routes/question.routes.js';
 import answerRouter from './routes/answer.routes.js';
 import cors from "cors";
+import attemptRouter from './routes/attempt.routes.js';
 
 
 const app = express();
@@ -30,6 +31,8 @@ app.use(`/api/${apiVersion}/users`, userRoutes);
 app.use(`/api/${apiVersion}/quizzes`, quizRouter);
 app.use(`/api/${apiVersion}/questions`, questionRouter);
 app.use(`/api/${apiVersion}/answers`, answerRouter);
+app.use(`/api/${apiVersion}/attempts`, attemptRouter);
+
 
 
 

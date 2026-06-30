@@ -1,12 +1,15 @@
 import { Router } from 'express';
-import { create, getMyQuizzes, getPublicQuizzes, startQuizByUuid, 
-     getQuizEvaluation, remove, search, update } from '../controllers/quiz.controller.js';
+import {
+     create, getMyQuizzes, getPublicQuizzes, startQuizByUuid,
+     getQuizEvaluation, remove, search, update
+} from '../controllers/quiz.controller.js';
 import { verifyFirebaseToken, verifyFirebaseTokenAndUser } from '../middlewares/firebase-middleware.js';
 import { authorize } from '../middlewares/authorize-middleware.js';
 import { getQuizMiddleware } from '../middlewares/get-quiz-middleware.js';
 import { paginationValidationRules } from '../validators/pagination-validator.js';
 import { validateRequest } from '../middlewares/bad-request-error.js';
 import { quizBodyValidationRules } from '../validators/quiz-validator.js';
+import { checkUser } from '../middlewares/check-user-middleware.js';
 
 const quizRouter = Router();
 
@@ -280,7 +283,7 @@ quizRouter.get('/', paginationValidationRules, validateRequest, getPublicQuizzes
  *       404:
  *         description: Quiz no encontrado o visibilidad no permitida
  */
-quizRouter.post('/uuid/:uuid', startQuizByUuid);
+quizRouter.post('/uuid/:uuid', checkUser, startQuizByUuid);
 
 
 /**
@@ -566,6 +569,6 @@ quizRouter.delete('/:id', verifyFirebaseTokenAndUser, getQuizMiddleware, authori
  *       500:
  *         description: Error interno del servidor
  */
-quizRouter.post('/evaluate/:uuid', getQuizEvaluation);
+quizRouter.post('/evaluate/:uuid', checkUser, getQuizEvaluation);
 
 export default quizRouter;

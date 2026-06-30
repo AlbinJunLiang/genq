@@ -2,6 +2,7 @@ import { mappingQuestionAndAnswerEvaluation } from "../mappers/question-answer-e
 import Answer from "../models/answer.model.js";
 import Question from "../models/question.model.js";
 import { Quiz } from "../models/quiz.model.js";
+import { finishAttempt } from "./attempt.service.js";
 
 
 export const getQuizAnswersData = async (uuid) => {
@@ -81,7 +82,24 @@ function evaluate(questions, quizAttempData) {
     };
 }
 
-export const getReview = async (uuid, quizAttempData) => {
+
+
+export const getReview = async (uuid, quizAttempData, user) => {
+    // 1. Obtener respuestas correctas de la BD
     const quizAnswerData = await getQuizAnswersData(uuid);
-    return evaluate(quizAnswerData, quizAttempData);
+    if (!quizAnswerData) throw new Error("Quiz not found"); // Manejo para el catch
+
+    // 2. Evaluar
+    const review = evaluate(quizAnswerData, quizAttempData);
+
+    // 3. Persistir si es un usuario registrado
+    if (user) {
+        await finishAttempt(quizAttempData.attemptUuid, {
+            content: review, // Sequelize guardará esto en el campo JSON
+            score: review.percentage,
+            duration: quizAttempData.duration || 0
+        });
+    }
+
+    return review;
 };
