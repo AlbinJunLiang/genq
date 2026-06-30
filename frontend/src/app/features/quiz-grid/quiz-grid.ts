@@ -59,7 +59,7 @@ export class QuizGrid {
     const dialogRef = this.dialog.open(QuizDetailDialog, {
       width: '95%',
       maxWidth: '1000px',
-      height: '80%',
+      height: '70%',
       data: quiz
     });
   }

@@ -89,9 +89,13 @@
       {{ languageService.translate('GO_BACK') }}
     </button>
 
-    <button class="google-link-button">
+    <button (click)="loginWithGoogle()" class="google-link-button">
       <img src="google.svg" alt="Google" class="google-icon" />
-      <span>Sign in with Google</span>
+      @if (isLoadingWithProvider() === false) {
+        <span>Sign in with Google</span>
+      } @else {
+        <mat-spinner diameter="15"></mat-spinner>
+      }
     </button>
   </form>
 </div>

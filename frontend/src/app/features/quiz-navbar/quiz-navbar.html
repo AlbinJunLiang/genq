@@ -4,8 +4,8 @@
     @if(isFinalized() && reviews()){
     @for (q of reviews(); track q.questionId; let i = $index) {
 
-    <div (click)="quizNavService.goToQuestion(i)" class="test-item" [class.wrong]="(q.score <1)"
-      [class.correct]="(q.score === 1)">
+    <div (click)="quizNavService.goToQuestion(i)" class="test-item" [class.wrong]="(q.score === 0)"
+      [class.correct]="(q.score === 1)" [class.partial]="q.score > 0 && q.score < 1">
       {{ i + 1 }}
     </div>
     }

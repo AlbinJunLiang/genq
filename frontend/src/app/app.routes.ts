@@ -2,10 +2,12 @@ import { Routes } from '@angular/router';
 import { Home } from './features/home/home';
 import { QuizView } from './features/quiz-view/quiz-view';
 import { QuizContainer } from './features/quiz-container/quiz-container';
+import { QuizHistoryGrid } from './features/quiz-history-grid/quiz-history-grid';
 
 export const routes: Routes = [
     { path: '', component: Home },
     { path: 'quizzes', component: QuizView },
+    { path: 'history', component: QuizHistoryGrid },
     { path: 'home', redirectTo: '', pathMatch: 'full' },
     { path: 'quiz/:quizId', component: QuizContainer },
 

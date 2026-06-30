@@ -53,12 +53,24 @@ mat-dialog-actions {
     color: #041c50;
     /* Color destacado para etiquetas */
     margin-bottom: 4px;
-    /* Espacio entre etiqueta y texto */
+    font-family: 'Finlandica Text', sans-serif;
+
 }
 
 .value {
     color: #404040;
     line-height: 1.5;
     word-wrap: break-word;
-    /* Asegura que el texto largo no desborde */
+    font-family: 'Finlandica Text', sans-serif;
+
+}
+
+.qr-container {
+    display: flex;
+    justify-content: center;
+    /* centra horizontal */
+    align-items: center;
+    /* centra vertical */
+    width: 100%;
+    padding: 16px 0;
 }

@@ -1,0 +1,80 @@
+<div class="history">
+    <div class="header">
+        <h2>Historial de intentos</h2>
+        <span>{{ attemptStore.attempts().length }} registros</span>
+    </div>
+    @if(!attemptStore.loading()){
+
+    @if (attemptStore.attempts().length > 0) {
+
+    <div class="list">
+        @for (attempt of attemptStore.attempts(); track attempt.id) {
+
+        <div class="card">
+            <div class="left">
+                <div class="icon-box">
+                    <mat-icon>quiz</mat-icon>
+                </div>
+
+                <div>
+                    <h3>{{ attempt.quizTitle }}</h3>
+                    <small><b>finalizado</b>: {{ formatDate(attempt.createdAt.toString()) }}</small>
+                </div>
+            </div>
+
+            <div class="right">
+                <div class="score" } [class.red]="(attempt.score ?? 0)<70"
+                    [class.orange]="(attempt.score??0)>70 &&  (attempt.score??0) < 90"
+                    [class.green]="(attempt.score??0)>=90">{{
+                    attempt.score }}%</div>
+
+                <div class="actions">
+                    <span class="badge">
+                        <img src="play.svg" style="width: 24px; height: 24px" />
+                    </span>
+
+                    <span (click)="onDeleteAttempt(attempt.id)" class="badge">
+                        <img src="delete.svg" style="width: 24px; height: 24px" />
+                    </span>
+
+
+                    <span class="badge">
+                        <img src="eye.svg" style="width: 24px; height: 24px" />
+                    </span>
+                </div>
+
+            </div>
+        </div>
+
+        }
+    </div>
+
+    } @else {
+
+    <div class="empty">
+        <span>📄</span>
+        <h3>No hay intentos registrados</h3>
+        <p>Cuando completes un cuestionario aparecerá aquí.</p>
+    </div>
+
+    }
+
+    } @else {
+    <div class="spinner-wrapper">
+        <mat-spinner diameter="50"></mat-spinner>
+    </div>
+    }
+
+
+    <div class="pagination">
+        <button class="page-btn" (click)="prevPage()" [disabled]="attemptStore.currentPage()===1">
+            Anterior
+        </button>
+
+        <span class="page-info">Página {{ attemptStore.currentPage() }} de {{ attemptStore.totalPages() }}</span>
+
+        <button class="page-btn" (click)="nextPage()" [disabled]="attemptStore.currentPage()=== attemptStore.totalPages()">
+            Siguiente
+        </button>
+    </div>
+</div>

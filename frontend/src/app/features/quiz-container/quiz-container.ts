@@ -1,5 +1,5 @@
 import { Component, inject, input, signal } from '@angular/core';
-import { EvaluationRequest, Quiz, QuizDetail } from '../../core/interfaces/quiz-interface';
+import { EvaluationRequest, Quiz, QuizApiResponse, QuizDetail } from '../../core/interfaces/quiz-interface';
 import { QuestionFromQuiz } from '../../core/interfaces/question-interface';
 import { Answer } from '../../core/interfaces/answer-interface';
 import { BreakpointObserver } from '@angular/cdk/layout';
@@ -18,6 +18,7 @@ import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../shared/component/confirm/dialog-component';
 import { BreakpointService } from '../../core/services/ui/breakpoint-service';
+import { QuizStateService } from '../../core/services/ui/quiz-state-service';
 
 
 
@@ -33,7 +34,9 @@ export class QuizContainer {
   protected userAnswers = signal<UserAnswer[]>([]);
   protected quizNavService = inject(QuizNavService);
   protected isFinalized = signal<boolean>(false);
+  protected attemptUuid = signal<string>('');
   protected quiz = signal<QuizDetail>({
+
     id: 0,
     uuid: "",
     title: "",
@@ -55,55 +58,57 @@ export class QuizContainer {
   private dialog = inject(MatDialog);
   private breakpointService = inject(BreakpointService);
   protected isMobile = this.breakpointService.isMobile;
+  private quizStateService = inject(QuizStateService);
 
 
 
 
 
   ngOnInit() {
+
     this.loadQuiz();
+
   }
 
   private loadQuiz() {
     this.isLoading.set(true);
-    this.quizService.startQuizByUuid(this.quizId()).subscribe({
-      next: (data) => {
 
-        if (data.questions.length === 0) {
-          this.snackbar.show("Quiz sin preguntas", 'Cerrar');
+    // 1. Intentar cargar desde el storage
+    const savedQuiz = this.quizStateService.loadFromStorage();
+
+    if (savedQuiz) {
+      this.applyDataToSignals(savedQuiz);
+      this.isLoading.set(false);
+    } else {
+      // 2. Si no hay, cargar desde API
+      this.quizService.startQuizByUuid(this.quizId()).subscribe({
+        next: (data) => {
+          if (!data.quiz.questions?.length) {
+            this.snackbar.show("Quiz sin preguntas", 'Cerrar');
+            this.router.navigate(['/home']);
+            return;
+          }
+
+          // Inicializamos y aplicamos
+          const initialized = this.quizStateService.initializeQuiz(data);
+          this.applyDataToSignals(initialized);
+          this.isLoading.set(false);
+        },
+        error: (err) => {
+          this.isLoading.set(false);
+          this.snackbar.show(err.error?.message === 'Quiz not found' ? "El quiz no existe" : "Error al cargar", 'Cerrar');
           this.router.navigate(['/home']);
         }
-
-        // 1. Transformamos los datos (agregamos isSelected)
-        const initializedQuiz = {
-          ...data,
-          questions: data.questions.map(q => ({
-            ...q,
-            answers: q.answers.map(a => ({ ...a, isSelected: false }))
-          }))
-        };
-
-        this.quiz.set(initializedQuiz);
-        this.quizNavService.setTotalQuestions(initializedQuiz.questions.length);
-        this.isLoading.set(false);
-      },
-      error: (err) => {
-        this.isLoading.set(false);
-        console.error('Error al cargar el quiz', err);
-        if (err.error.message === 'Quiz not found') {
-          this.snackbar.show("EL quiz no existe..", 'Cerrar');
-
-        } else {
-          this.snackbar.show("Error al cargar el quiz.", 'Cerrar');
-
-        }
-        this.router.navigate(['/home']);
-
-      }
-    });
+      });
+    }
   }
 
-
+  // Método único para evitar duplicar código
+  private applyDataToSignals(data: QuizApiResponse) {
+    this.quiz.set(data.quiz);
+    this.attemptUuid.set(data.attemptUuid);
+    this.quizNavService.setTotalQuestions(data.quiz.questions.length);
+  }
 
   selectAnswer(question: QuestionFromQuiz, selectedAnswer: Answer) {
     this.quiz.update(currentQuiz => {
@@ -182,7 +187,7 @@ export class QuizContainer {
 
     const payload: EvaluationRequest = {
       quizId: currentQuiz.id,
-      attemptId: "550e8400-e29b-41d4-a716-446655440000",
+      attemptUuid: this.attemptUuid(),
       answers: this.userAnswers().map(ans => ({
         questionId: ans.questionId,
         answerIds: ans.answerIds
@@ -192,13 +197,14 @@ export class QuizContainer {
     this.quizService.evaluateQuiz(currentQuiz.uuid, payload).subscribe({
       next: (result: EvaluationResult) => {
         this.evaluationResult.set(result);
-
         this.isFinalized.set(true);        // Cambiamos el estado a finalizado
         this.isLoading.set(false);
+        this.quizStateService.clearStorage();
 
       },
       error: (err) => {
         console.error('Error al evaluar:', err);
+        this.quizStateService.clearStorage();
         this.isLoading.set(false);
 
       }
@@ -234,11 +240,30 @@ export class QuizContainer {
         cancelText: 'Mejor no',
         color: 'warn'
       }
-    });      // Bloqueamos la UI para evitar múltiples clics
-
+    });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.resetQuiz();
+      }
+    });
+  }
+
+
+  onExitQuiz() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      data: {
+        title: this.quiz().title,
+        message: this.quiz().description,
+        confirmText: 'Salir del quiz',
+        cancelText: 'Mejor no'
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.resetQuiz();
+        this.quizStateService.clearStorage();
+        this.router.navigate(['/home']);
       }
     });
   }

@@ -23,9 +23,17 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
             path: '/quizzes',
             methods: ['PUT', 'POST', 'DELETE']
         },
-{
+        {
             path: '/quizzes/me',
             methods: ['GET']
+        },
+        {
+            path: '/quizzes/uuid',
+            methods: ['GET']
+        },
+        {
+            path: '/quizzes/evaluate',
+            methods: ['ṔOST']
         },
         {
             path: '/questions',
@@ -34,6 +42,11 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         {
             path: '/answers',
             methods: ['DELETE', 'POST', 'PUT']
+        },
+
+        {
+            path: '/attempts',
+            methods: ['DELETE', 'POST', 'GET']
         }
     ];
 

@@ -16,6 +16,7 @@
         <span class="value">{{data.description}}</span>
     </div>
 
+    <!--
 
     <div class="line">
         <span class="label">Fecha límite::</span>
@@ -33,11 +34,18 @@
         <span class="label">Tiempo para completar:</span>
         <span class="value">{{formatDuration(data.durationSeconds)}}</span>
     </div>
+    -->
 
     <div class="line">
         <span class="label">Referencia:</span>
         <span class="value">{{data.uuid}}</span>
     </div>
+
+
+    <div class="qr-container">
+  <!-- El #qrCanvas ahora se vincula automáticamente al viewChild -->
+  <canvas #qrCanvas></canvas>
+</div>
 
 </mat-dialog-content>
 

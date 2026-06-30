@@ -42,12 +42,13 @@ export interface QuizListResponse {
 
 export interface QuizApiResponse {
   quiz: QuizDetail;
+  attemptUuid: string;
 }
 
 
 export interface EvaluationRequest {
   quizId: number;
-  attemptId: string;
+  attemptUuid: string;
   answers: UserAnswer[];
 }
 export type CreateQuizDto = Omit<Quiz, 'uuid' | 'id' | 'createdAt' | 'userId'>;

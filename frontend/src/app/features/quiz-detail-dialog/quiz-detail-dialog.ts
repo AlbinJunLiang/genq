@@ -1,10 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { afterNextRender, Component, ElementRef, inject, viewChild } from '@angular/core';
 import { MatIcon } from "@angular/material/icon";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogClose, MatDialogModule } from "@angular/material/dialog";
 import { MatAnchor } from "@angular/material/button";
 import { Quiz } from '../../core/interfaces/quiz-interface';
 import { formatReadableDate } from '../../shared/util/date.util';
 import { Router } from '@angular/router';
+import * as QRCode from 'qrcode';
 
 @Component({
   selector: 'app-quiz-detail-dialog',
@@ -16,10 +17,19 @@ export class QuizDetailDialog {
 
   public data = inject<Quiz>(MAT_DIALOG_DATA);
   private router = inject(Router);
+  private qrCanvas = viewChild<ElementRef<HTMLCanvasElement>>('qrCanvas');
 
+
+  constructor() {
+    afterNextRender(() => {
+      this.generateQRCode();
+    });
+  }
+  
   protected formatDate(date: string) {
     return formatReadableDate(date);
   }
+
 
   protected formatDuration(seconds: number | undefined): string {
     if (!seconds) return '0 segundos';
@@ -38,6 +48,22 @@ export class QuizDetailDialog {
   protected openQuiz() {
     this.router.navigate(['/quiz', this.data.uuid]);
 
+  }
+
+
+  private generateQRCode() {
+    const canvas = this.qrCanvas()?.nativeElement;
+    if (!canvas) return;
+
+    // Obtener la URL actual de tu página
+    const baseUrl = window.location.origin;
+    const dynamicUrl = `${baseUrl}/quiz/${this.data.uuid}`;
+    QRCode.toCanvas(canvas, dynamicUrl, {
+      width: 200,
+      margin: 2
+    }, (error) => {
+      if (error) console.error('Error generando QR', error);
+    });
   }
 
 

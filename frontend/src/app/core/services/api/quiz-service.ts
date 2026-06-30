@@ -223,12 +223,11 @@ export class QuizService {
     }
 
 
-    startQuizByUuid(uuid: string): Observable<QuizDetail> {
+    startQuizByUuid(uuid: string): Observable<QuizApiResponse> {
         if (environment.mockeable) {
             return of(INITIAL_QUIZ_MOCK);
         }
         return this.http.post<QuizApiResponse>(`${this.apiUrl}/uuid/${uuid}`,{}).pipe(
-            map(response => response.quiz), // ¡Aquí extraes el quiz y olvidas el envoltorio!
             catchError(this.handleError)
         );
     }

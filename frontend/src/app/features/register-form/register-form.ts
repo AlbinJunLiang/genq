@@ -10,7 +10,7 @@ import { MatAnchor } from "@angular/material/button";
 import { SlideView } from '../../core/enums/auth-form-type';
 import { ChangeSlideViewService } from '../../core/services/ui/change-slide-view-service';
 import { AuthService } from '../../auth/auth-service';
-import { switchMap } from 'rxjs';
+import { finalize, switchMap } from 'rxjs';
 import { SnackBarService } from '../../core/services/ui/snackbar-service';
 import { CountdownService } from '../../core/services/ui/count-down-service';
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
@@ -42,6 +42,8 @@ export class RegisterForm {
   private snackBar = inject(SnackBarService);
   private countdownService = inject(CountdownService);
   private dialog = inject(MatDialog);
+  protected isLoadingWithProvider = signal(false);
+
 
 
 
@@ -126,5 +128,20 @@ export class RegisterForm {
   protected openForgot() {
     this.changeSlideViewService.setView(SlideView.FORGOT_PASSWORD);
     this.slideInModal.open();
+  }
+
+  loginWithGoogle() {
+    this.isLoadingWithProvider.set(true);
+    this.authService.loginWithProvider().pipe(
+      finalize(() => this.isLoadingWithProvider.set(false))
+    ).subscribe({
+      next: () => {
+        this.snackBar.show(`${this.languageService.translate('WELCOME')} ${this.authService.user()?.email}!`, 'Ok');
+        this.slideInModal.close()
+      },
+      error: (err) => {
+        this.snackBar.show(this.languageService.translate('ERROR_SIGNIN_MESSAGE'), 'Ok');
+      }
+    });
   }
 }
