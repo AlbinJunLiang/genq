@@ -4,6 +4,7 @@
   padding-left: 40px;
   padding-right: 40px;
   padding-bottom: 50px;
+    position: relative;
 }
 
 .w-100 {
@@ -45,6 +46,20 @@ mat-form-field {
 
 :host ::ng-deep .spinner-white circle {
   stroke: #ffffff !important; /* Código HEX para el Indigo 600 */
+}
+
+.spinner-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,.7);
+  z-index: 999999;
+}
+
+.spinner-overlay mat-spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 @media (max-width: 600px) {

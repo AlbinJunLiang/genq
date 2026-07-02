@@ -29,7 +29,7 @@
                     attempt.score }}%</div>
 
                 <div class="actions">
-                    <span class="badge">
+                    <span (click)="onRestartQuiz(attempt.quizUuid)" class="badge">
                         <img src="play.svg" style="width: 24px; height: 24px" />
                     </span>
 
@@ -37,10 +37,12 @@
                         <img src="delete.svg" style="width: 24px; height: 24px" />
                     </span>
 
+                    @if (attempt.quizAttemptedContent != null) {
 
-                    <span class="badge">
+                    <span (click)="goToGradedQuiz(attempt)" class="badge">
                         <img src="eye.svg" style="width: 24px; height: 24px" />
                     </span>
+                    }
                 </div>
 
             </div>
@@ -65,6 +67,7 @@
     </div>
     }
 
+    @if(!attemptStore.loading() && attemptStore.totalPages() > 0) {
 
     <div class="pagination">
         <button class="page-btn" (click)="prevPage()" [disabled]="attemptStore.currentPage()===1">
@@ -73,8 +76,10 @@
 
         <span class="page-info">Página {{ attemptStore.currentPage() }} de {{ attemptStore.totalPages() }}</span>
 
-        <button class="page-btn" (click)="nextPage()" [disabled]="attemptStore.currentPage()=== attemptStore.totalPages()">
+        <button class="page-btn" (click)="nextPage()"
+            [disabled]="attemptStore.currentPage()=== attemptStore.totalPages()">
             Siguiente
         </button>
     </div>
+    }
 </div>

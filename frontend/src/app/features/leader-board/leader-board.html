@@ -1,0 +1,85 @@
+@if(isLoading()){
+<div class="loader-overlay">
+    <mat-spinner class="spinner-indigo" diameter="50"></mat-spinner>
+</div>
+}@else {
+<div class="container">
+    <button (click)="closeSlide()" class="btn-close">
+        <mat-icon style="font-size: 20px; width: 20px; height: 20px;">close</mat-icon>
+    </button>
+    <h1 class="header-title">
+        Ranking: {{ leaderboardAttempts()?.[0]?.quizTitle ?? 'Sin título' }}
+    </h1>
+
+
+
+
+    <div class="table-wrapper">
+        <div style="overflow-x: auto">
+            <mat-chip-listbox (change)="onFilterChange($event.value)" hideSingleSelectionIndicator="true">
+                <mat-chip-option value="top"
+                    [selected]="sortBy() === 'score' && order() === 'DESC'">Mejores</mat-chip-option>
+                <mat-chip-option value="bottom" [selected]="sortBy() === 'score' && order() === 'ASC'">Menor
+                    Puntuación</mat-chip-option>
+                <mat-chip-option value="recent" [selected]="sortBy() === 'finished_at' && order() === 'DESC'">Más
+                    recientes</mat-chip-option>
+                <mat-chip-option value="oldest" [selected]="sortBy() === 'finished_at' && order() === 'ASC'">Más
+                    antiguos</mat-chip-option>
+            </mat-chip-listbox>
+            @if (leaderboardAttempts(); as attempts) {
+            <table mat-table class="custom-table" [dataSource]="attempts">
+
+                @for (col of displayedColumns; track col) {
+                <ng-container [matColumnDef]="col">
+                    <th mat-header-cell *matHeaderCellDef class="header-cell-custom">
+                        {{ columnNames[col] }}
+                    </th>
+
+                    <td mat-cell *matCellDef="let element" class="body-cell-custom">
+
+                        @if (col === 'position' && sortBy() === 'score' && order() === 'DESC') {
+                        @switch (element[col]) {
+                        @case (1) { <span style="font-size: 30px;">🥇</span> }
+                        @case (2) { <span style="font-size: 30px;">🥈</span> }
+                        @case (3) { <span style="font-size: 30px;">🥉</span> }
+                        @default { <span style="font-weight: bold;">{{ element[col] }}</span> }
+                        }
+                        }@else if (col === 'score') {
+                        <span style="font-size: 20px; font-weight: bold;" [class.red]="(element[col] ?? 0)<70"
+                            [class.orange]="(element[col]??0)>70 &&  (element[col]??0) < 90"
+                            [class.green]="(element[col]??0)>=90"{{
+                            element[col] }}
+                            >
+                            {{ getCellValue(element, col) }}
+                        </span>
+                        } @else {
+                        {{ getCellValue(element, col) }}
+                        }
+
+                    </td>
+                </ng-container>
+                }
+
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element">
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns" class="row-customize"></tr>
+            </table>
+            } @else {
+            <p>Cargando datos...</p>
+            }
+        </div>
+
+        <mat-paginator showFirstLastButtons class="paginator-custom" [pageSize]="pageSize()"
+            [pageIndex]="currentPage() - 1" [length]="paginationData()?.total" [pageSizeOptions]="[5, 20, 30, 50]"
+            (page)="onPageChange($event)">
+        </mat-paginator>
+    </div>
+
+</div>
+
+}

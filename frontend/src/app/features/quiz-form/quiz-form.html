@@ -1,3 +1,5 @@
+
+
 <div class="quiz-container">
   <h2 style="text-align: center; margin-top: 0; font-size: 35px">
     {{
@@ -126,4 +128,12 @@
     <app-question-form [quizId]="localQuiz()?.id ?? 0"></app-question-form>
     }
   </form>
+
+  @if(questionStore.loading()){
+  <div class="spinner-overlay">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+}
 </div>
+
+

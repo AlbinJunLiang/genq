@@ -2,7 +2,7 @@ import { EvaluationResult } from "./quiz-review-interface";
 
 export interface QuizAttemptResponse {
     quizAttemptedContent: EvaluationResult;
-    score: number | null ;
+    score: number | null;
     id: number;
     uuid: string;
     durationSeconds: number;
@@ -11,5 +11,23 @@ export interface QuizAttemptResponse {
     userId: number;
     quizId: number;
     createdAt: string | Date;
-    quizTitle?: string
+    quizTitle?: string;
+    quizDescription?: string;
+    quizUuid: string;
+}
+
+
+export interface LeaderboardAttempt {
+    id: number;
+    uuid: string;
+    durationSeconds: number;
+    status: string;
+    finishedAt: string;
+    userId: number;
+    quizId: number;
+    score: number;
+    createdAt: string;
+    quizTitle: string;
+    email: string;
+    position?: number;
 }

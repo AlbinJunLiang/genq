@@ -19,11 +19,11 @@ export class BottomNav {
   private router = inject(Router);
 
   // Método para navegar
-  goToHome() {
+  goToPage(route: string = '/') {
     if (this.slideInModalService.isOpen()) {
       this.slideInModalService.close();
     }
-    this.router.navigate(['/']);
+    this.router.navigate([route]);
   }
 
 }

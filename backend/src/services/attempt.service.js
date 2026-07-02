@@ -1,6 +1,7 @@
-import { mappingAttemptResponse } from '../mappers/attempt-mapper.js';
+import { mappingAttemptResponse, mappingAttemptResponse2 } from '../mappers/attempt-mapper.js';
 import QuizAttempt from '../models/quiz-attempt.model.js';
 import { Quiz } from '../models/quiz.model.js';
+import { User } from '../models/user.model.js';
 
 /**
  * Crea un nuevo intento de quiz
@@ -73,8 +74,8 @@ export const getUserAttemptsPaginated = async (userId, page = 1, limit = 10) => 
             order: [['created_at', 'DESC']],
             include: [{
                 model: Quiz,
-                as: 'quiz', // <--- El alias es 'quiz'
-                attributes: ['title']
+                as: 'quiz',
+                attributes: ['title', 'description', 'uuid']
             }]
         });
 
@@ -115,4 +116,60 @@ export const deleteAttempt = async (attemptId, userId) => {
 
     // 2. Eliminamos
     return await attempt.destroy();
+};
+
+
+export const getAttemptsByQuizAndAuthor = async (quizId, authorId, options = {}) => {
+    const { sortBy = 'finished_at', order = 'DESC', page = 1, limit = 10 } = options;
+    const offset = (parseInt(page) - 1) * parseInt(limit);
+
+    const validSortFields = ['finished_at', 'score'];
+    const sortField = validSortFields.includes(sortBy) ? sortBy : 'finished_at';
+    const sortOrder = order.toUpperCase() === 'ASC' ? 'ASC' : 'DESC';
+
+    try {
+        const { count, rows } = await QuizAttempt.findAndCountAll({
+            where: {
+                quiz_id: quizId,
+                user_id: authorId
+            },
+            // AÑADIMOS ESTO PARA EXCLUIR EL CAMPO PESADO
+            attributes: {
+                exclude: ['quiz_attempted_content']
+            },
+            limit: parseInt(limit),
+            offset: offset,
+            order: [[sortField, sortOrder]],
+            // ... código anterior
+            include: [
+                {
+                    model: Quiz,
+                    as: 'quiz',
+                    attributes: ['title']
+                },
+                {
+                    model: User,
+                    as: 'user',
+                    attributes: ['email']
+                }
+            ]
+        });
+
+        return {
+            attempts: rows.map(attempt => {
+                const plainAttempt = attempt.toJSON();
+                return {
+                    ...mappingAttemptResponse2(attempt)
+                };
+            }), pagination: {
+                total: count,
+                page: parseInt(page),
+                totalPages: Math.ceil(count / limit),
+                limit: parseInt(limit)
+            }
+        };
+    } catch (error) {
+        console.error("Error al obtener intentos:", error);
+        throw new Error("No se pudieron recuperar los intentos del quiz");
+    }
 };

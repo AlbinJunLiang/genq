@@ -11,8 +11,7 @@
 
 <main class="main-container">
   <router-outlet></router-outlet>
-  @if (isNotQuizRoute()) {
-
+  @if (!router.url.startsWith('/quiz/') && !router.url.startsWith('/graded')) {
   <app-footer></app-footer>
   }
 </main>

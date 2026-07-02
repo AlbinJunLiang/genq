@@ -184,7 +184,12 @@ import { update } from '../controllers/user.controller.js';
  *       404:
  *         description: Usuario no encontrado
  */
-userRoutes.put('/:id', updateUserValidationRules, validateRequest, verifyFirebaseTokenAndUser, authorize('onlyAdmin'), update);
+userRoutes.put('/:id',
+    updateUserValidationRules,
+    validateRequest,
+    verifyFirebaseTokenAndUser,
+    authorize('onlyAdmin'),
+    update);
 
 /**
  * @swagger
@@ -327,6 +332,8 @@ userRoutes.patch('/:id/names', userNamesValidationRules, validateRequest, verify
  *   delete:
  *     summary: Eliminar un usuario
  *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -350,7 +357,11 @@ userRoutes.patch('/:id/names', userNamesValidationRules, validateRequest, verify
  *       500:
  *         description: Error interno del servidor
  */
-userRoutes.delete('/:id', userController.remove);
+userRoutes.delete('/:id',
+    validateRequest,
+    verifyFirebaseTokenAndUser,
+    authorize('onlyAdmin'),
+    userController.remove);
 
 /**
  * @swagger

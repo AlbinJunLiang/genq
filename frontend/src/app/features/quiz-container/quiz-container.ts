@@ -65,9 +65,8 @@ export class QuizContainer {
 
 
   ngOnInit() {
-
+    this.quizNavService.reset();
     this.loadQuiz();
-
   }
 
   private loadQuiz() {
@@ -196,10 +195,10 @@ export class QuizContainer {
 
     this.quizService.evaluateQuiz(currentQuiz.uuid, payload).subscribe({
       next: (result: EvaluationResult) => {
+        this.quizStateService.clearStorage();
         this.evaluationResult.set(result);
         this.isFinalized.set(true);        // Cambiamos el estado a finalizado
         this.isLoading.set(false);
-        this.quizStateService.clearStorage();
 
       },
       error: (err) => {
@@ -214,18 +213,10 @@ export class QuizContainer {
 
 
   resetQuiz() {
-    // 1. Limpiamos las respuestas del usuario acumuladas
     this.userAnswers.set([]);
-
-    // 2. Limpiamos el resultado de la evaluación
     this.evaluationResult.set(null);
-    // 3. Volvemos al estado inicial (no finalizado)
     this.isFinalized.set(false);
-
-    // 4. Reiniciamos la posición del nav (opcional, pero recomendado)
     this.quizNavService.goToQuestion(0);
-    // 5. Volvemos a cargar los datos del quiz desde el servidor
-    // Esto refrescará la señal this.quiz() con los valores iniciales (sin isSelected: true)
     this.loadQuiz();
   }
 

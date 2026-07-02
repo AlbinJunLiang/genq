@@ -4,10 +4,11 @@ import { RegisterForm } from "../register-form/register-form";
 import { ChangeSlideViewService } from '../../core/services/ui/change-slide-view-service';
 import { UpdatePasswordForm } from "../update-password-form/update-password-form";
 import { QuizForm } from "../quiz-form/quiz-form";
+import { LeaderBoard } from "../leader-board/leader-board";
 
 @Component({
   selector: 'app-slide-container',
-  imports: [LoginForm, RegisterForm, UpdatePasswordForm, QuizForm],
+  imports: [LoginForm, RegisterForm, UpdatePasswordForm, QuizForm, LeaderBoard],
   templateUrl: './slide-container.html',
   styleUrl: './slide-container.scss',
 })

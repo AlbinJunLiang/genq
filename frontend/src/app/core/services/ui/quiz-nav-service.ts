@@ -1,10 +1,24 @@
-import { Injectable, signal } from '@angular/core';
+import { DestroyRef, inject, Injectable, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class QuizNavService {
   // 1. Señal para la posición actual
   private _currentPosition = signal(0);
   public currentPosition = this._currentPosition.asReadonly();
+
+  private destroyRef = inject(DestroyRef);
+
+  constructor() {
+    // Esto se ejecuta automáticamente cuando el componente que inyectó 
+    // este servicio se destruye
+    this.destroyRef.onDestroy(() => {
+      this.reset();
+    });
+  }
+
+  public reset() {
+    this._currentPosition.set(0);
+  }
 
   // 2. Señal para el total de preguntas (se actualizará dinámicamente)
   private _totalQuestions = signal(0);

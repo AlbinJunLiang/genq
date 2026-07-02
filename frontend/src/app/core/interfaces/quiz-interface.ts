@@ -1,4 +1,4 @@
-import { Pagination } from "./offset-pagination-interface";
+import { Pagination } from "./pagination-interface";
 import { Question, QuestionFromQuiz, QuestionResponse } from "./question-interface";
 import { UserAnswer } from "./user-answer-interface";
 

@@ -1,5 +1,6 @@
 import { mappingQuestionWithAllAnswers } from '../mappers/question-mapper.js';
 import { mappingQuizResponse, mapQuizWithQuestion, mapQuizWithQuestionAndAnswers } from '../mappers/quiz-mapper.js';
+import { quizSchema } from '../schemas/quiz-schema.js';
 import { submitQuizSchema } from '../schemas/submit-quiz-schema.js';
 import { getReview } from '../services/quiz-evaluation.service.js';
 import * as quizService from '../services/quiz.service.js';
@@ -210,3 +211,46 @@ export const getQuizEvaluation = async (req, res) => {
     }
 };
 
+
+export const createFullQUiz = async (req, res) => {
+    try {
+        const {
+            title,
+            description,
+            visibility,
+            attemptsLimit,
+            questions
+        } = req.body;
+
+        const userId = req.user.id;
+        const validatedData = quizSchema.parse(req.body);
+
+        const formattedQuestions = questions.map(question => ({
+            content: question.content,
+            type: question.type,
+            answers: question.answers.map(answer => ({
+                content: answer.content,
+                is_correct: answer.isCorrect
+            }))
+        }));
+
+        
+
+        const newQuiz = await quizService.createFullQuiz({
+            title,
+            description,
+            visibility,
+            attempts_limit: attemptsLimit,
+            questions: formattedQuestions
+        }, userId);
+
+        res.status(201).json({
+            message: "Quiz creado exitosamente",
+            quiz: newQuiz
+        });
+    } catch (error) {
+        res.status(500).json({
+            error: "Error al crear el quiz completo: " + error.message
+        });
+    }
+};

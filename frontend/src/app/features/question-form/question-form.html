@@ -1,3 +1,4 @@
+
 <div #questionFormRef style="margin-top: 30px">
   <h2 style="text-align: left; margin-top: 0; font-size: 20px">Añadir pregunta</h2>
 
@@ -11,74 +12,52 @@
         </mat-select>
 
         @if (questionForm.get('type')?.hasError('required')) {
-          <mat-error style="width: 100%">Campo obligatorio.</mat-error>
+        <mat-error style="width: 100%">Campo obligatorio.</mat-error>
         }
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Texto de la pregunta</mat-label>
-        <textarea
-          matInput
-          formControlName="content"
-          placeholder="Ej: Fundamentos de IA"
-          rows="3"
-        ></textarea>
+        <textarea matInput formControlName="content" placeholder="Ej: Fundamentos de IA" rows="3"></textarea>
 
         @if (questionForm.get('content')?.hasError('required')) {
-          <mat-error style="width: 100%">Campo obligatorio.</mat-error>
+        <mat-error style="width: 100%">Campo obligatorio.</mat-error>
         }
 
         @if (questionForm.get('content')?.hasError('maxlength')) {
-          <mat-error>
-            No puede superar los
-            {{ questionForm.get('content')?.getError('maxlength').requiredLength }} caracteres.
-          </mat-error>
+        <mat-error>
+          No puede superar los
+          {{ questionForm.get('content')?.getError('maxlength').requiredLength }} caracteres.
+        </mat-error>
         }
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Retroalimentación</mat-label>
 
-        <textarea
-          matInput
-          formControlName="feedback"
-          placeholder="Ej: Fundamentos de IA"
-          rows="3"
-        ></textarea>
+        <textarea matInput formControlName="feedback" placeholder="Ej: Fundamentos de IA" rows="3"></textarea>
 
         @if (questionForm.get('feedback')?.hasError('maxlength')) {
-          <mat-error>
-            No puede superar los
-            {{ questionForm.get('feedback')?.getError('maxlength').requiredLength }} caracteres.
-          </mat-error>
+        <mat-error>
+          No puede superar los
+          {{ questionForm.get('feedback')?.getError('maxlength').requiredLength }} caracteres.
+        </mat-error>
         }
       </mat-form-field>
     </div>
 
     <div class="btn-container">
       @if (activeEditQuestion() !== null) {
-        <button class="cancel-button" (click)="onCancelEdit()" mat-raised-button>Cancelar</button>
+      <button class="cancel-button" (click)="onCancelEdit()" mat-raised-button>Cancelar</button>
 
-        <button
-          (click)="updateQuestion()"
-          mat-raised-button
-          color="primary"
-          type="button"
-          class="submit-button"
-        >
-          Actualizar pregunta
-        </button>
+      <button (click)="updateQuestion()" mat-raised-button color="primary" type="button" class="submit-button">
+        Actualizar pregunta
+      </button>
       } @else {
-        <button
-          (click)="createQuestion()"
-          mat-raised-button
-          color="primary"
-          type="button"
-          class="submit-button"
-          [disabled]="questionForm.invalid"
-        >
-          Guardar pregunta
-        </button>
+      <button (click)="createQuestion()" mat-raised-button color="primary" type="button" class="submit-button"
+        [disabled]="questionForm.invalid">
+        Guardar pregunta
+      </button>
       }
     </div>
   </form>
@@ -86,89 +65,59 @@
   <div class="search-container">
     <mat-form-field appearance="outline" class="w-100">
       <mat-label>Buscar pregunta</mat-label>
-      <input
-        matInput
-        placeholder="Escribe para filtrar preguntas..."
-        (input)="searchTerm.set($event.target.value)"
-      />
+      <input matInput placeholder="Escribe para filtrar preguntas..." (input)="searchTerm.set($event.target.value)" />
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
   </div>
 
   @for (question of filteredQuestions(); track question.id; let i = $index) {
-    <div class="question-container">
-      <div style="margin: 15px">
-        <span style="font-weight: 500; color: rgb(8, 6, 29); font-size: 18px"
-          >{{ i + 1 }}{{ ')' }}
-          {{ question.content }}
-        </span>
-      </div>
-      <div class="answers-list">
-        @for (answer of question.answers; track answer.id) {
-          <div class="answer-item">
-            <span class="answer-text">{{ answer.content }}</span>
+  <div class="question-container">
+    <div style="margin: 15px">
+      <span style="font-weight: 500; color: rgb(8, 6, 29); font-size: 18px">{{ i + 1 }}{{ ')' }}
+        {{ question.content }}
+      </span>
+    </div>
+    <div class="answers-list">
+      @for (answer of question.answers; track answer.id) {
 
-            <div>
-              @if (answer.isCorrect) {
-                <button
-                  type="button"
-                  mat-icon-button
-                  style="color: rgb(10, 108, 46)"
-                  class="option-btn"
-                  title="Check"
-                >
-                  <mat-icon>check</mat-icon>
-                </button>
-              }
+      <div class="answer-item">
+        <span class="answer-text">{{ answer.content }}</span>
 
-              <button
-                [matMenuTriggerFor]="menu"
-                [matMenuTriggerData]="{ answer: answer }"
-                type="button"
-                mat-icon-button
-                style="color: rgb(13, 13, 92)"
-                class="edit-btn"
-                title="Editar"
-              >
-                <mat-icon>more_vert</mat-icon>
-              </button>
-            </div>
-          </div>
-          <mat-divider></mat-divider>
-        }
-        <div class="question-button-group">
-          <button
-            type="button"
-            (click)="onDeleteQuestion(question.id)"
-            class="delete-question-btn"
-            mat-flat-button
-          >
-            <mat-icon>delete</mat-icon>
-            <span>Eliminar</span>
+        <div>
+          @if (answer.isCorrect) {
+          <button type="button" mat-icon-button style="color: rgb(10, 108, 46)" class="option-btn" title="Check">
+            <mat-icon>check</mat-icon>
           </button>
+          }
 
-          <button
-            (click)="selectEditQuestion(question)"
-            type="button"
-            class="edit-question-btn"
-            mat-flat-button
-          >
-            <mat-icon>edit</mat-icon>
-            <span>Editar</span>
-          </button>
-
-          <button
-            (click)="openAddAnswerForm(question)"
-            type="button"
-            class="add-question-btn"
-            mat-flat-button
-          >
-            <mat-icon>add</mat-icon>
-            <span>Respuesta</span>
+          <button [matMenuTriggerFor]="menu" [matMenuTriggerData]="{ answer: answer }" type="button" mat-icon-button
+            style="color: rgb(13, 13, 92)" class="edit-btn" title="Editar">
+            <mat-icon>more_vert</mat-icon>
           </button>
         </div>
+
+      </div>
+      <mat-divider></mat-divider>
+      }
+
+      <div class="question-button-group">
+        <button type="button" (click)="onDeleteQuestion(question.id)" class="delete-question-btn" mat-flat-button>
+          <mat-icon>delete</mat-icon>
+          <span>Eliminar</span>
+        </button>
+
+        <button (click)="selectEditQuestion(question)" type="button" class="edit-question-btn" mat-flat-button>
+          <mat-icon>edit</mat-icon>
+          <span>Editar</span>
+        </button>
+
+        <button (click)="openAddAnswerForm(question)" type="button" class="add-question-btn" mat-flat-button>
+          <mat-icon>add</mat-icon>
+          <span>Respuesta</span>
+        </button>
       </div>
     </div>
+  </div>
   }
 </div>
 

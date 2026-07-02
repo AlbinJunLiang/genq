@@ -1,6 +1,6 @@
 import { Op } from 'sequelize';
 import { QuizzesType } from '../consts/quiz.js';
-import { Quiz } from '../models/quiz.model.js';
+import { Quiz, sequelize } from '../models/quiz.model.js';
 import Question from '../models/question.model.js';
 import Answer from '../models/answer.model.js';
 import { mappingQuestionAndAnswerEvaluation } from '../mappers/question-answer-eval-mapper.js';
@@ -244,3 +244,53 @@ export const startQuizByUuid = async (uuid, showAnswers = false, user = null) =>
         attemptUuid: attempt.uuid
     };
 };
+
+
+export const createFullQuiz = async (quizData, userId) => {
+    // Iniciamos una transacción
+    const t = await sequelize.transaction();
+
+    try {
+        // 1. Crear el Quiz
+        const quiz = await Quiz.create({
+            title: quizData.title,
+            description: quizData.description,
+            user_id: userId,
+            // Agregamos otros campos por defecto si los requiere tu modelo
+            visibility: quizData.visibility || 'PUBLIC',
+            attempts_limit: quizData.attempts_limit || 0
+        }, { transaction: t });
+
+        // 2. Crear Preguntas y Respuestas
+        if (quizData.questions && quizData.questions.length > 0) {
+            for (const q of quizData.questions) {
+                const question = await Question.create({
+                    content: q.content,
+                    type: q.type, // 'UNIQUE' o 'MULTIPLE'
+                    quiz_id: quiz.id
+                }, { transaction: t });
+
+                // 3. Crear respuestas si existen
+                if (q.answers && q.answers.length > 0) {
+                    for (const a of q.answers) {
+                        await Answer.create({
+                            content: a.content,
+                            is_correct: a.is_correct,
+                            question_id: question.id
+                        }, { transaction: t });
+                    }
+                }
+            }
+        }
+
+        // Si todo sale bien, guardamos los cambios
+        await t.commit();
+        return quiz;
+    } catch (error) {
+        // Si algo falla, deshacemos todo lo insertado
+        await t.rollback();
+        throw error;
+    }
+};
+
+

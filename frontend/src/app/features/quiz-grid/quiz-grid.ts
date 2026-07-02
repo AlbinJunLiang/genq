@@ -55,6 +55,14 @@ export class QuizGrid {
     this.slideInModal.open()
   }
 
+  openLeaderBoard(quiz: Quiz) {
+    this.selectedQuizService.clearSelectedQuiz();
+    this.selectedQuizService.setSelectedQuiz(quiz);
+    this.changeSlideViewService.setView(SlideView.LEADER_BOARD);
+    this.slideInModal.open()
+
+  }
+
   protected openQuizDetailDialog(quiz: Quiz) {
     const dialogRef = this.dialog.open(QuizDetailDialog, {
       width: '95%',

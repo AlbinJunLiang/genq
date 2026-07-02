@@ -1,0 +1,190 @@
+.btn-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.btn-close:hover {
+    background-color: rgb(239, 234, 234);
+    border-radius: 50%;
+}
+
+/* 1. Asegura que el contenedor sea el ancla */
+.container {
+    position: relative;
+    /* CRÍTICO: Esto hace que el btn-close se posicione AQUÍ y no en toda la pantalla */
+    height: 100vh;
+    padding: 20px;
+    /* Un poco más de aire */
+    display: flex;
+    flex-direction: column;
+    /* Apila el título, tabla y paginador verticalmente */
+    box-sizing: border-box;
+}
+
+.header-title {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.75rem;
+    margin-left: 10px;
+}
+
+.loader-overlay {
+    /* Cambiamos absolute por fixed para que ignore el scroll */
+    position: fixed;
+
+    /* Asegura que cubra toda la ventana */
+    inset: 0;
+
+    /* Centrado */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Fondo y capa superior */
+    background-color: rgba(255, 255, 255, 0.7);
+
+    /* Asegura que el loader siempre esté encima de todo */
+    z-index: 9999;
+}
+
+/* Mensaje vacío */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem 0;
+    width: 100%;
+    color: #6b7280;
+}
+
+.table-wrapper {
+    background-color: white;
+    border-radius: 1rem;
+    border: 1px solid #f3f4f6;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    padding: 0.5rem;
+
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+    /* CLAVE */
+}
+
+/* Ajustes de tabla Angular Material */
+.custom-table {
+    width: 100%;
+    min-width: 700px;
+    background-color: white !important;
+}
+
+.header-cell-custom {
+    padding: 1.5rem 1.5rem;
+    font-weight: 700;
+    color: #202122;
+    font-family: 'Finlandica Text', sans-serif;
+
+    text-align: center;
+
+}
+
+.body-cell-custom {
+    padding: 2rem 1.5rem;
+    font-size: 0.875rem;
+    font-family: 'Finlandica Text', sans-serif;
+
+    text-align: center;
+}
+
+.row-customize:hover {
+    background-color: rgba(249, 250, 251, 0.5);
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+/* Paginador */
+.paginator-custom {
+    padding: 1.5rem 1.5rem;
+    background-color: white !important;
+    font-size: 11px !important;
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+}
+
+.btn-new {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    /* 8px */
+    background-color: #33373f !important;
+    /* gray-900 */
+    color: white;
+    padding: 0.5rem 1rem;
+    /* 8px 16px */
+    border-radius: 0.5rem;
+    /* 8px */
+    font-size: 0.875rem;
+    /* 14px */
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 0.5rem;
+    margin-right: 15px;
+}
+
+.btn-new:hover {
+    background-color: #000000 !important;
+    /* gray-800 */
+}
+
+.btn-new:active {
+    transform: scale(0.95);
+}
+
+.btn-new .icon-size {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    color: white !important;
+}
+
+:host ::ng-deep .spinner-indigo circle {
+    stroke: #4f46e5 !important;
+    /* Código HEX para el Indigo 600 */
+}
+
+
+::ng-deep .mat-mdc-chip-action-label {
+    font-family: 'Finlandica Text', sans-serif !important;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.red {
+    color: rgb(227, 36, 36);
+}
+
+
+.green {
+    color: #107022;
+}
+
+.orange {
+    color: orange;
+}

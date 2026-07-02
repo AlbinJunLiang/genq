@@ -1,7 +1,8 @@
 import { Router } from 'express';
-import { deleteAttemptController, getMyAttempts } from '../controllers/attempt.controller.js';
+import { deleteAttemptController, getAttemptsController, getMyAttempts } from '../controllers/attempt.controller.js';
 import { verifyFirebaseTokenAndUser } from '../middlewares/firebase-middleware.js';
 import { validateRequest } from '../middlewares/bad-request-error.js';
+import { getAttemptsByQuizAndAuthor } from '../services/attempt.service.js';
 
 const attemptRouter = Router();
 
@@ -141,5 +142,121 @@ attemptRouter.get('/my-attempts', validateRequest, verifyFirebaseTokenAndUser, g
  */
 
 attemptRouter.delete('/:id', validateRequest, verifyFirebaseTokenAndUser, deleteAttemptController)
+
+
+
+/**
+ * @swagger
+ * /api/v1/attempts/quiz/{quizId}:
+ *   get:
+ *     summary: Obtener los intentos de un quiz por autor
+ *     description: Devuelve los intentos realizados por un autor en un quiz específico con ordenamiento y paginación.
+ *     tags:
+ *       - Attempts
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: quizId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del quiz.
+ *       - in: query
+ *         name: sortBy
+ *         required: false
+ *         schema:
+ *           type: string
+ *           enum:
+ *             - finished_at
+ *             - score
+ *           default: finished_at
+ *         description: Campo por el cual ordenar.
+ *       - in: query
+ *         name: order
+ *         required: false
+ *         schema:
+ *           type: string
+ *           enum:
+ *             - ASC
+ *             - DESC
+ *           default: DESC
+ *         description: Orden ascendente o descendente.
+ *       - in: query
+ *         name: page
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           default: 1
+ *         description: Número de página.
+ *       - in: query
+ *         name: limit
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           default: 10
+ *         description: Cantidad de registros por página.
+ *     responses:
+ *       200:
+ *         description: Lista de intentos obtenida correctamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 12
+ *                       quiz_id:
+ *                         type: integer
+ *                         example: 5
+ *                       user_id:
+ *                         type: integer
+ *                         example: 8
+ *                       score:
+ *                         type: number
+ *                         example: 92.5
+ *                       finished_at:
+ *                         type: string
+ *                         format: date-time
+ *                         example: "2026-07-01T18:20:15.000Z"
+ *                       quiz:
+ *                         type: object
+ *                         properties:
+ *                           title:
+ *                             type: string
+ *                             example: Quiz de Matemáticas
+ *                 pagination:
+ *                   type: object
+ *                   properties:
+ *                     totalItems:
+ *                       type: integer
+ *                       example: 35
+ *                     totalPages:
+ *                       type: integer
+ *                       example: 4
+ *                     currentPage:
+ *                       type: integer
+ *                       example: 1
+ *                     limit:
+ *                       type: integer
+ *                       example: 10
+ *       400:
+ *         description: Parámetros inválidos.
+ *       404:
+ *         description: No se encontraron intentos.
+ *       500:
+ *         description: Error interno del servidor.
+ */
+
+attemptRouter.get("/quiz/:quizId", validateRequest, verifyFirebaseTokenAndUser, getAttemptsController)
+
 
 export default attemptRouter;

@@ -1,4 +1,4 @@
-import { Component, computed, effect, ElementRef, inject, input, signal, untracked, viewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, effect, ElementRef, inject, input, signal, untracked, viewChild } from '@angular/core';
 import { MatFormField, MatLabel, MatError, MatSuffix } from "@angular/material/form-field";
 import { MatOption } from "@angular/material/core";
 import { MatSelect } from "@angular/material/select";
@@ -20,13 +20,15 @@ import { Answer, AnswerResponse } from '../../core/interfaces/answer-interface';
 import { MatMenu, MatMenuItem, MatMenuModule } from "@angular/material/menu";
 import { AnswerService } from '../../core/services/api/answer-service';
 import { ConfirmDialogComponent } from '../../shared/component/confirm/dialog-component';
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-question-form',
   imports: [MatFormField, MatLabel, MatOption, MatSelect,
     MatInput, MatAnchor, MatListModule, MatCheckboxModule,
     MatIcon, MatIconButton, MatError, ReactiveFormsModule,
-    CommonModule, MatMenu, MatMenuItem, MatMenuModule, MatSuffix],
+    CommonModule, MatMenu, MatMenuItem, MatMenuModule, MatSuffix, MatProgressSpinner],
   templateUrl: './question-form.html',
   styleUrl: './question-form.scss',
 })
@@ -43,10 +45,10 @@ export class QuestionForm {
   private answerService = inject(AnswerService);
   protected activeEditQuestion = signal<Question | null>(null);
   protected searchTerm = signal('');
+
   protected filteredQuestions = computed(() =>
     this.questionStore.findByContent(this.searchTerm())()
   );
-
   protected questionForm = this.fb.nonNullable.group({
     content: ['', [Validators.required, Validators.maxLength(600)]],
     feedback: ['', [Validators.maxLength(600)]],
@@ -58,6 +60,7 @@ export class QuestionForm {
       ]
     })
   });
+
 
   constructor() {
     effect(() => {
@@ -183,9 +186,12 @@ export class QuestionForm {
   }
 
 
+  // ... dentro de tu clase
+
   protected onDeleteAnswer(answer: Answer) {
 
-    this.answerService.deleteAnswer(answer.id).subscribe({
+    this.answerService.deleteAnswer(answer.id).pipe(
+    ).subscribe({
       next: () => {
         this.questionStore.deleteAnswer(answer.questionId, answer.id);
         this.snackbar.show('Respuesta eliminada correctamente', 'ok');

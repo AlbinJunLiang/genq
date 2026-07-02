@@ -4,8 +4,8 @@ export const createAnswer = async (data) => {
     return await Answer.create(data);
 };
 export const updateAnswer = async (id, data) => {
-    const [updatedRowsCount] = await Answer.update(data, { 
-        where: { id } 
+    const [updatedRowsCount] = await Answer.update(data, {
+        where: { id }
     });
 
     if (updatedRowsCount === 0) return null;

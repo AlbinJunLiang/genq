@@ -13,12 +13,10 @@
     }@else {
     @for (q of questions(); track q.id; let i = $index) {
     @let answer = userAnswers().find(a => a.questionId === q.id);
-
     <div class="test-item" [class.active]="!!answer">
       {{ i + 1 }}
     </div>
     }
     }
-
   </div>
 </div>

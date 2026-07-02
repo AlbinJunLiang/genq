@@ -21,6 +21,7 @@ import { QuestionForm } from "../question-form/question-form";
 import { ChangeSlideViewService } from '../../core/services/ui/change-slide-view-service';
 import { SlideView } from '../../core/enums/auth-form-type';
 import { MatCardModule } from '@angular/material/card';
+import { QuestionStore } from '../../core/stores/question-store';
 
 
 @Component({
@@ -46,6 +47,8 @@ export class QuizForm {
   protected selectedQuizService = inject(SelectedQuizService);
   private dialog = inject(MatDialog);
   protected isDeleting = signal(false);
+    protected questionStore = inject(QuestionStore);
+  
 
   constructor(private fb: FormBuilder) {
     this.minDate = new Date();

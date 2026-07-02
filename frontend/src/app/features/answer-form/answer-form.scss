@@ -1,7 +1,9 @@
 mat-dialog-content {
   overflow: hidden !important;
-  max-height: none !important; /* Si tienes una altura máxima, quítala */
+  max-height: none !important;
+  /* Si tienes una altura máxima, quítala */
 }
+
 .w-100 {
   width: 100%;
 }
@@ -11,4 +13,8 @@ mat-dialog-content {
   color: black;
   color: rgb(255, 255, 255);
   background-color: rgb(14, 96, 168);
+}
+
+:host ::ng-deep .spinner-white circle {
+  stroke: #ffffff !important;
 }

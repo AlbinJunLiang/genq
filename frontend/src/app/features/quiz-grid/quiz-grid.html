@@ -9,6 +9,8 @@
       <button (click)="openQuizDetailDialog(quiz)" class="card-btn">Ver más</button>
       @if (authUserStore.userSyncData()?.user?.id == quiz.userId) {
       <button (click)="selectQuiz(quiz)" mat-icon-button class="edit-btn"><mat-icon>edit</mat-icon></button>
+      <button (click)="openLeaderBoard(quiz)" mat-icon-button class="edit-btn"><mat-icon>bar_chart</mat-icon></button>
+
       }
     </div>
   </div>

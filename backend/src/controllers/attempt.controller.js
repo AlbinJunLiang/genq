@@ -1,4 +1,8 @@
-import { deleteAttempt, getUserAttemptsPaginated } from "../services/attempt.service.js";
+import {
+    deleteAttempt,
+    getAttemptsByQuizAndAuthor,
+    getUserAttemptsPaginated
+} from "../services/attempt.service.js";
 
 export const getMyAttempts = async (req, res) => {
     try {
@@ -39,5 +43,25 @@ export const deleteAttemptController = async (req, res) => {
         res.status(500).json({
             error: "Internal server error"
         });
+    }
+};
+
+
+export const getAttemptsController = async (req, res) => {
+    try {
+        const { quizId } = req.params;
+        const authorId = req.user.id;
+        const { sortBy, order, page, limit } = req.query;
+
+        const data = await getAttemptsByQuizAndAuthor(quizId, authorId, { 
+            sortBy, 
+            order, 
+            page: page || 1, 
+            limit: limit || 10 
+        });
+
+        res.status(200).json(data);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 };

@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import {
      create, getMyQuizzes, getPublicQuizzes, startQuizByUuid,
-     getQuizEvaluation, remove, search, update
+     getQuizEvaluation, remove, search, update,
+     createFullQUiz
 } from '../controllers/quiz.controller.js';
 import { verifyFirebaseToken, verifyFirebaseTokenAndUser } from '../middlewares/firebase-middleware.js';
 import { authorize } from '../middlewares/authorize-middleware.js';
@@ -284,7 +285,6 @@ quizRouter.get('/', paginationValidationRules, validateRequest, getPublicQuizzes
  *         description: Quiz no encontrado o visibilidad no permitida
  */
 quizRouter.post('/uuid/:uuid', checkUser, startQuizByUuid);
-
 
 /**
  * @swagger
@@ -570,5 +570,120 @@ quizRouter.delete('/:id', verifyFirebaseTokenAndUser, getQuizMiddleware, authori
  *         description: Error interno del servidor
  */
 quizRouter.post('/evaluate/:uuid', checkUser, getQuizEvaluation);
+
+
+
+/**
+ * @swagger
+ * /api/v1/quizzes/full:
+ *   post:
+ *     summary: Crear un quiz completo
+ *     description: Crea un quiz con preguntas y respuestas usando el usuario autenticado.
+ *     tags:
+ *       - Quizzes
+ *     security:
+ *       - bearerAuth: []
+ *
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - title
+ *               - questions
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 example: Quiz de Matemáticas
+ *               description:
+ *                 type: string
+ *                 example: Evaluación de operaciones básicas.
+ *               visibility:
+ *                 type: string
+ *                 enum: [PUBLIC, PRIVATE]
+ *                 example: PUBLIC
+ *               attemptsLimit:
+ *                 type: integer
+ *                 example: 3
+ *               questions:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   required:
+ *                     - content
+ *                     - type
+ *                     - answers
+ *                   properties:
+ *                     content:
+ *                       type: string
+ *                       example: ¿Cuánto es 2 + 2?
+ *                     type:
+ *                       type: string
+ *                       enum: [UNIQUE, MULTIPLE]
+ *                       example: UNIQUE
+ *                     answers:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         required:
+ *                           - content
+ *                           - isCorrect
+ *                         properties:
+ *                           content:
+ *                             type: string
+ *                             example: "4"
+ *                           isCorrect:
+ *                             type: boolean
+ *                             example: true
+ *
+ *     responses:
+ *       201:
+ *         description: Quiz creado correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Quiz creado exitosamente
+ *                 quiz:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     title:
+ *                       type: string
+ *                       example: Quiz de Matemáticas
+ *                     description:
+ *                       type: string
+ *                       example: Evaluación de operaciones básicas.
+ *                     visibility:
+ *                       type: string
+ *                       example: PUBLIC
+ *                     attemptsLimit:
+ *                       type: integer
+ *                       example: 3
+ *                     userId:
+ *                       type: integer
+ *                       example: 10
+ *                     createdAt:
+ *                       type: string
+ *                       format: date-time
+ *                     updatedAt:
+ *                       type: string
+ *                       format: date-time
+ */
+
+
+quizRouter.post(
+    "/full",
+    validateRequest,
+    verifyFirebaseTokenAndUser,
+    createFullQUiz
+);
 
 export default quizRouter;

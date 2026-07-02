@@ -7,6 +7,9 @@ import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { SnackBarService } from '../../core/services/ui/snackbar-service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../shared/component/confirm/dialog-component';
+import { Router } from '@angular/router';
+import { QuizAttemptResponse } from '../../core/interfaces/attempt-interface';
+import { QuizGradedService } from '../../core/services/ui/quiz-graded-service';
 
 @Component({
   selector: 'app-quiz-history-grid',
@@ -21,7 +24,8 @@ export class QuizHistoryGrid {
   protected snackbar = inject(SnackBarService);
   private dialog = inject(MatDialog);
   private limit = signal<number>(0);
-
+  private router = inject(Router);
+  private quizGradedService = inject(QuizGradedService)
 
 
   ngOnInit(): void {
@@ -80,6 +84,36 @@ export class QuizHistoryGrid {
       }
     });
 
+  }
+
+  protected goToGradedQuiz(object: QuizAttemptResponse) {
+    this.router.navigate(['/graded']);
+    this.quizGradedService.setData(object);
+  }
+
+  private restartQuiz(uuid: string) {
+    this.router.navigate(['/quiz', uuid]);
+  }
+
+
+  protected onRestartQuiz(uuid: string) {
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Nuevo intento',
+        message: '¿Deseas volver a intentar de nuevo?',
+        confirmText: 'Aceptar',
+        cancelText: 'Canceler',
+        color: 'warn'
+      }
+    });      // Bloqueamos la UI para evitar múltiples clics
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.restartQuiz(uuid);
+      }
+    });
   }
 
 }

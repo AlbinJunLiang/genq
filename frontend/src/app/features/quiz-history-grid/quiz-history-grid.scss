@@ -16,11 +16,11 @@
     font-size: 1.7rem;
     font-weight: 700;
     font-family: 'Finlandica Text', sans-serif;
-
 }
 
 .header span {
     color: #777;
+    font-family: 'Finlandica Text', sans-serif;
 }
 
 .list {
@@ -143,10 +143,14 @@
     text-align: center;
     padding: 70px 20px;
     color: #777;
+    font-family: 'Finlandica Text', sans-serif;
+
 }
 
 .empty span {
     font-size: 70px;
+    font-family: 'Finlandica Text', sans-serif;
+
 }
 
 .pagination {
@@ -187,7 +191,8 @@
     align-items: center;
     padding: 2rem;
     width: 100%;
-    min-height: 400px;
+    min-height: 600px;
+    height: 100%;
 }
 
 .page-info {

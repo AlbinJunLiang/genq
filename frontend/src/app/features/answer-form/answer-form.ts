@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MatDialogContent, MatDialogActions, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MatAnchor } from "@angular/material/button";
 import { MatFormField, MatFormFieldModule, MatLabel } from "@angular/material/form-field";
@@ -10,11 +10,12 @@ import { AnswerDialogData } from '../../core/interfaces/answer-dialog-data-inter
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SnackBarService } from '../../core/services/ui/snackbar-service';
 import { QuestionStore } from '../../core/stores/question-store';
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'app-answer-form',
   imports: [MatDialogContent, MatDialogActions, MatAnchor,
-    MatFormField, MatLabel, MatCheckbox, MatInput, ReactiveFormsModule, MatFormFieldModule],
+    MatFormField, MatLabel, MatCheckbox, MatInput, ReactiveFormsModule, MatFormFieldModule, MatProgressSpinner],
   templateUrl: './answer-form.html',
   styleUrl: './answer-form.scss',
 })
@@ -25,6 +26,7 @@ export class AnswerForm {
   protected data = inject<AnswerDialogData>(MAT_DIALOG_DATA);
   private fb = inject(FormBuilder);
   protected snackbar = inject(SnackBarService);
+  protected isLoading = signal(false);
 
   private questionStore = inject(QuestionStore);
   protected answerForm = this.fb.nonNullable.group({
@@ -52,6 +54,7 @@ export class AnswerForm {
   }
 
   protected onSaveAnswer() {
+    this.isLoading.set(true);
     const values = this.answerForm.value;
 
     const newAnswer: CreateAnswerDto = {
@@ -72,14 +75,19 @@ export class AnswerForm {
     this.answerService.createAnswer(newAnswer).subscribe({
       next: (created) => {
         this.snackbar.show('CREADO', 'ok');
+        this.isLoading.set(false);
         this.dialogRef.close(created);
       },
-      error: (err) => console.error('Error al crear:', err)
+      error: (err) => {
+        this.isLoading.set(false);
+        console.error('Error al crear:', err)
+      }
     });
   }
 
 
   protected onUpdateAnswer() {
+    this.isLoading.set(true);
 
     const values = this.answerForm.value;
 
@@ -113,8 +121,13 @@ export class AnswerForm {
       next: (created) => {
         this.snackbar.show('Actualizado', 'ok');
         this.dialogRef.close(created);
+        this.isLoading.set(false);
+
       },
-      error: (err) => console.error('Error al crear:', err)
+      error: (err) => {
+        this.isLoading.set(false);
+        console.error('Error al crear:', err)
+      }
     });
   }
 

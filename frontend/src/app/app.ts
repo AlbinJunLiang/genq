@@ -1,5 +1,5 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Toolbar } from "./features/toolbar/toolbar";
 import { SlideIn } from "./features/slide-in/slide-in";
 import { Footer } from "./features/footer/footer";
@@ -14,6 +14,8 @@ import { SearchBar } from "./features/search-bar/search-bar";
 import { QuizStore } from './core/stores/quiz-store';
 import { LoadingDot } from "./shared/component/loading-dot/loading-dot";
 import { RouteService } from './core/services/ui/route-service';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter, map, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -32,6 +34,10 @@ export class App {
   protected isReady = signal(false);
   protected routeService = inject(RouteService);
   protected isNotQuizRoute = computed(() => !this.routeService.isRoute('/quiz/'));
+  protected router = inject(Router);
+
+
+
 
   ngOnInit() {
     this.isReady.set(false);

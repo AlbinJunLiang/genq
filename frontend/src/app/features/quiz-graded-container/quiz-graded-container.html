@@ -1,0 +1,113 @@
+<div class="quiz-container">
+    <div class="wrap">
+        <main class="card" role="region" aria-label="Evaluación de conocimientos">
+            <div class="content">
+
+
+
+                @if(!isMobile()){
+                <h2 id="title-test">
+                    {{quizGradedService.getData()?.quizDescription}}
+                </h2>
+
+                <div class="summary">
+                    {{quizGradedService.getData()?.quizTitle}}
+                </div>
+                }
+
+                <div class="qualification">
+                    Calificación: <b>{{evaluationResult()?.percentage}}%</b>
+                </div>
+
+
+                <div id="div-stack" class="stack" aria-label="Listado de preguntas">
+
+
+                    @for (review of evaluationResult()?.review; track review.questionId; let i = $index) {
+                    <section #question class="question-block active">
+                        <div class="q-meta">
+                            <span class="pill no-copy">Pregunta
+                                {{ `${i+1}`}}</span>
+
+                        </div>
+                        <h2 class="q-title">{{ review.content }}</h2>
+                        <div class="options">
+                            @for (option of review.answers; track option.id) {
+                            <div class="option no-copy" [class.correct-selected]="option.isSelected && option.isCorrect"
+                                [class.wrong-selected]="option.isSelected && !option.isCorrect">
+                                @if (review.type === 'UNIQUE') {
+                                <span class="bullet"><span class="dot-small"></span></span>
+                                } @else {
+                                <span class="checkbox-box"></span>
+                                }
+
+                                @if(option.isCorrect){
+                                <span class="option-text">{{ option.content }}
+
+                                    <img src="check.svg" alt="Incorrecto" class="answer-icon"
+                                        onerror="this.outerHTML='❌'">
+                                </span>
+                                }@else {
+                                <span class="option-text">{{ option.content }}
+
+                                    <img src="wrong.svg" alt="Incorrecto" class="answer-icon"
+                                        onerror="this.outerHTML='❌'">
+                                </span>
+                                }
+
+                            </div>
+                            }
+                        </div>
+
+                        <div class="feedback" style="margin-bottom: 1px;">
+                            <b>Respuesta:</b>
+                            {{review.feedback}}
+
+                        </div>
+                    </section>
+                    @if(isMobile()){
+                    <mat-divider></mat-divider>
+                    }
+                    }
+
+
+
+                    <div class="q-footer">
+                        <div class="left">
+                            <div class="result"></div>
+                        </div>
+                        <div class="right">
+
+                            <button (click)="restartQuiz()" class="restart" type="button">
+                                Reiniciar quiz
+                            </button>
+
+                            <button routerLink="/history" class="exit" type="button">
+                                Salir
+                            </button>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+
+<div class="sticky-element">
+    <div class="test-navbar-container">
+        <div class="test-navbar">
+
+            @for (q of evaluationResult()?.review; track q.questionId; let i = $index) {
+
+            <div (click)="goToQuestion(i)" class="test-item" [class.wrong]="(q.score === 0)"
+                [class.correct]="(q.score === 1)" [class.partial]="q.score > 0 && q.score < 1">
+                {{ i + 1 }}
+            </div>
+            }
+        </div>
+    </div>
+</div>
