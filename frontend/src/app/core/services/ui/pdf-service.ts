@@ -1,22 +1,25 @@
-import { Injectable } from "@angular/core";
-
+import { Injectable } from '@angular/core';
 import * as pdfjsLib from 'pdfjs-dist';
-
-(pdfjsLib as any).GlobalWorkerOptions.workerSrc =
-    `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js`;
-
 
 @Injectable({
     providedIn: 'root'
 })
-
-
 export class PdfService {
+
+    constructor() {
+        (pdfjsLib as any).GlobalWorkerOptions.workerSrc =
+            new URL(
+                'pdfjs-dist/build/pdf.worker.min.mjs',
+                import.meta.url
+            ).toString();
+    }
 
     async extractText(file: File): Promise<string> {
         const arrayBuffer = await file.arrayBuffer();
 
-        const pdf = await (pdfjsLib as any).getDocument({ data: arrayBuffer }).promise;
+        const pdf = await (pdfjsLib as any)
+            .getDocument({ data: arrayBuffer })
+            .promise;
 
         let fullText = '';
 
@@ -28,10 +31,9 @@ export class PdfService {
                 .map((item: any) => item.str)
                 .join(' ');
 
-            fullText += `Página ${i}\n${pageText}\n\n`;
+            fullText += `${i}-${pageText}\n`;
         }
 
         return fullText;
     }
 }
-

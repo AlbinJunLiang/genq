@@ -6,19 +6,67 @@
     <h2 mat-dialog-title class="dialog-title">Generar quiz</h2>
 
     <mat-dialog-content class="dialog-body">
-        <form class="form-container">
+        <form class="form-container" [class.field-custom]="isJsonDocument()">
             <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Ingrese la instrucción</mat-label>
+                <mat-label>{{isJsonDocument() ? 'Ingrese el documento JSON': 'Ingrese la instrucción'}}</mat-label>
+
+
 
                 <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="6" cdkAutosizeMaxRows="12"
-                    [value]="instruction()" (input)="instruction.set($any($event.target).value)"
-                    placeholder="Ej: Fundamentos de IA">
+                    class="auto-resize-textarea" [value]="instruction()"
+                    (input)="instruction.set($any($event.target).value)"
+                    [placeholder]="!isJsonDocument() ? 'Ingrese la instrucción aquí...' : jsontemplate">
+
+
+
   </textarea>
 
+
+
+
             </mat-form-field>
+            <div style="margin-bottom: 10px;">
+
+                @if (isJsonDocument()) {
+                @let result = validation();
+                @let jsonStatus = parsedJson();
+
+                @if (jsonStatus === 'INVALID_JSON') {
+                <mat-error class="error-msg">
+                    Error: El formato no es un JSON válido (revisa comas o llaves).
+                </mat-error>
+                }
+
+                @if (result && !result.success) {
+                <ul class="error-list">
+                    @for (error of result.error.issues; track $index) {
+                    <li>
+                        <mat-error>
+                            <strong>{{ error.path.join('.') }}:</strong> {{ error.message }}
+                        </mat-error>
+                    </li>
+                    }
+                </ul>
+                }
+                }@else {
+                @if (instruction().trim() === '') {
+                <mat-error class="error-msg">
+                    La instrucción no puede estar vacía.
+                </mat-error>
+                }@else if (instruction().trim().length> 3000) {
+                <mat-error class="error-msg">
+                    No puede superar los 3000 caracteres
+                </mat-error>
+                }@else if ( instruction().trim().length<10) { <mat-error class="error-msg">
+                    Debe ingresar como mínimo 10 caractres </mat-error>
+                    }
+                    }
+            </div>
+
         </form>
 
         <div class="details-card">
+            @if(!isJsonDocument()){
 
             <div class="details-title">
                 <mat-icon>info</mat-icon>
@@ -32,11 +80,37 @@
                 Cada pregunta podrá incluir entre 2 y 5 opciones.
             </p>
 
-            <input type="file" (change)="onFileSelected($event)" accept="application/pdf" />
+            }@else {
+            <div class="details-title">
+                <mat-icon>info</mat-icon>
+                <h3>Para IAs externas (JSON)</h3>
+            </div>
 
-            <button (click)="extract()">Extraer texto</button>
 
-            <pre>{{ text()}}</pre>
+            <div class="info-box">
+
+                @let info = `Eres un generador de quizzes experto sobre el tema (Indicar). Tu respuesta debe ser un
+                objeto JSON puro.
+                Comienza con '{' y termina con '}'. No incluyas explicaciones ni etiquetas Markdown.`;
+                <p> 
+                    Instrucciones: {{info}}
+                </p>
+                <div class="json-container">
+                    <button mat-icon-button class="copy-button" (click)="copyToClipboard()"
+                        matTooltip="Copiar plantilla">
+                        <mat-icon>content_copy</mat-icon>
+                    </button>
+
+                    <pre class="json-template">{{ jsontemplate }}</pre>
+                </div>
+            </div>
+
+
+            }
+
+
+            <input #fileInput type="file" hidden (change)="onFileSelected($event)" accept="application/pdf" />
+
         </div>
 
 
@@ -46,17 +120,20 @@
     <mat-dialog-actions align="center" class="footer-actions">
         <div class="actions">
 
-            <button mat-stroked-button class="secondary-btn">
-                <mat-icon>upload_file</mat-icon>
-                Subir documento
+            @if(!isJsonDocument()){
+            <button (click)="fileInput.click()" mat-stroked-button class="secondary-btn">
+                <mat-icon> picture_as_pdf </mat-icon>
+                Subir documento PDF
+            </button>
+            }
+
+            <button (click)="toggleJsonDocument()" mat-stroked-button class="secondary-btn">
+                <mat-icon>{{!isJsonDocument() ? 'data_object': 'short_text'}}</mat-icon>
+
+                {{isJsonDocument() ? 'Instrucción':'Ingresar JSON'}}
             </button>
 
-            <button mat-stroked-button class="secondary-btn">
-                <mat-icon>data_object</mat-icon>
-                Ingresar JSON
-            </button>
-
-            <button mat-flat-button class="primary-btn">
+            <button [disabled]="!isFormValid()" mat-flat-button class="primary-btn">
                 <mat-icon>auto_awesome</mat-icon>
                 Generar Quiz
             </button>

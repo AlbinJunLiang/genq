@@ -45,7 +45,7 @@ mat-dialog-content::-webkit-scrollbar{
 /* Ajustes del Textarea */
 .auto-resize-textarea {
     min-height: 200px;
-    max-height: 300px;
+    max-height: 250px;
     overflow-y: auto;
     resize: vertical;
 }
@@ -70,6 +70,12 @@ mat-dialog-content::-webkit-scrollbar{
     border-radius: 50%;
 }
 
+/* Ajuste específico para el icono dentro del botón */
+.btn-close mat-icon {
+    font-size: 18px; /* Tamaño del icono */
+    width: 18px;     /* Fuerza el ancho del icono */
+    height: 18px;    /* Fuerza el alto del icono */
+}
 /* Botón de acción al final */
 .footer-actions {
     padding: 15px;
@@ -112,8 +118,6 @@ mat-dialog-content::-webkit-scrollbar{
     line-height: 1.6;
     font-size: 14px;
 }
-
-
 
 
 .actions {
@@ -169,6 +173,38 @@ mat-dialog-content::-webkit-scrollbar{
     background: #f5f5f5;
 }
 
+
+::ng-deep .field-custom .mat-mdc-floating-label {
+    color: #9b044a !important;
+}
+
+/*
+::ng-deep .field-custom.mat-focused .mat-mdc-floating-label {
+    color: #ff2285 !important;
+}*/
+.json-container {
+    position: relative; /* Esto es lo que permite que el botón se posicione dentro */
+    display: inline-block; /* O 'block' si quieres que ocupe todo el ancho */
+    width: 100%;
+}
+
+.json-template {
+    background-color: #f4f4f4;
+    padding: 15px;
+    padding-right: 45px; /* IMPORTANTE: Deja espacio para que el botón no tape el texto */
+    border-radius: 5px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    border: 1px solid #ddd;
+    overflow-x: auto;
+}
+
+.copy-button {
+    position: absolute;
+    top: 18px;
+    right: 5px;
+    color: #673ab7; /* Color de tu tema */
+}
 /* Tablets */
 @media (max-width: 768px) {
     .actions {
