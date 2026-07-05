@@ -11,6 +11,7 @@ import { SlideView } from '../../core/enums/auth-form-type';
 import { MatDialog } from '@angular/material/dialog';
 import { VerifyDialog } from '../verify-dialog/verify-dialog';
 import { MatDividerModule } from '@angular/material/divider';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-toolbar-main-menu',
@@ -25,6 +26,7 @@ export class ToolbarMainMenu {
   protected snackbar = inject(SnackBarService);
   private changeSlideViewService = inject(ChangeSlideViewService);
   private dialog = inject(MatDialog);
+  private router = inject(Router);
 
   openLogin() {
     this.changeSlideViewService.setView(SlideView.LOGIN);
@@ -49,6 +51,7 @@ export class ToolbarMainMenu {
     this.authService.logout().subscribe({
       next: (user) => {
         this.snackbar.show(this.languageService.translate('SESSION_LOGOUT_MESSAGE'), 'Ok');
+        this.router.navigate(['/home']);
       }
     });
   }

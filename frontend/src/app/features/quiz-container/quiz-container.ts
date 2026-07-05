@@ -30,7 +30,7 @@ import { QuizStateService } from '../../core/services/ui/quiz-state-service';
 })
 export class QuizContainer {
 
-  protected quizId = input.required<string>();
+  protected quizUuid = input.required<string>();
   protected userAnswers = signal<UserAnswer[]>([]);
   protected quizNavService = inject(QuizNavService);
   protected isFinalized = signal<boolean>(false);
@@ -75,12 +75,12 @@ export class QuizContainer {
     // 1. Intentar cargar desde el storage
     const savedQuiz = this.quizStateService.loadFromStorage();
 
-    if (savedQuiz) {
+    if (savedQuiz && this.savedUuidIsEqualCurrent(savedQuiz.quiz.uuid)) {
       this.applyDataToSignals(savedQuiz);
       this.isLoading.set(false);
     } else {
       // 2. Si no hay, cargar desde API
-      this.quizService.startQuizByUuid(this.quizId()).subscribe({
+      this.quizService.startQuizByUuid(this.quizUuid()).subscribe({
         next: (data) => {
           if (!data.quiz.questions?.length) {
             this.snackbar.show("Quiz sin preguntas", 'Cerrar');
@@ -107,6 +107,10 @@ export class QuizContainer {
     this.quiz.set(data.quiz);
     this.attemptUuid.set(data.attemptUuid);
     this.quizNavService.setTotalQuestions(data.quiz.questions.length);
+  }
+
+  private savedUuidIsEqualCurrent(savedQuizUuid: string) {
+    return savedQuizUuid === this.quizUuid()
   }
 
   selectAnswer(question: QuestionFromQuiz, selectedAnswer: Answer) {
@@ -176,7 +180,6 @@ export class QuizContainer {
       a => a.questionId === currentQuestion.id && a.answerIds.length > 0
     );
   }
-
 
   protected evaluateQuiz() {
     this.isLoading.set(true);
@@ -252,8 +255,11 @@ export class QuizContainer {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.resetQuiz();
         this.quizStateService.clearStorage();
+        this.userAnswers.set([]);
+        this.evaluationResult.set(null);
+        this.isFinalized.set(false);
+        this.quizNavService.goToQuestion(0);
         this.router.navigate(['/home']);
       }
     });

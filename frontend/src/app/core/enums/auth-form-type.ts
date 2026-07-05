@@ -6,5 +6,4 @@ export enum SlideView {
     CREATE_QUIZ_FORM = 'CREATE_QUIZ_FORM',
     EDIT_QUIZ_FORM = 'EDIT_QUIZ_FORM',
     LEADER_BOARD = 'LEADER_BOARD'
-
 }

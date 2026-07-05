@@ -1,61 +1,34 @@
-import { generateCompletion } from "../completions/completion.js";
+import { generateQuiz } from "../services/generate-quiz-service.js";
 
 export const completionController = async (req, res) => {
     try {
+
         const {
             content,
-            instruction,
-            context,
-            system,
+            provider,
             model,
-            isJson,
-            provider
+            language = "ESPAÑOL"
         } = req.body;
 
-        // 1. Validación básica de campos obligatorios
-        if (!content || !provider) {
-            return res.status(400).json({
-                error: "Los campos 'content' y 'provider' son obligatorios."
-            });
-        }
-const systemInstruction = `Actúa como un experto en creación de contenido educativo. 
-Genera un JSON estrictamente válido que represente un quiz basado en el tema indicado.
-Reglas:
-1. Estructura obligatoria: {"title": "string", "description": "string", "visibility": "PUBLIC", "attemptsLimit": 3, "questions": [{"content": "string", "type": "UNIQUE" | "MULTIPLE", "answers": [{"content": "string", "isCorrect": boolean}]}]}.
-2. Máximo 10 preguntas.
-3. Mínimo 3 opciones por pregunta.
-4. 50% de preguntas UNIQUE y 50% MULTIPLE.
-5. Devuelve únicamente el objeto JSON, sin explicaciones ni markdown.`;
-        // 2. Ejecutar el servicio centralizado
-        const response = await generateCompletion({
+        const quiz = await generateQuiz({
             content,
-            instruction: systemInstruction || '',
-            context: context || '',
-            system: system !== undefined ? system : true,
+            provider,
             model,
-            isJson: isJson || false,
-            provider
+            language
         });
 
-        // 3. Responder al usuario
-        // Si isJson es true, podrías querer parsear el resultado si es string
-        return res.status(200).json({
-            success: true,
-            data: response
+        return res.status(201).json({
+            message: "Quiz generado exitosamente.",
+            quiz
         });
 
     } catch (error) {
-        // Log detallado para el servidor
-        console.error("Error en completionController:", error);
 
-        // Manejo de errores específicos
-        if (error.message === "Provider not supported.") {
-            return res.status(422).json({ error: error.message });
-        }
+        console.error(error);
 
         return res.status(500).json({
-            error: "Error interno al generar la respuesta de la IA.",
-            details: error.message
+            message: error.message || "Error al generar el quiz."
         });
+
     }
 };

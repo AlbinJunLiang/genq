@@ -65,7 +65,8 @@ export const createBody = ({
     const body = {
         model: model,
         messages: messages,
-        temperature: isJson ? 0 : 0.7
+        temperature: isJson ? 0 : 0.7,
+        max_tokens: 4600
     };
 
     if (isJson) {

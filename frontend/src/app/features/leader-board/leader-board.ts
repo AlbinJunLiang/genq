@@ -36,9 +36,7 @@ export class LeaderBoard {
   protected paginationData = signal<Pagination | null>(null);
   protected leaderboardAttempts = signal<LeaderboardAttempt[] | null>(null);
   protected displayedColumns: string[] = ['position', 'email', 'finishedAt', 'createdAt', 'score'];
-  protected closeSlide() {
-    this.slideInModal.close();
-  }
+
   protected pageSize = signal(5);
   protected currentPage = signal(1);
   protected totalItems = signal(0);
@@ -138,5 +136,9 @@ protected onFilterChange(value: string): void {
   const quizId = this.selectedQuizService.selectedQuiz()?.id ?? 0;
   this.loadAttempts(quizId);
 }
+
+  protected closeSlide() {
+    this.slideInModal.close();
+  }
 
 }

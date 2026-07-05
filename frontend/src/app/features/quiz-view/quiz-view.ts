@@ -6,6 +6,9 @@ import { ChangeSlideViewService } from '../../core/services/ui/change-slide-view
 import { SlideView } from '../../core/enums/auth-form-type';
 import { SelectedQuizService } from '../../core/services/ui/selected-quiz-service';
 import { QuizStore } from '../../core/stores/quiz-store';
+import { AuthService } from '../../auth/auth-service';
+import { MatDialog } from '@angular/material/dialog';
+import { GenQuizForm } from '../quiz-gen-form/gen-quiz-form';
 
 @Component({
   selector: 'app-quiz-view',
@@ -19,11 +22,43 @@ export class QuizView {
   protected changeSlideViewService = inject(ChangeSlideViewService);
   protected selectedQuizService = inject(SelectedQuizService);
   protected quizStore = inject(QuizStore);
+  private authService = inject(AuthService);
+  private dialog = inject(MatDialog);
+
+
 
 
   openCreateQuizView() {
-    this.selectedQuizService.clearSelectedQuiz();
-    this.changeSlideViewService.setView(SlideView.CREATE_QUIZ_FORM);
-    this.slideInModal.open()
+    if (this.authService.isLoggedIn()) {
+      this.selectedQuizService.clearSelectedQuiz();
+      this.changeSlideViewService.setView(SlideView.CREATE_QUIZ_FORM);
+      this.slideInModal.open()
+    } else {
+      this.openLogin();
+    }
   }
+
+  openGenerate() {
+    if (this.authService.isLoggedIn()) {
+      const dialogRef = this.dialog.open(GenQuizForm, {
+        width: '95%',
+        maxWidth: '600px',
+        height: '70%'
+      });
+
+
+    } else {
+      this.openLogin();
+    }
+
+  }
+
+  openLogin() {
+    this.changeSlideViewService.setView(SlideView.LOGIN);
+    this.slideInModal.open();
+  }
+
+
+
+
 }

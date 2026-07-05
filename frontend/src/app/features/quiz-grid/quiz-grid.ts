@@ -27,6 +27,7 @@ export class QuizGrid {
   protected changeSlideViewService = inject(ChangeSlideViewService);
   private dialog = inject(MatDialog);
 
+
   ngOnInit() {
     this.quizStore.loadQuizzes(1, 8);
   }

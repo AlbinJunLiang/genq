@@ -54,13 +54,6 @@
   width: 100%;
 }
 
-.random-btn-container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin-top: 100px
-}
-
 
 .main-title {
   text-align: center;
@@ -120,24 +113,14 @@
 }
 
 
-.btn-outline {
-  background: blue;
-  color: #ffffff;
-  padding: 8px 60px;
-  /* Pon 0 si lo quieres completamente cuadrado */
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  border: none;
-}
-
-.btn-outline:hover {
-  background: #fff8f8;
-}
-
 
 @media (max-width: 768px) {
+
+  .hero-section {
+  min-height: 80vh;
+}
+
+
   .header-section {
     padding: 60px 20px 20px 20px;
 
@@ -150,6 +133,5 @@
 
   .zoom-image {
     width: 200px;
-
   }
 }

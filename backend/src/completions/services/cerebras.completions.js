@@ -66,7 +66,7 @@ export const createBody = ({
         stream: false,
         messages: messages,
         temperature: isJson ? 0 : 0.7,
-        max_tokens: 1024,
+        max_tokens: 4600,
         top_p: 1,
         seed: 0,
     };

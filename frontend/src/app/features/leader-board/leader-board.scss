@@ -22,7 +22,6 @@
 /* 1. Asegura que el contenedor sea el ancla */
 .container {
     position: relative;
-    /* CRÍTICO: Esto hace que el btn-close se posicione AQUÍ y no en toda la pantalla */
     height: 100vh;
     padding: 20px;
     /* Un poco más de aire */

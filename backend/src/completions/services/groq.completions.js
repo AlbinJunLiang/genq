@@ -28,7 +28,7 @@ export const groqCompletion = async ({
 
         const data = await response.json();
         return data.choices[0].message.content;
-        
+
     } catch (error) {
         throw error;
     }
@@ -48,7 +48,7 @@ export const createBody = ({
 
     if (system && instruction) {
 
-        const finalInstruction = isJson 
+        const finalInstruction = isJson
             ? `${instruction} You must output the response strictly as a valid JSON object.`
             : instruction;
 
@@ -67,6 +67,7 @@ export const createBody = ({
     const body = {
         model: validModel,
         messages: messages,
+        max_tokens: 4600,
         temperature: isJson ? 0 : 0.7
     };
 

@@ -1,0 +1,66 @@
+<div class="container">
+    <button (click)="close()" class="btn-close">
+        <mat-icon style="font-size: 20px;">close</mat-icon>
+    </button>
+
+    <h2 mat-dialog-title class="dialog-title">Generar quiz</h2>
+
+    <mat-dialog-content class="dialog-body">
+        <form class="form-container">
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Ingrese la instrucción</mat-label>
+
+                <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="6" cdkAutosizeMaxRows="12"
+                    [value]="instruction()" (input)="instruction.set($any($event.target).value)"
+                    placeholder="Ej: Fundamentos de IA">
+  </textarea>
+
+            </mat-form-field>
+        </form>
+
+        <div class="details-card">
+
+            <div class="details-title">
+                <mat-icon>info</mat-icon>
+                <h3>Detalles adicionales (Prompt)</h3>
+            </div>
+
+            <p>
+                El prompt para la generación del quiz debe contener un máximo de 20 caracteres.
+                El quiz generado estará compuesto por entre 1 y 10 preguntas, con una distribución del 50% de
+                preguntas de opción múltiple y 50% de respuesta única.
+                Cada pregunta podrá incluir entre 2 y 5 opciones.
+            </p>
+
+            <input type="file" (change)="onFileSelected($event)" accept="application/pdf" />
+
+            <button (click)="extract()">Extraer texto</button>
+
+            <pre>{{ text()}}</pre>
+        </div>
+
+
+
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="center" class="footer-actions">
+        <div class="actions">
+
+            <button mat-stroked-button class="secondary-btn">
+                <mat-icon>upload_file</mat-icon>
+                Subir documento
+            </button>
+
+            <button mat-stroked-button class="secondary-btn">
+                <mat-icon>data_object</mat-icon>
+                Ingresar JSON
+            </button>
+
+            <button mat-flat-button class="primary-btn">
+                <mat-icon>auto_awesome</mat-icon>
+                Generar Quiz
+            </button>
+
+        </div>
+    </mat-dialog-actions>
+</div>
