@@ -212,7 +212,7 @@ export const getQuizEvaluation = async (req, res) => {
 };
 
 
-export const createFullQUiz = async (req, res) => {
+export const createFullQuiz = async (req, res) => {
     try {
         const {
             title,
@@ -227,6 +227,7 @@ export const createFullQUiz = async (req, res) => {
 
         const formattedQuestions = questions.map(question => ({
             content: question.content,
+            feedback: question.feedback,
             type: question.type,
             answers: question.answers.map(answer => ({
                 content: answer.content,

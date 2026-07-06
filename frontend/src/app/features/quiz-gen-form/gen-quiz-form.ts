@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { MatIcon } from "@angular/material/icon";
 import { SlideInModalService } from '../../core/services/ui/slide-in-modal-service';
 import { MatError, MatFormField, MatFormFieldModule, MatLabel } from "@angular/material/form-field";
@@ -9,6 +9,11 @@ import { PdfService } from '../../core/services/ui/pdf-service';
 import { SnackBarService } from '../../core/services/ui/snackbar-service';
 import { MatButtonModule } from "@angular/material/button";
 import { QuizSchema } from '../../core/schemas/quiz-schema';
+import { MatOption } from "@angular/material/core";
+import { MatSelect } from "@angular/material/select";
+import { ModelStore } from '../../core/stores/model-store';
+import { ConfigService } from '../../core/services/ui/config-service';
+import { ModelConfig } from '../../core/interfaces/model-interface';
 
 
 
@@ -17,7 +22,7 @@ import { QuizSchema } from '../../core/schemas/quiz-schema';
   selector: 'app-gen-quiz-form',
   imports: [MatIcon, MatError, MatFormField,
     MatLabel, MatFormFieldModule, MatInput, MatDialogContent,
-    MatDialogActions, MatDialogTitle, FormsModule, ReactiveFormsModule, MatButtonModule],
+    MatDialogActions, MatDialogTitle, FormsModule, ReactiveFormsModule, MatButtonModule, MatOption, MatSelect],
   templateUrl: './gen-quiz-form.html',
   styleUrl: './gen-quiz-form.scss',
 })
@@ -28,6 +33,23 @@ export class GenQuizForm {
   protected instruction = signal('');
   protected isJsonDocument = signal(false);
   private snackbar = inject(SnackBarService);
+  protected modelStore = inject(ModelStore);
+  private configService = inject(ConfigService);
+
+  public selectedModel = this.configService.model;
+
+  constructor() {
+    this.modelStore.loadModels();
+
+    effect(() => {
+      const loading = this.modelStore.isLoading();
+      const models = this.modelStore.models();
+
+      if (!loading && models.length > 0) {
+        this.selectModel(models[0]);
+      }
+    });
+  }
 
   protected parsedJson = computed(() => {
     const content = this.instruction();
@@ -35,7 +57,6 @@ export class GenQuizForm {
     try {
       return JSON.parse(content);
     } catch (e) {
-      console.log("Error de parseo JSON:", e);
       return 'INVALID_JSON'; // Marcamos explícitamente el error de formato
     }
   });
@@ -64,28 +85,27 @@ export class GenQuizForm {
   });
 
 
-
-  protected jsontemplate = `Estructura requerida:
+protected jsontemplate = `Estructura requerida:
 {
   "title": "string",
   "description": "string",
-  "visibility": "PUBLIC | PRIVATE",
+  "visibility": "PUBLIC | PRIVATE | ACCESS_ONLY_VIA_LINK | INACTIVE",
   "attemptsLimit": 3,
   "questions": [
     {
       "content": "string",
-      "type": "MULTIPLE | SINGLE",
+      "type": "UNIQUE | MULTIPLE",
+      "feedback": "string",
       "answers": [
         {
           "content": "string",
-          "isCorrect": false
+          "isCorrect": boolean
         }
       ]
     }
   ]
 }
 `;
-
 
   file!: File;
   text = signal('');
@@ -142,5 +162,16 @@ export class GenQuizForm {
     }
   }
 
+  // En tu componente
+  onSelectionChange(id: number) {
+    const model = this.modelStore.models().find(m => m.id === id);
+    if (model) {
+      this.selectedModel.set(model); // O tu lógica para guardar el modelo seleccionado
+    }
+  }
+
+  selectModel(model: ModelConfig) {
+    this.selectedModel.set(model);
+  }
 
 }

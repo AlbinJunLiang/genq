@@ -47,6 +47,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         {
             path: '/attempts',
             methods: ['DELETE', 'POST', 'GET']
+        },
+        {
+            path: '/models',
+            methods: ['DELETE', 'POST', 'PUT']
         }
     ];
 

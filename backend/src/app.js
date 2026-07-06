@@ -7,6 +7,7 @@ import answerRouter from './routes/answer.routes.js';
 import cors from "cors";
 import attemptRouter from './routes/attempt.routes.js';
 import completionRouter from './routes/completion.routes.js';
+import modelRouter from './routes/model.routes.js';
 
 
 const app = express();
@@ -34,6 +35,7 @@ app.use(`/api/${apiVersion}/questions`, questionRouter);
 app.use(`/api/${apiVersion}/answers`, answerRouter);
 app.use(`/api/${apiVersion}/attempts`, attemptRouter);
 app.use(`/api/${apiVersion}/completions`, completionRouter);
+app.use(`/api/${apiVersion}/models`, modelRouter);
 
 
 

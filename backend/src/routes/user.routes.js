@@ -4,6 +4,10 @@ import { userNamesValidationRules } from '../validators/user-validator.js';
 import { validateRequest } from '../middlewares/bad-request-error.js';
 import { verifyFirebaseTokenAndUser } from '../middlewares/firebase-middleware.js';
 import { authorize } from '../middlewares/authorize-middleware.js';
+import { updateUserValidationRules } from '../validators/user-validator.js';
+import { update } from '../controllers/user.controller.js';
+import { initRateLimit, rateLimitWithAdminExclusion } from '../middlewares/rate-limit-middleware.js';
+import { allowOnlyEmails } from '../middlewares/allowed-emails-middleware.js';
 
 const userRoutes = Router();
 
@@ -99,15 +103,14 @@ const userRoutes = Router();
  *       401:
  *         description: Token no provisto
  */
-userRoutes.post('/auth', userController.register);
+userRoutes.post('/auth', initRateLimit(5, 100), userController.register);
 
 
-import { updateUserValidationRules } from '../validators/user-validator.js';
-import { update } from '../controllers/user.controller.js';
+
 
 /**
  * @swagger
- * /api/v1/users/{id}:
+ * /api/v1/users/{email}:
  *   put:
  *     summary: Actualizar datos de un usuario (solo ADMIN)
  *     tags: [Users]
@@ -115,11 +118,11 @@ import { update } from '../controllers/user.controller.js';
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: email
  *         required: true
  *         schema:
- *           type: integer
- *         description: ID interno del usuario
+ *           type: string
+ *         description: Email del usuario
  *     requestBody:
  *       required: true
  *       content:
@@ -184,11 +187,11 @@ import { update } from '../controllers/user.controller.js';
  *       404:
  *         description: Usuario no encontrado
  */
-userRoutes.put('/:id',
+userRoutes.put('/:email',
     updateUserValidationRules,
     validateRequest,
     verifyFirebaseTokenAndUser,
-    authorize('onlyAdmin'),
+    allowOnlyEmails,
     update);
 
 /**
@@ -246,6 +249,7 @@ userRoutes.put('/:id',
  *         description: Error interno del servidor
  */
 userRoutes.get('/email/:email', userController.findByEmail);
+
 
 /**
  * @swagger
@@ -324,7 +328,13 @@ userRoutes.get('/email/:email', userController.findByEmail);
  *       404:
  *         description: Usuario no encontrado
  */
-userRoutes.patch('/:id/names', userNamesValidationRules, validateRequest, verifyFirebaseTokenAndUser, authorize('canUpdateNames'), userController.updateNames);
+userRoutes.patch('/:id/names',
+    initRateLimit(5, 100),
+    userNamesValidationRules,
+    validateRequest,
+    verifyFirebaseTokenAndUser,
+    authorize('canUpdateNames'),
+    userController.updateNames);
 
 /**
  * @swagger
@@ -360,6 +370,7 @@ userRoutes.patch('/:id/names', userNamesValidationRules, validateRequest, verify
 userRoutes.delete('/:id',
     validateRequest,
     verifyFirebaseTokenAndUser,
+    rateLimitWithAdminExclusion(5, 100),
     authorize('onlyAdmin'),
     userController.remove);
 

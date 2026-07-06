@@ -6,6 +6,7 @@ import { getQuestionMiddleware } from '../middlewares/get-question-middleware.js
 import { verifyFirebaseTokenAndUser } from '../middlewares/firebase-middleware.js';
 import { createAnswerValidationRules, updateAnswerValidationRules } from '../validators/answer-validator.js';
 import { validateRequest } from '../middlewares/bad-request-error.js';
+import { initRateLimit } from '../middlewares/rate-limit-middleware.js';
 
 const answerRouter = Router();
 
@@ -56,6 +57,7 @@ const answerRouter = Router();
  *         description: No autorizado
  */
 answerRouter.post('/',
+    initRateLimit(1, 1000),
     createAnswerValidationRules,
     validateRequest,
     verifyFirebaseTokenAndUser,
@@ -101,6 +103,7 @@ answerRouter.post('/',
  *         description: No autorizado
  */
 answerRouter.put('/:answerId',
+    initRateLimit(1, 100),
     updateAnswerValidationRules,
     validateRequest,
     verifyFirebaseTokenAndUser,
@@ -131,10 +134,11 @@ answerRouter.put('/:answerId',
  *       401:
  *         description: No autorizado
  */
-answerRouter.delete('/:answerId', 
+answerRouter.delete('/:answerId',
+    initRateLimit(5, 1000),
     verifyFirebaseTokenAndUser,
     getAnswerMiddleware,
     authorize('canDeleteAnswer'),
-     answerController.remove);
+    answerController.remove);
 
 export default answerRouter;

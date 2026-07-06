@@ -8,7 +8,8 @@ const AnswerSchema = z.object({
 const QuestionSchema = z.object({
     content: z.string().min(1).max(600),
     type: z.enum(['MULTIPLE', 'SINGLE']),
-    answers: z.array(AnswerSchema).min(1)
+    answers: z.array(AnswerSchema).min(1),
+    feedback: z.string().min(0).max(600).optional().default(''),
 });
 
 export const QuizSchema = z.object({

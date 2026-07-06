@@ -1,6 +1,7 @@
-import { generateQuiz } from "../services/generate-quiz-service.js";
+import { generateQuiz } from "../services/generate-quiz.service.js";
 
-export const completionController = async (req, res) => {
+
+export const generateQuizController = async (req, res) => {
     try {
 
         const {
@@ -10,15 +11,19 @@ export const completionController = async (req, res) => {
             language = "ESPAÑOL"
         } = req.body;
 
+        const userId = req.user.id;
+
+
         const quiz = await generateQuiz({
             content,
             provider,
             model,
-            language
+            language,
+            userId
         });
 
         return res.status(201).json({
-            message: "Quiz generado exitosamente.",
+            message: "Quiz generated successfully.",
             quiz
         });
 
@@ -27,7 +32,7 @@ export const completionController = async (req, res) => {
         console.error(error);
 
         return res.status(500).json({
-            message: error.message || "Error al generar el quiz."
+            message: error.message || "Error generating the quiz."
         });
 
     }

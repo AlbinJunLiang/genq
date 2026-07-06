@@ -5,6 +5,8 @@ import { QuizContainer } from './features/quiz-container/quiz-container';
 import { QuizHistoryGrid } from './features/quiz-history-grid/quiz-history-grid';
 import { QuizGradedContainer } from './features/quiz-graded-container/quiz-graded-container';
 import { authGuard } from './core/guards/auth-guards';
+import { ModelTable } from './features/model-table/model-table';
+import { adminGuard } from './core/guards/admin-guards';
 
 export const routes: Routes = [
     { path: '', component: Home },
@@ -13,6 +15,6 @@ export const routes: Routes = [
     { path: 'home', redirectTo: '', pathMatch: 'full' },
     { path: 'quiz/:quizUuid', component: QuizContainer },
     { path: 'graded', component: QuizGradedContainer, canActivate: [authGuard] },
-    // Ruta comodín (siempre debe ir al final)
+    { path: 'models', component: ModelTable, canActivate:[adminGuard] },
     { path: '**', redirectTo: '', pathMatch: 'full' }
 ];

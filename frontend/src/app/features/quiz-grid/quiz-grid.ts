@@ -11,6 +11,7 @@ import { SlideView } from '../../core/enums/auth-form-type';
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { MatDialog } from '@angular/material/dialog';
 import { QuizDetailDialog } from '../quiz-detail-dialog/quiz-detail-dialog';
+import { QuizVisibilityService } from '../../core/services/ui/quiz-visibility.service';
 
 @Component({
   selector: 'app-quiz-grid',
@@ -26,6 +27,7 @@ export class QuizGrid {
   protected slideInModal = inject(SlideInModalService);
   protected changeSlideViewService = inject(ChangeSlideViewService);
   private dialog = inject(MatDialog);
+  private visibilityService = inject(QuizVisibilityService);
 
 
   ngOnInit() {
@@ -36,8 +38,14 @@ export class QuizGrid {
   nextPage() {
     if (this.quizStore.isLoading()) return;
     const next = this.quizStore.currentPage() + 1;
+
     if (next <= this.quizStore.totalPages()) {
-      this.quizStore.loadMyQuizzes(next, 8);
+      if (this.visibilityService.visibility() === 'GLOBAL') {
+        this.quizStore.loadQuizzes(next, 8);
+      } else {
+        this.quizStore.loadMyQuizzes(next, 8, this.visibilityService.visibility());
+
+      }
     }
   }
 
@@ -45,7 +53,11 @@ export class QuizGrid {
     if (this.quizStore.isLoading()) return;
     const prev = this.quizStore.currentPage() - 1;
     if (prev >= 1) {
-      this.quizStore.loadMyQuizzes(prev, 8);
+      if (this.visibilityService.visibility() === 'GLOBAL') {
+        this.quizStore.loadQuizzes(prev, 8);
+      } else {
+        this.quizStore.loadMyQuizzes(prev, 8, this.visibilityService.visibility());
+      }
     }
   }
 

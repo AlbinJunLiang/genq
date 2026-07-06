@@ -3,6 +3,8 @@ import { Quiz } from "./quiz.model.js";
 import QuizAttempt from "./quiz-attempt.model.js";
 import Question from "./question.model.js";
 import Answer from "./answer.model.js";
+import Model from "./model.models.js";
+
 
 // Relaciones User
 User.hasMany(Quiz, { foreignKey: 'user_id', as: 'quizzes' });
@@ -24,4 +26,4 @@ Question.hasMany(Answer, { foreignKey: 'question_id', as: 'answers' });
 // Relaciones Answer
 Answer.belongsTo(Question, { foreignKey: 'question_id', as: 'question' });
 
-export { User, Quiz, QuizAttempt, Question, Answer };
+export { User, Quiz, QuizAttempt, Question, Answer, Model };

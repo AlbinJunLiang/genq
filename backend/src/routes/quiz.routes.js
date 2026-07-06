@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import {
-     create, getMyQuizzes, getPublicQuizzes, startQuizByUuid,
-     getQuizEvaluation, remove, search, update,
-     createFullQUiz
+    create, getMyQuizzes, getPublicQuizzes, startQuizByUuid,
+    getQuizEvaluation, remove, search, update,
+    createFullQuiz
 } from '../controllers/quiz.controller.js';
 import { verifyFirebaseToken, verifyFirebaseTokenAndUser } from '../middlewares/firebase-middleware.js';
 import { authorize } from '../middlewares/authorize-middleware.js';
@@ -11,6 +11,7 @@ import { paginationValidationRules } from '../validators/pagination-validator.js
 import { validateRequest } from '../middlewares/bad-request-error.js';
 import { quizBodyValidationRules } from '../validators/quiz-validator.js';
 import { checkUser } from '../middlewares/check-user-middleware.js';
+import { initRateLimit } from '../middlewares/rate-limit-middleware.js';
 
 const quizRouter = Router();
 
@@ -72,7 +73,7 @@ const quizRouter = Router();
  *       401:
  *         description: Token Firebase inválido o ausente
  */
-quizRouter.post('/', quizBodyValidationRules, validateRequest, verifyFirebaseTokenAndUser, create);
+quizRouter.post('/', initRateLimit(5, 100), quizBodyValidationRules, validateRequest, verifyFirebaseTokenAndUser, create);
 
 /**
  * @swagger
@@ -123,7 +124,7 @@ quizRouter.post('/', quizBodyValidationRules, validateRequest, verifyFirebaseTok
  *       404:
  *         description: Quiz no encontrado
  */
-quizRouter.put('/:id', verifyFirebaseTokenAndUser, getQuizMiddleware, authorize('canUpdateQuiz'), update);
+quizRouter.put('/:id', initRateLimit(5, 1000), verifyFirebaseTokenAndUser, getQuizMiddleware, authorize('canUpdateQuiz'), update);
 
 /**
  * @swagger
@@ -205,7 +206,7 @@ quizRouter.put('/:id', verifyFirebaseTokenAndUser, getQuizMiddleware, authorize(
  *       400:
  *         description: Parámetros de paginación inválidos
  */
-quizRouter.get('/', paginationValidationRules, validateRequest, getPublicQuizzes);
+quizRouter.get('/', initRateLimit(5, 1000), paginationValidationRules, validateRequest, getPublicQuizzes);
 
 /**
  * @swagger
@@ -284,7 +285,7 @@ quizRouter.get('/', paginationValidationRules, validateRequest, getPublicQuizzes
  *       404:
  *         description: Quiz no encontrado o visibilidad no permitida
  */
-quizRouter.post('/uuid/:uuid', checkUser, startQuizByUuid);
+quizRouter.post('/uuid/:uuid', initRateLimit(1, 100), checkUser, startQuizByUuid);
 
 /**
  * @swagger
@@ -352,7 +353,7 @@ quizRouter.post('/uuid/:uuid', checkUser, startQuizByUuid);
  *         description: Token Firebase inválido o ausente
  */
 
-quizRouter.get('/me', paginationValidationRules, validateRequest, verifyFirebaseTokenAndUser, getMyQuizzes);
+quizRouter.get('/me', initRateLimit(5, 10000), paginationValidationRules, validateRequest, verifyFirebaseTokenAndUser, getMyQuizzes);
 
 /**
  * @swagger
@@ -439,7 +440,7 @@ quizRouter.get('/me', paginationValidationRules, validateRequest, verifyFirebase
  *       400:
  *         description: Parámetros de paginación inválidos
  */
-quizRouter.get('/search', paginationValidationRules, validateRequest, search);
+quizRouter.get('/search', initRateLimit(1, 1000), paginationValidationRules, validateRequest, search);
 
 /**
  * @swagger
@@ -466,7 +467,7 @@ quizRouter.get('/search', paginationValidationRules, validateRequest, search);
  *       404:
  *         description: Quiz no encontrado
  */
-quizRouter.delete('/:id', verifyFirebaseTokenAndUser, getQuizMiddleware, authorize('canDeleteQuiz'), remove);
+quizRouter.delete('/:id', initRateLimit(1, 1000), verifyFirebaseTokenAndUser, getQuizMiddleware, authorize('canDeleteQuiz'), remove);
 
 /**
  * @swagger
@@ -569,7 +570,7 @@ quizRouter.delete('/:id', verifyFirebaseTokenAndUser, getQuizMiddleware, authori
  *       500:
  *         description: Error interno del servidor
  */
-quizRouter.post('/evaluate/:uuid', checkUser, getQuizEvaluation);
+quizRouter.post('/evaluate/:uuid', initRateLimit(1, 100), checkUser, getQuizEvaluation);
 
 
 
@@ -681,9 +682,10 @@ quizRouter.post('/evaluate/:uuid', checkUser, getQuizEvaluation);
 
 quizRouter.post(
     "/full",
+    initRateLimit(1, 1000),
     validateRequest,
     verifyFirebaseTokenAndUser,
-    createFullQUiz
+    createFullQuiz
 );
 
 export default quizRouter;

@@ -6,7 +6,8 @@ export const env = {
     DB_URI: (environment === "development") ? process.env.LOCAL_ADDON_URI : process.env.MYSQL_ADDON_URI,
     API_PORT: process.env.API_PORT || 3000,
     ENVIRONMENT: environment,
-    FIREBASE_SERVICE_ACCOUNT : process.env.FIREBASE_SERVICE_ACCOUNT
+    FIREBASE_SERVICE_ACCOUNT : process.env.FIREBASE_SERVICE_ACCOUNT,
+    ADMIN_EMAILS: process.env.ADMIN_EMAILS
 };
 
 const requiredVars = ['DB_URI', 'API_PORT', 'ENVIRONMENT', 'FIREBASE_SERVICE_ACCOUNT'];

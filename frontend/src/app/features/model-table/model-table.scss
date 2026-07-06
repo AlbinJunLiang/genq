@@ -1,0 +1,141 @@
+/* Contenedor principal */
+.container-subcat {
+    overflow-y: auto;
+    height: 80vh;
+    margin: 0 auto;
+    padding: 5px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.header-title {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.75rem;
+    font-family: 'Finlandica Text', sans-serif !important;
+
+}
+
+/* Estado de carga */
+.loader-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+/* Mensaje vacío */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem 0;
+    width: 100%;
+    color: #6b7280;
+    font-family: 'Finlandica Text', sans-serif !important;
+
+}
+
+/* Contenedor de la tabla */
+.table-wrapper {
+    background-color: white;
+    border-radius: 1rem;
+    border: 1px solid #f3f4f6;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    padding: 0.5rem;
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+/* Ajustes de tabla Angular Material */
+.custom-table {
+    width: 100%;
+    min-width: 700px;
+    background-color: white !important;
+}
+
+.header-cell-custom {
+    padding: 1.5rem 1.5rem;
+    font-weight: 700;
+    color: #202122;
+    font-family: 'Finlandica Text', sans-serif !important;
+
+}
+
+.body-cell-custom {
+    padding: 2rem 1.5rem;
+    font-size: 0.875rem;
+    font-family: 'Finlandica Text', sans-serif !important;
+
+}
+
+.row-customize:hover {
+    background-color: rgba(249, 250, 251, 0.5);
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+/* Paginador */
+.paginator-custom {
+    padding: 1.5rem 1.5rem;
+    background-color: white !important;
+    font-size: 11px !important;
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    font-family: 'Finlandica Text', sans-serif !important;
+
+}
+
+.btn-new {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    /* 8px */
+    background-color: #33373f !important;
+    /* gray-900 */
+    color: white;
+    padding: 0.5rem 1rem;
+    /* 8px 16px */
+    border-radius: 0.5rem;
+    /* 8px */
+    font-size: 0.875rem;
+    /* 14px */
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 0.5rem;
+    margin-right: 15px;
+    font-family: 'Finlandica Text', sans-serif !important;
+
+}
+
+.btn-new:hover {
+    background-color: #000000 !important;
+    /* gray-800 */
+}
+
+.btn-new:active {
+    transform: scale(0.95);
+}
+
+.btn-new .icon-size {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    color: white !important;
+
+}
+
+:host ::ng-deep .spinner-indigo circle {
+    stroke: #4f46e5 !important;
+    /* Código HEX para el Indigo 600 */
+}

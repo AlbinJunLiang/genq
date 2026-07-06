@@ -5,6 +5,7 @@ import Question from '../models/question.model.js';
 import Answer from '../models/answer.model.js';
 import { mappingQuestionAndAnswerEvaluation } from '../mappers/question-answer-eval-mapper.js';
 import { createAttempt } from './attempt.service.js';
+import { shuffleArray } from '../../utils/shuffle.js';
 
 /**
  * const fechaLocal = new Date(); // Esta es tu fecha en Costa Rica
@@ -198,16 +199,6 @@ export const deleteQuiz = async (quizId) => {
 
 
 
-// Utilidad para mezclar (Fisher-Yates)
-const shuffleArray = (array) => {
-    const arr = [...array];
-    for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
-};
-
 
 
 
@@ -246,51 +237,63 @@ export const startQuizByUuid = async (uuid, showAnswers = false, user = null) =>
 };
 
 
+
 export const createFullQuiz = async (quizData, userId) => {
-    // Iniciamos una transacción
+    // Iniciamos la transacción
     const t = await sequelize.transaction();
 
     try {
         // 1. Crear el Quiz
         const quiz = await Quiz.create({
             title: quizData.title,
-            description: quizData.description,
+            description: quizData.description || '',
             user_id: userId,
-            // Agregamos otros campos por defecto si los requiere tu modelo
             visibility: quizData.visibility || 'PUBLIC',
-            attempts_limit: quizData.attempts_limit || 0
+            attempts_limit: quizData.attemptsLimit || 0
         }, { transaction: t });
 
-        // 2. Crear Preguntas y Respuestas
-        if (quizData.questions && quizData.questions.length > 0) {
-            for (const q of quizData.questions) {
-                const question = await Question.create({
-                    content: q.content,
-                    type: q.type, // 'UNIQUE' o 'MULTIPLE'
-                    quiz_id: quiz.id
-                }, { transaction: t });
+        // 2. Preparar preguntas (Mapeo explícito)
+        const questionsToInsert = quizData.questions.map(q => ({
+            content: q.content,
+            type: q.type,
+            feedback: q.feedback || '', // Asegurado
+            quiz_id: quiz.id
+        }));
 
-                // 3. Crear respuestas si existen
-                if (q.answers && q.answers.length > 0) {
-                    for (const a of q.answers) {
-                        await Answer.create({
-                            content: a.content,
-                            is_correct: a.is_correct,
-                            question_id: question.id
-                        }, { transaction: t });
-                    }
-                }
+        // Crear preguntas en lote
+        const createdQuestions = await Question.bulkCreate(questionsToInsert, { transaction: t });
+
+        // 3. Preparar respuestas (Mapeo explícito)
+        // 3. Preparar respuestas (Mapeo explícito y barajeo)
+        const answersToInsert = [];
+        createdQuestions.forEach((q, index) => {
+            const originalQ = quizData.questions[index];
+            if (originalQ.answers) {
+                // Barajamos aquí las respuestas antes de agregarlas al array de inserción
+                const shuffledAnswers = shuffleArray(originalQ.answers);
+
+                shuffledAnswers.forEach(a => {
+                    answersToInsert.push({
+                        content: a.content,
+                        is_correct: a.isCorrect, // Asegúrate de que coincida con tu BD
+                        question_id: q.id
+                    });
+                });
             }
-        }
+        });
 
-        // Si todo sale bien, guardamos los cambios
+        await Answer.bulkCreate(answersToInsert, { transaction: t });
+
+        // Crear respuestas en lote
+
+        // Commit si todo salió bien
         await t.commit();
         return quiz;
+
     } catch (error) {
-        // Si algo falla, deshacemos todo lo insertado
+        // Rollback en caso de error
         await t.rollback();
+        console.error("Error al crear el quiz:", error);
         throw error;
     }
 };
-
-

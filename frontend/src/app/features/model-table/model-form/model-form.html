@@ -1,0 +1,51 @@
+<form [formGroup]="modelForm" class="faq-form-container">
+  <div class="form-grid">
+    <div class="form-field-wrapper md-col-span-2">
+      <label class="field-label">Modelo</label>
+      <mat-form-field appearance="outline">
+        <input matInput formControlName="model" placeholder="llama-03, GPT5..." />
+        <mat-icon matSuffix>help</mat-icon>
+        @if (modelForm.get('model')?.errors?.['required']) {
+          <mat-error>El nombre del modelo es obligatorio</mat-error>
+        }
+        @if (modelForm.get('model')?.errors?.['minlength']) {
+          <mat-error>Debe tener al menos 3 caracteres</mat-error>
+        }
+        @if (modelForm.get('model')?.errors?.['maxlength']) {
+          <mat-error>No puede ser más de 100 caracteres</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="form-field-wrapper md-col-span-2">
+      <label class="field-label">Proveedor</label>
+      <mat-form-field appearance="outline">
+        <input matInput formControlName="provider" placeholder="Google, HuggingFace, OpenAI..." />
+        <mat-icon matSuffix>abc</mat-icon>
+        @if (modelForm.get('provider')?.errors?.['required']) {
+          <mat-error>El provvedor es obligatorio</mat-error>
+        }
+        @if (modelForm.get('provider')?.errors?.['maxlength']) {
+          <mat-error>No puede ser más de 300 caracteres</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+
+  </div>
+
+  <div class="form-actions">
+    <button (click)="onCancel()" type="button" mat-button class="btn-cancel">Cancelar</button>
+    <button
+      (click)="!editableModel() ? createModel() : updateModel()"
+      mat-flat-button
+      class="btn-save"
+    >
+      @if (!modelStore.isLoading()) {
+        {{ editableModel() ? 'Actualizar' : 'Guardar' }}
+      } @else {
+        <mat-spinner class="spinner-indigo" diameter="20"></mat-spinner>
+      }
+    </button>
+  </div>
+</form>

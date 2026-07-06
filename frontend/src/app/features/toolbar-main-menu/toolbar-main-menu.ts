@@ -11,11 +11,11 @@ import { SlideView } from '../../core/enums/auth-form-type';
 import { MatDialog } from '@angular/material/dialog';
 import { VerifyDialog } from '../verify-dialog/verify-dialog';
 import { MatDividerModule } from '@angular/material/divider';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-toolbar-main-menu',
-  imports: [MatMenu, MatMenuTrigger, MatIcon, MatIconButton, MatMenuItem, MatDividerModule],
+  imports: [MatMenu, MatMenuTrigger, MatIcon, MatIconButton, MatMenuItem, MatDividerModule, RouterLink],
   templateUrl: './toolbar-main-menu.html',
   styleUrl: './toolbar-main-menu.scss',
 })

@@ -29,10 +29,10 @@ export const register = async (req, res) => {
 
 export const update = async (req, res) => {
     try {
-        const { id } = req.params;
+        const { email } = req.params;
         const { name, lastName, role } = req.body;
 
-        const updatedUser = await userService.updateUser(id, { name, lastName, role });
+        const updatedUser = await userService.updateUser(email, { name, lastName, role });
 
         return res.status(200).json({
             message: 'User updated successfully.',

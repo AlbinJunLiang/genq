@@ -6,6 +6,7 @@ import { authorize } from '../middlewares/authorize-middleware.js';
 import { createQuestionValidationRules, updateQuestionValidationRules } from '../validators/question-validator.js';
 import { validateRequest } from '../middlewares/bad-request-error.js';
 import { getQuestionMiddleware } from '../middlewares/get-question-middleware.js';
+import { initRateLimit } from '../middlewares/rate-limit-middleware.js';
 
 const questionRouter = Router();
 
@@ -52,6 +53,7 @@ const questionRouter = Router();
  *         description: Creado con éxito
  */
 questionRouter.post('/',
+    initRateLimit(1, 100),
     createQuestionValidationRules,
     validateRequest,
     verifyFirebaseTokenAndUser,
@@ -99,6 +101,7 @@ questionRouter.post('/',
 
 
 questionRouter.get('/:quizId/answers',
+    initRateLimit(1, 3000),
     verifyFirebaseTokenAndUser,
     getQuizMiddleware,
     authorize('canReadQuestion'),
@@ -146,6 +149,7 @@ questionRouter.get('/:quizId/answers',
  *         description: Actualizado con éxito
  */
 questionRouter.put('/:questionId',
+    initRateLimit(1, 1000),
     updateQuestionValidationRules,
     validateRequest,
     verifyFirebaseTokenAndUser,
@@ -173,6 +177,7 @@ questionRouter.put('/:questionId',
  *         description: Eliminado con éxito
  */
 questionRouter.delete('/:questionId',
+    initRateLimit(1, 100),
     verifyFirebaseTokenAndUser,
     getQuestionMiddleware,
     authorize('canUpdateOrDeleteQuestion'),

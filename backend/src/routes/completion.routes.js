@@ -1,16 +1,22 @@
 import { Router } from "express";
-import { completionController } from "../controllers/completion.controller.js";
+import { generateQuizController } from "../controllers/completion.controller.js";
+import { genQuizValidationRules } from "../validators/gen-quiz-body-validator.js";
+import { validateRequest } from "../middlewares/bad-request-error.js";
+import { verifyFirebaseTokenAndUser } from "../middlewares/firebase-middleware.js";
+import { rateLimitWithAdminExclusion } from "../middlewares/rate-limit-middleware.js";
 
 const completionRouter = Router();
 
 /**
  * @swagger
- * /api/v1/completions:
+ * /api/v1/completions/generate-quiz:
  *   post:
  *     summary: Generar una completion con IA
  *     description: Envía un prompt a un proveedor de IA y devuelve la respuesta generada.
  *     tags:
  *       - Completions
+ *     security:
+ *       - bearerAuth: []
  *
  *     requestBody:
  *       required: true
@@ -25,21 +31,9 @@ const completionRouter = Router();
  *               content:
  *                 type: string
  *                 example: "Explícame qué es Node.js"
- *               instruction:
- *                 type: string
- *                 example: "Responde como profesor experto"
- *               context:
- *                 type: string
- *                 example: "Usuario principiante en programación"
- *               system:
- *                 type: boolean
- *                 example: true
  *               model:
  *                 type: string
  *                 example: "gpt-4o-mini"
- *               isJson:
- *                 type: boolean
- *                 example: false
  *               provider:
  *                 type: string
  *                 enum:
@@ -47,6 +41,9 @@ const completionRouter = Router();
  *                   - anthropic
  *                   - gemini
  *                 example: openai
+ *               language:
+ *                  type: string
+ *                  example: "Español"
  *
  *     responses:
  *       200:
@@ -99,6 +96,11 @@ const completionRouter = Router();
  *                   type: string
  *                   example: "stack trace or message"
  */
-completionRouter.post("/", completionController);
+completionRouter.post("/generate-quiz",
+    genQuizValidationRules,
+    verifyFirebaseTokenAndUser,
+    rateLimitWithAdminExclusion(10, 10),
+    validateRequest,
+    generateQuizController);
 
 export default completionRouter;

@@ -3,6 +3,7 @@ import { deleteAttemptController, getAttemptsController, getMyAttempts } from '.
 import { verifyFirebaseTokenAndUser } from '../middlewares/firebase-middleware.js';
 import { validateRequest } from '../middlewares/bad-request-error.js';
 import { getAttemptsByQuizAndAuthor } from '../services/attempt.service.js';
+import { initRateLimit } from '../middlewares/rate-limit-middleware.js';
 
 const attemptRouter = Router();
 
@@ -81,7 +82,7 @@ const attemptRouter = Router();
  *         description: Error interno del servidor
  */
 
-attemptRouter.get('/my-attempts', validateRequest, verifyFirebaseTokenAndUser, getMyAttempts);
+attemptRouter.get('/my-attempts',  initRateLimit(1,1000), validateRequest, verifyFirebaseTokenAndUser, getMyAttempts);
 
 /**
  * @swagger
@@ -141,7 +142,7 @@ attemptRouter.get('/my-attempts', validateRequest, verifyFirebaseTokenAndUser, g
  *                   example: Internal server error
  */
 
-attemptRouter.delete('/:id', validateRequest, verifyFirebaseTokenAndUser, deleteAttemptController)
+attemptRouter.delete('/:id',  initRateLimit(1,1000), validateRequest, verifyFirebaseTokenAndUser, deleteAttemptController)
 
 
 
@@ -256,7 +257,7 @@ attemptRouter.delete('/:id', validateRequest, verifyFirebaseTokenAndUser, delete
  *         description: Error interno del servidor.
  */
 
-attemptRouter.get("/quiz/:quizId", validateRequest, verifyFirebaseTokenAndUser, getAttemptsController)
+attemptRouter.get("/quiz/:quizId", initRateLimit(1,1000), validateRequest, verifyFirebaseTokenAndUser, getAttemptsController)
 
 
 export default attemptRouter;

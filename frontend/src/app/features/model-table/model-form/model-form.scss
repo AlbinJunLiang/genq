@@ -1,0 +1,97 @@
+.faq-form-container {
+    /* Asegura que el padding no sume al ancho total */
+    box-sizing: border-box;
+
+    width: 100%;
+    margin: 0 auto;
+    /* Centrado automático */
+
+    padding: 1.5rem;
+    padding-left: 15px !important;
+    margin-left: 0px !important;
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    border: 1px solid #f3f4f6;
+
+    /* Eliminamos los !important de márgenes que causaban el desbordamiento */
+}
+
+.faq-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 1.5rem;
+    font-family: 'Finlandica Text', sans-serif !important;
+
+}
+
+/* Layout del grid */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    .form-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.form-field-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+@media (min-width: 768px) {
+    .md-col-span-2 {
+        grid-column: span 2 / span 2;
+    }
+}
+
+/* Etiquetas y campos */
+.field-label {
+    font-size: 0.875rem;
+    color: #4b5563;
+    margin-left: 0.25rem;
+    font-family: 'Finlandica Text', sans-serif !important;
+    font-family: 'Finlandica Text', sans-serif !important;
+
+
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
+/* Acciones */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 2rem;
+}
+
+.btn-cancel {
+    border-radius: 0.5rem;
+    padding: 0 1.5rem;
+}
+
+.btn-save {
+    background-color: #2b303d !important;
+    color: white;
+    padding: 0.5rem 2rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+}
+
+.btn-save:hover {
+    background-color: #1f2937;
+}
+
+:host ::ng-deep .spinner-indigo circle {
+    stroke: #4f46e5 !important;
+    /* Código HEX para el Indigo 600 */
+}

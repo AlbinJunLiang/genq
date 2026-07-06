@@ -9,8 +9,9 @@ export const createUser = async (data) => await User.create(data);
 export const getUserById = async (id) => await User.findByPk(id);
 
 
-export const updateUser = async (id, { name, lastName, role }) => {
-    const user = await User.findByPk(id);
+export const updateUser = async (email, { name, lastName, role }) => {
+    // 1. Buscar al usuario en la BD por email
+    const user = await User.findOne({ where: { email } });
 
     if (!user) {
         const error = new Error('User not found.');
@@ -18,6 +19,22 @@ export const updateUser = async (id, { name, lastName, role }) => {
         throw error;
     }
 
+    // 2. Si se solicita cambiar el rol, actualizar en Firebase
+    if (role !== undefined) {
+        const auth = getAuth();
+
+        // Obtenemos los claims actuales del usuario en Firebase usando su auth_id
+        const firebaseUser = await auth.getUser(user.auth_id);
+        const currentClaims = firebaseUser.customClaims || {};
+
+        // Actualizamos los claims con el nuevo rol
+        await auth.setCustomUserClaims(user.auth_id, {
+            ...currentClaims,
+            role: role
+        });
+    }
+
+    // 3. Actualizar los datos en la base de datos local
     await user.update({
         ...(name !== undefined && { name }),
         ...(lastName !== undefined && { last_name: lastName }),
@@ -47,7 +64,7 @@ export const findUserByEmail = async (email) => {
 
 export const registerUser = async (token) => {
     const auth = getAuth();
-    
+
     // 1. Verificación del token y extracción de datos
     const decodedToken = await auth.verifyIdToken(token);
     const userData = {
@@ -65,9 +82,9 @@ export const registerUser = async (token) => {
     const currentClaims = firebaseUser.customClaims || {};
 
     if (!currentClaims.role) {
-        await auth.setCustomUserClaims(userData.auth_id, { 
-            ...currentClaims, 
-            role: "USER" 
+        await auth.setCustomUserClaims(userData.auth_id, {
+            ...currentClaims,
+            role: "USER"
         });
     }
 

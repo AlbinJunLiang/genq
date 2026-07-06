@@ -1,0 +1,81 @@
+<div class="container-subcat">
+  <h1 class="header-title">Modelos de GenAI</h1>
+
+  @if (!isFormOpen()) {
+    <div style="display: flex; justify-content: flex-end; width: 100%">
+      <button (click)="goToCreate()" mat-flat-button class="btn-new">
+        <mat-icon class="icon-size">add</mat-icon>
+        <span>Nuevo</span>
+      </button>
+    </div>
+
+    @if (modelStore.total() === 0) {
+      @if (modelStore.isLoading()) {
+        <div class="loader-overlay">
+          <mat-spinner  class="spinner-indigo" diameter="50"></mat-spinner>
+        </div>
+      } @else {
+        <div class="empty-state">
+          <span style="font-size: 1.125rem; font-weight: 500">No hay datos registrados</span>
+        </div>
+      }
+    } @else {
+        
+      <div class="table-wrapper">
+        <div style="overflow-x: auto">
+          <table mat-table [dataSource]="modelStore.models()" class="custom-table">
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td style="width: 5px; padding: 0" mat-cell *matCellDef="let element">
+                <button
+                  mat-icon-button
+                  [matMenuTriggerFor]="menu"
+                  [matMenuTriggerData]="{ model: element }"
+                >
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu class="minimal-menu" #menu="matMenu">
+                  <ng-template matMenuContent let-model="model">
+                    <button (click)="goToEdit(model)" mat-menu-item>
+                      <mat-icon>edit</mat-icon>
+                      <span>Editar</span>
+                    </button>
+                    <button (click)="onDelete(model.id)" mat-menu-item>
+                      <mat-icon>delete</mat-icon>
+                      <span>Eliminar</span>
+                    </button>
+                  </ng-template>
+                </mat-menu>
+              </td>
+            </ng-container>
+            @for (col of displayedColumns.slice(1); track col) {
+              <ng-container [matColumnDef]="col">
+                <th mat-header-cell *matHeaderCellDef class="header-cell-custom">{{ col }}</th>
+                <td mat-cell *matCellDef="let element" class="body-cell-custom">
+                  {{ getCellValue(element, col) }}
+                </td>
+              </ng-container>
+            }
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns" class="row-customize"></tr>
+          </table>
+        </div>
+
+        <mat-paginator
+          [length]="modelStore.total()"
+          [pageSize]="5"
+          [pageSizeOptions]="[1, 5, 20, 30, 50]"
+          showFirstLastButtons
+          class="paginator-custom"
+        >
+        </mat-paginator>
+      </div>
+    }
+  } @else {
+    <app-model-form
+      [editableModel]="editableModel"
+      [(isFormOpen)]="isFormOpen"
+      style="width: 100%"
+    ></app-model-form>
+  }
+</div>

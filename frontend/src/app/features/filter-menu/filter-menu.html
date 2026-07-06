@@ -8,8 +8,11 @@
   <mat-divider></mat-divider>
 
   <button (click)="filterQuizzesBy('PUBLIC')" mat-menu-item>Públicos</button>
+  
   <button (click)="filterQuizzesBy('PRIVATE')" mat-menu-item>Privados</button>
+
+  <button (click)="filterQuizzesBy('ACCESS_ONLY_VIA_LINK')" mat-menu-item>Solo enlace</button>
   <button (click)="filterQuizzesBy('ALL')" mat-menu-item>Todos</button>
 
-  <button mat-menu-item (click)="filterGlobal()">Globales</button>
+  <button mat-menu-item (click)="filterGlobal('GLOBAL')">Globales</button>
 </mat-menu>

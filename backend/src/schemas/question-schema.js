@@ -5,5 +5,6 @@ import { answerSchema } from "./answer-schema.js";
 export const questionSchema = z.object({
     content: z.string().min(1).max(600),
     type: z.enum(['UNIQUE', 'MULTIPLE', 'OTHER']),
-    answers: z.array(answerSchema).min(1, "Debe haber al menos una respuesta")
+    answers: z.array(answerSchema).min(1, "Debe haber al menos una respuesta"),
+    feedback: z.string().min(0).max(600).optional().default(''),
 });

@@ -16,6 +16,7 @@ import { LoadingDot } from "./shared/component/loading-dot/loading-dot";
 import { RouteService } from './core/services/ui/route-service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map, startWith } from 'rxjs';
+import { ModelStore } from './core/stores/model-store';
 
 @Component({
   selector: 'app-root',
@@ -35,7 +36,6 @@ export class App {
   protected routeService = inject(RouteService);
   protected isNotQuizRoute = computed(() => !this.routeService.isRoute('/quiz/'));
   protected router = inject(Router);
-
 
 
 

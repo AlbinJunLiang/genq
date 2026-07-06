@@ -92,7 +92,7 @@
                 @let info = `Eres un generador de quizzes experto sobre el tema (Indicar). Tu respuesta debe ser un
                 objeto JSON puro.
                 Comienza con '{' y termina con '}'. No incluyas explicaciones ni etiquetas Markdown.`;
-                <p> 
+                <p>
                     Instrucciones: {{info}}
                 </p>
                 <div class="json-container">
@@ -111,8 +111,24 @@
 
             <input #fileInput type="file" hidden (change)="onFileSelected($event)" accept="application/pdf" />
 
+
+
         </div>
 
+        <mat-form-field appearance="outline" class="w-100" style="margin-top: 20px;">
+            <mat-label>Selecciona un modelo</mat-label>
+
+            <mat-select [value]="selectedModel().id" (selectionChange)="onSelectionChange($event.value)">
+                @for (model of modelStore.models(); track model.id) {
+                <mat-option [value]="model.id">
+                    <div style="display: flex; align-items: center;">
+
+                        <span>{{ model.model }}</span>
+                    </div>
+                </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
 
 
     </mat-dialog-content>
