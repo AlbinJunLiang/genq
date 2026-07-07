@@ -38,9 +38,10 @@ export class QuizGrid {
 
 
   ngOnInit() {
-    this.quizStore.loadQuizzes(1, 8);
+    if (this.quizStore.total() == 0) {
+      this.quizStore.loadQuizzes(1, 8);
+    }
   }
-
 
   nextPage() {
     if (this.quizStore.isLoading()) return;

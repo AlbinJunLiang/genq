@@ -7,13 +7,14 @@
     padding: 10px;
 }
 
-mat-dialog-content{
+mat-dialog-content {
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
 
 
-mat-dialog-content::-webkit-scrollbar{
+
+mat-dialog-content::-webkit-scrollbar {
     display: none;
 }
 
@@ -66,9 +67,9 @@ mat-dialog-content::-webkit-scrollbar{
 }
 
 .btn-close mat-icon {
-    font-size: 18px; 
-    width: 18px;     
-    height: 18px;   
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
 }
 
 .footer-actions {
@@ -92,6 +93,8 @@ mat-dialog-content::-webkit-scrollbar{
     align-items: center;
     gap: 10px;
     margin-bottom: 12px;
+    font-family: 'Finlandica Text', sans-serif !important;
+
 }
 
 .details-title h3 {
@@ -99,6 +102,8 @@ mat-dialog-content::-webkit-scrollbar{
     font-size: 17px;
     font-weight: 600;
     color: #1f2937;
+    font-family: 'Finlandica Text', sans-serif !important;
+
 }
 
 .details-title mat-icon {
@@ -110,6 +115,8 @@ mat-dialog-content::-webkit-scrollbar{
     color: #6b7280;
     line-height: 1.6;
     font-size: 14px;
+    font-family: 'Finlandica Text', sans-serif !important;
+
 }
 
 
@@ -133,6 +140,8 @@ mat-dialog-content::-webkit-scrollbar{
 
     white-space: nowrap;
     font-weight: 500;
+    font-family: 'Finlandica Text', sans-serif !important;
+
 }
 
 .actions button mat-icon {
@@ -183,7 +192,7 @@ mat-dialog-content::-webkit-scrollbar{
 .json-template {
     background-color: #f4f4f4;
     padding: 15px;
-    padding-right: 45px; 
+    padding-right: 45px;
     border-radius: 5px;
     font-family: 'Courier New', monospace;
     font-size: 13px;
@@ -195,16 +204,16 @@ mat-dialog-content::-webkit-scrollbar{
     position: absolute;
     top: 18px;
     right: 5px;
-    color: #673ab7; /* Color de tu tema */
+    color: #673ab7;
 }
 
 
 :host ::ng-deep .spinner-white circle {
-  stroke: #ffffff !important; 
+    stroke: #ffffff !important;
 }
 
 :host ::ng-deep .spinner-blue circle {
-  stroke: #071c71 !important;
+    stroke: #071c71 !important;
 }
 
 @media (max-width: 768px) {
