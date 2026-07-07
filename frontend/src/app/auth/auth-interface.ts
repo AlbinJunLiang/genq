@@ -4,7 +4,6 @@ import { User } from './user-interface';
 export interface IAuth {
     login(email: string, pass: string): Observable<User>;
     loginWithProvider(): Observable<void>;
-
     register(email: string, pass: string, displayName?: string): Observable<User>;
     logout(): Observable<void>;
     getCurrentUser(): Observable<User | null>;

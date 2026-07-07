@@ -4,7 +4,6 @@
             <div class="content">
 
 
-
                 @if(!isMobile()){
                 <h2 id="title-test">
                     {{quizGradedService.getData()?.quizDescription}}
@@ -16,7 +15,8 @@
                 }
 
                 <div class="qualification">
-                    Calificación: <b>{{evaluationResult()?.percentage}}%</b>
+                    {{languageService.translate('SCORE')}}
+                    : <b>{{evaluationResult()?.percentage}}%</b>
                 </div>
 
 
@@ -26,7 +26,8 @@
                     @for (review of evaluationResult()?.review; track review.questionId; let i = $index) {
                     <section #question class="question-block active">
                         <div class="q-meta">
-                            <span class="pill no-copy">Pregunta
+                            <span class="pill no-copy"> {{languageService.translate('QUESTION')}}
+
                                 {{ `${i+1}`}}</span>
 
                         </div>
@@ -60,7 +61,8 @@
                         </div>
 
                         <div class="feedback" style="margin-bottom: 1px;">
-                            <b>Respuesta:</b>
+                            <b> {{languageService.translate('ANSWER')}}
+                                :</b>
                             {{review.feedback}}
 
                         </div>
@@ -79,11 +81,12 @@
                         <div class="right">
 
                             <button (click)="restartQuiz()" class="restart" type="button">
-                                Reiniciar quiz
+                                {{languageService.translate('RESET_QUIZ_TITLE')}}
                             </button>
 
                             <button routerLink="/history" class="exit" type="button">
-                                Salir
+                                {{languageService.translate('EXIT')}}
+
                             </button>
 
                         </div>

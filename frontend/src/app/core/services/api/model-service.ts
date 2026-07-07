@@ -5,7 +5,6 @@ import { environment } from '../../../../environments/environments';
 import { ModelResponse } from '../../interfaces/model-interface';
 import { getRandomInt } from '../../../shared/util/random-string';
 
-
 export const AVAILABLE_MODELS: ModelResponse[] = [
     { id: 1, model: 'gpt-oss-120b', provider: 'cerebras' },
     { id: 2, model: 'gemini-2.5-flash', provider: 'google' },

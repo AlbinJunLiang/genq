@@ -29,25 +29,6 @@
   background-color: #f9f9f9;
 }
 
-@media (max-width: 408px) {
-  .content-title {
-    width: 100% !important;
-    margin: 25px !important;
-  }
-}
-
-@media (min-width: 768px) {
-  .cards-container {
-    grid-template-columns: repeat(2, 1fr); /* 2 columnas en tablet */
-  }
-}
-
-@media (min-width: 1200px) {
-  .cards-container {
-    grid-template-columns: repeat(4, 1fr); /* 4 columnas en desktop */
-  }
-}
-
 /* Tarjeta */
 .card {
   background: #ffffff;
@@ -93,4 +74,23 @@
   line-height: 1.5;
   margin-bottom: 25px;
   flex-grow: 1;
+}
+
+@media (max-width: 408px) {
+  .content-title {
+    width: 100% !important;
+    margin: 25px !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .cards-container {
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas en tablet */
+  }
+}
+
+@media (min-width: 1200px) {
+  .cards-container {
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas en desktop */
+  }
 }

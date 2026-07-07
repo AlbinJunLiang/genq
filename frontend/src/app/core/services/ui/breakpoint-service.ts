@@ -5,7 +5,6 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 export class BreakpointService {
   private breakpointObserver = inject(BreakpointObserver);
 
-  // Señal que indica si es mobile
   public isMobile = signal(false);
 
   constructor() {

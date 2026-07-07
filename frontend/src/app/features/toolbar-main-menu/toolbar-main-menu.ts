@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { VerifyDialog } from '../verify-dialog/verify-dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { Router, RouterLink } from '@angular/router';
+import { AuthUserStore } from '../../core/stores/auth-user-store';
 
 @Component({
   selector: 'app-toolbar-main-menu',
@@ -23,6 +24,9 @@ export class ToolbarMainMenu {
   protected slideInModal = inject(SlideInModalService)
   protected languageService = inject(LanguageService);
   protected authService = inject(AuthService);
+
+  protected authUserStore = inject(AuthUserStore);
+
   protected snackbar = inject(SnackBarService);
   private changeSlideViewService = inject(ChangeSlideViewService);
   private dialog = inject(MatDialog);

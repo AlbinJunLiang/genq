@@ -1,7 +1,6 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
+import { QuizVisibility } from '../../types/quiz-visibility';
 
-// Definimos los tipos de visibilidad para mayor seguridad
-export type QuizVisibility = 'PUBLIC' | 'PRIVATE' | 'ACCESS_ONLY_VIA_LINK' | 'ALL' | 'GLOBAL';
 
 @Injectable({
     providedIn: 'root'

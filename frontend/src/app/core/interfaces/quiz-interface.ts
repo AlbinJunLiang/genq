@@ -1,5 +1,5 @@
 import { Pagination } from "./pagination-interface";
-import { Question, QuestionFromQuiz, QuestionResponse } from "./question-interface";
+import { Question, QuestionFromQuiz } from "./question-interface";
 import { UserAnswer } from "./user-answer-interface";
 
 export interface Quiz {
@@ -51,6 +51,19 @@ export interface EvaluationRequest {
   attemptUuid: string;
   answers: UserAnswer[];
 }
-export type CreateQuizDto = Omit<Quiz, 'uuid' | 'id' | 'createdAt' | 'userId'>;
 
-export type UpdateQuizDto = Partial<Omit<Quiz, 'uuid' | 'id' | 'created_at' | 'user_id'>>;
+export interface FullQuiz {
+  title: string;
+  description?: string;
+  visibility: 'PUBLIC' | 'PRIVATE' | 'ACCESS_ONLY_VIA_LINK' | 'INACTIVE';
+  attemptsLimit: number;
+  questions: {
+    content: string;
+    type: 'MULTIPLE' | 'UNIQUE';
+    answers: {
+      content: string;
+      isCorrect: boolean;
+    }[];
+    feedback?: string;
+  }[];
+}

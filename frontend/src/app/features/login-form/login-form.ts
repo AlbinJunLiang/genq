@@ -13,7 +13,6 @@ import { SnackBarService } from '../../core/services/ui/snackbar-service';
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { finalize } from 'rxjs';
 
-
 @Component({
   selector: 'app-login-form',
   imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatAnchor, MatIcon, MatProgressSpinner],
@@ -80,7 +79,6 @@ export class LoginForm {
       }
     });
   }
-
 
  protected togglePassword(event: MouseEvent) {
     this.hidePassword.update(prev => !prev);

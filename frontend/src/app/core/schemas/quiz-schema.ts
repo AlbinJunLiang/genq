@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { FullQuiz } from '../interfaces/quiz-interface';
 
 const AnswerSchema = z.object({
     content: z.string().min(1).max(600),
@@ -7,7 +8,7 @@ const AnswerSchema = z.object({
 
 const QuestionSchema = z.object({
     content: z.string().min(1).max(600),
-    type: z.enum(['MULTIPLE', 'SINGLE']),
+    type: z.enum(['MULTIPLE', 'UNIQUE']),
     answers: z.array(AnswerSchema).min(1),
     feedback: z.string().min(0).max(600).optional().default(''),
 });
@@ -20,5 +21,9 @@ export const QuizSchema = z.object({
     questions: z.array(QuestionSchema).min(1)
 });
 
+
+export function parseQuiz(json: string): FullQuiz {
+    return QuizSchema.parse(JSON.parse(json));
+}
 
 

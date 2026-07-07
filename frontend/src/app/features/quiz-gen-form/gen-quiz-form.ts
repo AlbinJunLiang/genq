@@ -1,46 +1,54 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { MatIcon } from "@angular/material/icon";
-import { SlideInModalService } from '../../core/services/ui/slide-in-modal-service';
 import { MatError, MatFormField, MatFormFieldModule, MatLabel } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
-import { MatDialog, MatDialogContent, MatDialogActions, MatDialogTitle, MatDialogClose, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogContent, MatDialogActions, MatDialogTitle, MatDialogRef } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PdfService } from '../../core/services/ui/pdf-service';
 import { SnackBarService } from '../../core/services/ui/snackbar-service';
 import { MatButtonModule } from "@angular/material/button";
-import { QuizSchema } from '../../core/schemas/quiz-schema';
+import { parseQuiz, QuizSchema } from '../../core/schemas/quiz-schema';
 import { MatOption } from "@angular/material/core";
 import { MatSelect } from "@angular/material/select";
 import { ModelStore } from '../../core/stores/model-store';
 import { ConfigService } from '../../core/services/ui/config-service';
 import { ModelConfig } from '../../core/interfaces/model-interface';
-
-
+import { QuizStore } from '../../core/stores/quiz-store';
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { finalize } from 'rxjs';
+import { LanguageService } from '../../core/services/ui/language-service';
+import { jsontemplate } from './json-template';
 
 
 @Component({
   selector: 'app-gen-quiz-form',
   imports: [MatIcon, MatError, MatFormField,
     MatLabel, MatFormFieldModule, MatInput, MatDialogContent,
-    MatDialogActions, MatDialogTitle, FormsModule, ReactiveFormsModule, MatButtonModule, MatOption, MatSelect],
+    MatDialogActions, MatDialogTitle, FormsModule,
+    ReactiveFormsModule, MatButtonModule, MatOption,
+    MatSelect, MatProgressSpinner],
   templateUrl: './gen-quiz-form.html',
   styleUrl: './gen-quiz-form.scss',
 })
 export class GenQuizForm {
 
-
-  private dialogRef = inject(MatDialogRef<GenQuizForm>);
   protected instruction = signal('');
   protected isJsonDocument = signal(false);
-  private snackbar = inject(SnackBarService);
   protected modelStore = inject(ModelStore);
+  protected isLoading = signal(false);
+  protected isFileUploading = signal(false);
+  protected languageService = inject(LanguageService);
+
+  private dialogRef = inject(MatDialogRef<GenQuizForm>);
   private configService = inject(ConfigService);
+  private file!: File;
+  private quizStore = inject(QuizStore);
+  private snackbar = inject(SnackBarService);
 
   public selectedModel = this.configService.model;
 
   constructor() {
     this.modelStore.loadModels();
-
     effect(() => {
       const loading = this.modelStore.isLoading();
       const models = this.modelStore.models();
@@ -53,19 +61,21 @@ export class GenQuizForm {
 
   protected parsedJson = computed(() => {
     const content = this.instruction();
-    if (!content.trim()) return null; // Si está vacío, no intentar parsear
+    if (!content.trim()) return null;
     try {
       return JSON.parse(content);
     } catch (e) {
-      return 'INVALID_JSON'; // Marcamos explícitamente el error de formato
+      return 'INVALID_JSON';
     }
   });
+
 
   protected validation = computed(() => {
     const json = this.parsedJson();
     if (json === null || json === 'INVALID_JSON') return null;
     return QuizSchema.safeParse(json);
   });
+
 
   protected isFormValid = computed(() => {
     const isJson = this.isJsonDocument();
@@ -78,37 +88,15 @@ export class GenQuizForm {
       // Es válido si el JSON es un objeto y la validación de Zod fue exitosa
       return jsonStatus !== 'INVALID_JSON' && jsonStatus !== null && result?.success === true;
     }
-
     // Caso 2: Modo Texto Normal
     // Es válido si no está vacío y no supera los 2000 caracteres
     return text.length > 10 && text.length <= 3000;
   });
 
 
-protected jsontemplate = `Estructura requerida:
-{
-  "title": "string",
-  "description": "string",
-  "visibility": "PUBLIC | PRIVATE | ACCESS_ONLY_VIA_LINK | INACTIVE",
-  "attemptsLimit": 3,
-  "questions": [
-    {
-      "content": "string",
-      "type": "UNIQUE | MULTIPLE",
-      "feedback": "string",
-      "answers": [
-        {
-          "content": "string",
-          "isCorrect": boolean
-        }
-      ]
-    }
-  ]
-}
-`;
-
-  file!: File;
-  text = signal('');
+  protected returnJsonTemplate() {
+    return jsontemplate;
+  }
 
   private pdfService = inject(PdfService);
   async onFileSelected(event: Event) {
@@ -117,61 +105,120 @@ protected jsontemplate = `Estructura requerida:
 
     if (!file) return;
 
-    //this.loading.set(true);
-    this.text.set('Procesando PDF...');
+    this.isFileUploading.set(true);
+    this.instruction.set('PDF...');
 
     try {
       const result = await this.pdfService.extractText(file);
       this.instruction.set(result);
     } catch (error) {
       console.error(error);
-      this.instruction.set('Error al leer el PDF');
+      this.instruction.set('Error');
     } finally {
-      //  this.loading.set(false);
+      this.isFileUploading.set(false);
     }
   }
+
+
   async extract() {
     if (!this.file) return;
-
-    this.text.set('Procesando...');
-
+    this.instruction.set('...');
     try {
       const response = await this.pdfService.extractText(this.file);
-      this.text.set(response);
+      this.instruction.set(response);
     } catch (e) {
       console.log(e)
-      this.text.set('Error al leer PDF');
+      this.instruction.set('Error PDF');
     }
   }
 
 
-  protected close() { this.dialogRef.close() }
+  protected close() {
+    this.dialogRef.close()
+  }
 
   protected toggleJsonDocument() {
     this.isJsonDocument.update(value => !value);
   }
 
-  async copyToClipboard() {
+  async copyToClipboard(text: string) {
     try {
-      await navigator.clipboard.writeText(this.jsontemplate);
-
-      // Feedback visual para el usuario
-      this.snackbar.show('¡Copiado al portapapeles!', 'Cerrar');
+      await navigator.clipboard.writeText(text);
+      this.snackbar.show(this.languageService.translate('COPIED_TO_CLIPBOARD'), this.languageService.translate('CLOSE'));
     } catch (err) {
-      console.error('Error al copiar:', err);
+      console.error('Error:', err);
     }
   }
 
-  // En tu componente
-  onSelectionChange(id: number) {
+  protected onSelectionChange(id: number) {
     const model = this.modelStore.models().find(m => m.id === id);
     if (model) {
-      this.selectedModel.set(model); // O tu lógica para guardar el modelo seleccionado
+      this.selectedModel.set(model);
     }
   }
 
-  selectModel(model: ModelConfig) {
+  protected selectModel(model: ModelConfig) {
     this.selectedModel.set(model);
   }
 
+  protected createFullQuiz() {
+    this.isLoading.set(true);
+    this.quizStore.createFullQuiz(parseQuiz(this.instruction()))
+      .pipe(
+        finalize(() => this.isLoading.set(false)) // Se ejecuta siempre
+      )
+      .subscribe({
+        next: (response) => {
+          this.close();
+          this.snackbar.show(this.languageService.translate('QUIZ_CREATED_SUCCESSFULLY'), 'OK');
+        },
+        error: (err) => {
+          if (err.error.message.toUpperCase() == 'TOO MANY REQUESTS') {
+            this.snackbar.show(this.languageService.translate('TOO_MANY_REQUESTS'), 'OK');
+          } else {
+            this.snackbar.show(this.languageService.translate('ERROR_CREATING_QUIZ'), 'OK');
+
+          }
+        }
+      });
+  }
+
+  protected generateQuiz() {
+    if (this.configService.model() == null && undefined) {
+      return;
+    }
+    this.isLoading.set(true);
+    this.quizStore.generateQuiz(
+      this.instruction(),
+      this.configService.model().model,
+
+      this.configService.model().provider,
+      this.languageService.currentLang()
+    )
+      .pipe(
+        finalize(() => this.isLoading.set(false)) 
+      )
+      .subscribe({
+        next: (response) => {
+          this.close();
+          this.snackbar.show(this.languageService.translate('QUIZ_CREATED_SUCCESSFULLY'), 'OK');
+        },
+        error: (err) => {
+          if (err.error.message.toUpperCase() == 'TOO MANY REQUESTS') {
+            this.snackbar.show(this.languageService.translate('TOO_MANY_REQUESTS'), 'OK');
+
+          } else {
+            this.snackbar.show(this.languageService.translate('ERROR_CREATING_QUIZ'), 'OK');
+          }
+        }
+      });
+  }
+
+  protected onCreateQuiz() {
+    if (this.isJsonDocument()) {
+      this.createFullQuiz();
+    } else {
+      this.generateQuiz();
+    }
+  }
 }

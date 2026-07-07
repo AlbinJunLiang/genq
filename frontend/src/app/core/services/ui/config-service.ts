@@ -1,6 +1,5 @@
 import { computed, effect, Injectable, signal } from "@angular/core";
 import { Language } from "../../types/language-type";
-import { Voice } from "../../types/voice-type";
 import { ModelConfig } from "../../interfaces/model-interface";
 
 export const AVAILABLE_MODELS: ModelConfig[] = [

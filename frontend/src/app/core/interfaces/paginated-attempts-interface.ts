@@ -6,7 +6,6 @@ export interface PaginatedAttempts {
     pagination: Pagination;
 }
 
-
 export interface PaginatedLeaderboardAttempt {
     attempts: LeaderboardAttempt[];
     pagination: Pagination;

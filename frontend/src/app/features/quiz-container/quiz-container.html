@@ -9,7 +9,7 @@
 
         @if(!isMobile()){
         <h2 id="title-test">
-          {{quiz().title || 'Cuestionario'}}
+          {{quiz().title || 'Quiz'}}
         </h2>
 
         <div class="summary">
@@ -19,24 +19,21 @@
         @if(isFinalized())
         {
         <div class="qualification">
-          Calificación: <b>{{evaluationResult()?.percentage}}%</b>
+          {{languageService.translate('SCORE')}}: <b>{{evaluationResult()?.percentage}}%</b>
         </div>
 
         }
-
-
 
         <div id="div-stack" class="stack" aria-label="Listado de preguntas">
 
           @if(isFinalized())
           {
-
           @for (review of evaluationResult()?.review; track review.questionId; let i = $index) {
           <section class="question-block" [class.active]="quizNavService.currentPosition() === i"
             [class.exit-left]="i < quizNavService.currentPosition()"
             [class.exit-rigth]="i > quizNavService.currentPosition()">
             <div class="q-meta">
-              <span class="pill no-copy">Pregunta
+              <span class="pill no-copy"> {{languageService.translate('QUESTION')}}
                 {{ `${quizNavService.currentPosition() + 1}/${quiz().questions.length}` }}</span>
               <div>
                 <button (click)="onResetQuiz()" style="color:black; border: none" mat-icon-button>
@@ -75,7 +72,7 @@
             </div>
 
             <div class="feedback" style="margin-bottom: 1px;">
-              <b>Respuesta:</b>
+              <b> {{languageService.translate('FEEDBACK')}}:</b>
               {{review.feedback}}
 
             </div>
@@ -90,7 +87,7 @@
             [class.exit-left]="i < quizNavService.currentPosition()"
             [class.exit-rigth]="i > quizNavService.currentPosition()">
             <div class="q-meta">
-              <span class="pill no-copy">Pregunta
+              <span class="pill no-copy"> {{languageService.translate('QUESTION')}}
                 {{ `${quizNavService.currentPosition() + 1}/${quiz().questions.length}` }}</span>
 
               <div>
@@ -132,18 +129,18 @@
             <div class="right">
               @if (quizNavService.currentPosition() > 0) {
               <button (click)="quizNavService.goToPrevQuestion()" class="ghost prev" data-target="3" type="button">
-                Anterior
+                {{languageService.translate('PREVIOUS')}}
               </button>
               }
 
               @if (quizNavService.currentPosition() < quiz().questions.length - 1) { <button
                 (click)="quizNavService.goToNextQuestion()" [disabled]="!isCurrentQuestionAnswered()" class="ghost next"
-                data-target="1" type="button"> Siguiente
+                data-target="1" type="button"> {{languageService.translate('NEXT')}}
                 </button>
                 } @else {
                 <button [hidden]="isFinalized()" (click)="evaluateQuiz()" [disabled]="!isCurrentQuestionAnswered()"
                   class="ghost finish" type="button">
-                  Finalizar
+                  {{languageService.translate('FINISH')}}
                 </button>
                 }
             </div>
@@ -152,7 +149,7 @@
           <nav class="bottom-nav">
             <button (click)="quizNavService.goToPrevQuestion()" [disabled]="quizNavService.currentPosition() === 0"
               class="nav-btn" mat-flat-button>
-              <span>Anterior</span>
+              <span> {{languageService.translate('PREVIOUS')}}</span>
             </button>
 
             @if (quizNavService.currentPosition() < quiz().questions.length - 1 ) { <button
@@ -160,12 +157,12 @@
                     quizNavService.currentPosition() === quiz().questions.length - 1 ||
                     !isCurrentQuestionAnswered()
                   " class="nav-btn" mat-flat-button>
-              <span>Siguiente</span>
+              <span> {{languageService.translate('NEXT')}}</span>
               </button>
               } @else {
               <button (click)="evaluateQuiz()" [disabled]="!isCurrentQuestionAnswered() || isFinalized()"
                 class="nav-btn" mat-flat-button>
-                <span>Finalizar</span>
+                <span> {{languageService.translate('FINISH')}}</span>
               </button>
               }
           </nav>

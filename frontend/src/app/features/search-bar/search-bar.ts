@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { SearchService } from '../../core/services/ui/search-service';
 import { QuizStore } from '../../core/stores/quiz-store';
 import { Router } from '@angular/router';
+import { LanguageService } from '../../core/services/ui/language-service';
 
 @Component({
   selector: 'app-search-bar',
@@ -23,6 +24,8 @@ import { Router } from '@angular/router';
 export class SearchBar {
 
   protected searchService = inject(SearchService);
+  protected languageService = inject(LanguageService);
+  
   private quizStore = inject(QuizStore);
   private router = inject(Router);
 

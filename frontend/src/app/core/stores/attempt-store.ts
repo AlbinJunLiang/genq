@@ -2,7 +2,6 @@ import { inject, Injectable, signal, computed } from "@angular/core";
 import { catchError, finalize, tap, throwError } from "rxjs";
 import { AttemptService } from "../services/api/attempt-service";
 import { QuizAttemptResponse } from "../interfaces/attempt-interface";
-import { PaginatedAttempts } from "../interfaces/paginated-attempts-interface";
 
 
 @Injectable({ providedIn: 'root' })

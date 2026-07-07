@@ -1,7 +1,7 @@
 <div class="history">
     <div class="header">
-        <h2>Historial de intentos</h2>
-        <span>{{ attemptStore.attempts().length }} registros</span>
+        <h2>{{languageService.translate('ATTEMPTS_HISTORY')}}</h2>
+        <span>{{ attemptStore.attempts().length }} {{languageService.translate('RECORDS')}}</span>
     </div>
     @if(!attemptStore.loading()){
 
@@ -18,7 +18,8 @@
 
                 <div>
                     <h3>{{ attempt.quizTitle }}</h3>
-                    <small><b>finalizado</b>: {{ formatDate(attempt.createdAt.toString()) }}</small>
+                    <small><b>{{languageService.translate('FINISHED')}}</b>: {{ formatDate(attempt.createdAt.toString())
+                        }}</small>
                 </div>
             </div>
 
@@ -55,8 +56,8 @@
 
     <div class="empty">
         <span>📄</span>
-        <h3>No hay intentos registrados</h3>
-        <p>Cuando completes un cuestionario aparecerá aquí.</p>
+        <h3>{{languageService.translate('NO_ATTEMPTS_REGISTERED')}}</h3>
+        <p>{{languageService.translate('COMPLETE_QUIZ_MESSAGE')}}</p>
     </div>
 
     }
@@ -71,14 +72,15 @@
 
     <div class="pagination">
         <button class="page-btn" (click)="prevPage()" [disabled]="attemptStore.currentPage()===1">
-            Anterior
+            {{languageService.translate('PREVIOUS')}}
         </button>
 
-        <span class="page-info">Página {{ attemptStore.currentPage() }} de {{ attemptStore.totalPages() }}</span>
+        <span class="page-info">{{languageService.translate('PAGE')}} {{ attemptStore.currentPage() }}
+            {{languageService.translate('OF')}} {{ attemptStore.totalPages() }}</span>
 
         <button class="page-btn" (click)="nextPage()"
             [disabled]="attemptStore.currentPage()=== attemptStore.totalPages()">
-            Siguiente
+            {{languageService.translate('NEXT')}}
         </button>
     </div>
     }

@@ -1,8 +1,6 @@
 import { Injectable, signal } from "@angular/core";
 import { Quiz } from "../../interfaces/quiz-interface";
 
-
-
 @Injectable({ providedIn: 'root' })
 export class SelectedQuizService {
   private _selectedQuiz = signal<Quiz | null>(null);

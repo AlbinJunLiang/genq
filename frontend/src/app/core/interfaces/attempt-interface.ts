@@ -6,7 +6,7 @@ export interface QuizAttemptResponse {
     id: number;
     uuid: string;
     durationSeconds: number;
-    status: 'IN_PROGRESS' | 'COMPLETED' | 'EXPIRED' | 'CANCELLED'; // Ajusta según tus estados reales
+    status: 'IN_PROGRESS' | 'COMPLETED' | 'EXPIRED' | 'CANCELLED';
     finishedAt: string | Date | null;
     userId: number;
     quizId: number;

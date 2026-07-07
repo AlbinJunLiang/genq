@@ -3,28 +3,22 @@
         <mat-icon style="font-size: 20px;">close</mat-icon>
     </button>
 
-    <h2 mat-dialog-title class="dialog-title">Generar quiz</h2>
+    <h2 mat-dialog-title class="dialog-title">{{languageService.translate('GENERATE_QUIZ')}}</h2>
 
     <mat-dialog-content class="dialog-body">
         <form class="form-container" [class.field-custom]="isJsonDocument()">
             <mat-form-field appearance="outline" class="w-100">
-                <mat-label>{{isJsonDocument() ? 'Ingrese el documento JSON': 'Ingrese la instrucción'}}</mat-label>
-
-
-
+                <mat-label>{{isJsonDocument() ?
+                    languageService.translate('ENTER_DOCUMENT_OR_INSTRUCTION'):
+                    languageService.translate('ENTER_INSTRUCTION')}}</mat-label>
                 <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="6" cdkAutosizeMaxRows="12"
                     class="auto-resize-textarea" [value]="instruction()"
                     (input)="instruction.set($any($event.target).value)"
-                    [placeholder]="!isJsonDocument() ? 'Ingrese la instrucción aquí...' : jsontemplate">
-
-
-
-  </textarea>
-
-
-
-
+                    [placeholder]="!isJsonDocument() ?  languageService.translate('ENTER_INSTRUCTION') : returnJsonTemplate()">
+                </textarea>
             </mat-form-field>
+
+
             <div style="margin-bottom: 10px;">
 
                 @if (isJsonDocument()) {
@@ -33,7 +27,7 @@
 
                 @if (jsonStatus === 'INVALID_JSON') {
                 <mat-error class="error-msg">
-                    Error: El formato no es un JSON válido (revisa comas o llaves).
+                    {{languageService.translate('INVALID_JSON_FORMAT')}}
                 </mat-error>
                 }
 
@@ -51,18 +45,18 @@
                 }@else {
                 @if (instruction().trim() === '') {
                 <mat-error class="error-msg">
-                    La instrucción no puede estar vacía.
+                    {{languageService.translate('EMPTY_INSTRUCTION_ERROR')}}
                 </mat-error>
                 }@else if (instruction().trim().length> 3000) {
                 <mat-error class="error-msg">
-                    No puede superar los 3000 caracteres
+                    {{languageService.translate('MAX_INSTRUCTION_LENGTH_ERROR')}}
                 </mat-error>
                 }@else if ( instruction().trim().length<10) { <mat-error class="error-msg">
-                    Debe ingresar como mínimo 10 caractres </mat-error>
+                    {{languageService.translate('MIN_INSTRUCTION_LENGTH_ERROR')}}
+                    </mat-error>
                     }
                     }
             </div>
-
         </form>
 
         <div class="details-card">
@@ -70,53 +64,43 @@
 
             <div class="details-title">
                 <mat-icon>info</mat-icon>
-                <h3>Detalles adicionales (Prompt)</h3>
+                <h3>{{languageService.translate('ADDITIONAL_DETAILS_PROMPT')}}</h3>
             </div>
 
             <p>
-                El prompt para la generación del quiz debe contener un máximo de 20 caracteres.
-                El quiz generado estará compuesto por entre 1 y 10 preguntas, con una distribución del 50% de
-                preguntas de opción múltiple y 50% de respuesta única.
-                Cada pregunta podrá incluir entre 2 y 5 opciones.
+                {{languageService.translate('QUIZ_PROMPT_INSTRUCTIONS')}}
             </p>
 
             }@else {
             <div class="details-title">
                 <mat-icon>info</mat-icon>
-                <h3>Para IAs externas (JSON)</h3>
+                {{languageService.translate('EXTERNAL_AI_JSON')}}
             </div>
 
 
             <div class="info-box">
 
-                @let info = `Eres un generador de quizzes experto sobre el tema (Indicar). Tu respuesta debe ser un
-                objeto JSON puro.
-                Comienza con '{' y termina con '}'. No incluyas explicaciones ni etiquetas Markdown.`;
+                @let info = languageService.translate('QUIZ_GENERATOR_JSON_PROMPT');
                 <p>
-                    Instrucciones: {{info}}
+                    {{languageService.translate('INSTRUCTIONS')}}: {{info}}
                 </p>
                 <div class="json-container">
-                    <button mat-icon-button class="copy-button" (click)="copyToClipboard()"
+                    <button mat-icon-button class="copy-button" (click)="copyToClipboard(returnJsonTemplate())"
                         matTooltip="Copiar plantilla">
                         <mat-icon>content_copy</mat-icon>
                     </button>
 
-                    <pre class="json-template">{{ jsontemplate }}</pre>
+                    <pre class="json-template">{{ returnJsonTemplate() }}</pre>
                 </div>
             </div>
-
-
             }
 
-
             <input #fileInput type="file" hidden (change)="onFileSelected($event)" accept="application/pdf" />
-
-
 
         </div>
 
         <mat-form-field appearance="outline" class="w-100" style="margin-top: 20px;">
-            <mat-label>Selecciona un modelo</mat-label>
+            <mat-label>{{languageService.translate('SELECT_MODEL')}}</mat-label>
 
             <mat-select [value]="selectedModel().id" (selectionChange)="onSelectionChange($event.value)">
                 @for (model of modelStore.models(); track model.id) {
@@ -137,21 +121,30 @@
         <div class="actions">
 
             @if(!isJsonDocument()){
-            <button (click)="fileInput.click()" mat-stroked-button class="secondary-btn">
-                <mat-icon> picture_as_pdf </mat-icon>
-                Subir documento PDF
+            <button [disabled]="isLoading()" (click)="fileInput.click()" mat-stroked-button class="secondary-btn">
+                <mat-icon style="color: rgb(212, 50, 50);" [hidden]="isFileUploading()"> picture_as_pdf </mat-icon>
+
+                @if(isFileUploading()){
+                <mat-spinner class="spinner-blue" diameter="20"></mat-spinner>
+                }@else{
+                {{languageService.translate('UPLOAD_PDF_DOCUMENT')}} }
             </button>
             }
 
-            <button (click)="toggleJsonDocument()" mat-stroked-button class="secondary-btn">
+            <button [disabled]="isLoading()" (click)="toggleJsonDocument()" mat-stroked-button class="secondary-btn">
                 <mat-icon>{{!isJsonDocument() ? 'data_object': 'short_text'}}</mat-icon>
 
-                {{isJsonDocument() ? 'Instrucción':'Ingresar JSON'}}
+                {{isJsonDocument() ? languageService.translate('INSTRUCTIONS'):'JSON'}}
             </button>
 
-            <button [disabled]="!isFormValid()" mat-flat-button class="primary-btn">
+            <button (click)="onCreateQuiz()" [disabled]="!isFormValid() || isLoading()" mat-flat-button
+                class="primary-btn">
                 <mat-icon>auto_awesome</mat-icon>
-                Generar Quiz
+                @if(isLoading()){
+                <mat-spinner class="spinner-white" diameter="20"></mat-spinner>
+                }@else{
+                {{languageService.translate('GENERATE_QUIZ')}}
+                }
             </button>
 
         </div>

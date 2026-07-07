@@ -235,7 +235,7 @@ export const createFullQuiz = async (req, res) => {
             }))
         }));
 
-        
+
 
         const newQuiz = await quizService.createFullQuiz({
             title,
@@ -246,8 +246,8 @@ export const createFullQuiz = async (req, res) => {
         }, userId);
 
         res.status(201).json({
-            message: "Quiz creado exitosamente",
-            quiz: newQuiz
+            message: "Quiz created successfully.",
+            quiz: mappingQuizResponse(newQuiz)
         });
     } catch (error) {
         res.status(500).json({

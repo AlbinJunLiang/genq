@@ -1,46 +1,48 @@
-
 <div #questionFormRef style="margin-top: 30px">
-  <h2 style="text-align: left; margin-top: 0; font-size: 20px">Añadir pregunta</h2>
+  <h2 style="text-align: left; margin-top: 0; font-size: 20px">{{languageService.translate('ADD_QUESTION')}}</h2>
 
   <form [formGroup]="questionForm">
     <div style="width: 100%">
       <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Tipo</mat-label>
+        <mat-label>{{languageService.translate('TYPE')}}</mat-label>
         <mat-select formControlName="type">
-          <mat-option value="MULTIPLE">Selección múltiple</mat-option>
-          <mat-option value="UNIQUE">Respuesta única</mat-option>
+          <mat-option value="MULTIPLE">{{languageService.translate('MULTIPLE_SELECTION')}}</mat-option>
+          <mat-option value="UNIQUE">{{languageService.translate('SINGLE_ANSWER')}}</mat-option>
         </mat-select>
 
         @if (questionForm.get('type')?.hasError('required')) {
-        <mat-error style="width: 100%">Campo obligatorio.</mat-error>
+        <mat-error style="width: 100%">{{languageService.translate('REQUIRED_FIELD')}}</mat-error>
         }
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Texto de la pregunta</mat-label>
-        <textarea matInput formControlName="content" placeholder="Ej: Fundamentos de IA" rows="3"></textarea>
+        <mat-label>{{languageService.translate('QUESTION_TEXT')}}</mat-label>
+        <textarea matInput formControlName="content" placeholder="Ej: Text or texto" rows="3"></textarea>
 
         @if (questionForm.get('content')?.hasError('required')) {
-        <mat-error style="width: 100%">Campo obligatorio.</mat-error>
+        <mat-error style="width: 100%">{{languageService.translate('REQUIRED_FIELD')}}</mat-error>
         }
 
         @if (questionForm.get('content')?.hasError('maxlength')) {
         <mat-error>
-          No puede superar los
-          {{ questionForm.get('content')?.getError('maxlength').requiredLength }} caracteres.
+          {{languageService.translate('CANNOT_EXCEED_THE')}}
+          {{ questionForm.get('content')?.getError('maxlength').requiredLength }}
+          {{languageService.translate('CHARACTERS')}}.
         </mat-error>
         }
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Retroalimentación</mat-label>
+        <mat-label>{{languageService.translate('FEEDBACK')}}</mat-label>
 
-        <textarea matInput formControlName="feedback" placeholder="Ej: Fundamentos de IA" rows="3"></textarea>
+        <textarea matInput formControlName="feedback" placeholder="Ej: Feedback..." rows="3"></textarea>
 
         @if (questionForm.get('feedback')?.hasError('maxlength')) {
         <mat-error>
-          No puede superar los
-          {{ questionForm.get('feedback')?.getError('maxlength').requiredLength }} caracteres.
+          {{languageService.translate('CANNOT_EXCEED_THE')}}
+          {{ questionForm.get('feedback')?.getError('maxlength').requiredLength }}
+          {{languageService.translate('CHARACTERS')}}.
+          .
         </mat-error>
         }
       </mat-form-field>
@@ -48,15 +50,16 @@
 
     <div class="btn-container">
       @if (activeEditQuestion() !== null) {
-      <button class="cancel-button" (click)="onCancelEdit()" mat-raised-button>Cancelar</button>
+      <button class="cancel-button" (click)="onCancelEdit()"
+        mat-raised-button>{{languageService.translate('CANCEL')}}</button>
 
       <button (click)="updateQuestion()" mat-raised-button color="primary" type="button" class="submit-button">
-        Actualizar pregunta
+        {{languageService.translate('UPDATE_QUESTION')}}
       </button>
       } @else {
       <button (click)="createQuestion()" mat-raised-button color="primary" type="button" class="submit-button"
         [disabled]="questionForm.invalid">
-        Guardar pregunta
+        {{languageService.translate('SAVE_QUESTION')}}
       </button>
       }
     </div>
@@ -64,8 +67,10 @@
 
   <div class="search-container">
     <mat-form-field appearance="outline" class="w-100">
-      <mat-label>Buscar pregunta</mat-label>
-      <input matInput placeholder="Escribe para filtrar preguntas..." (input)="searchTerm.set($event.target.value)" />
+      <mat-label>{{languageService.translate('SEARCH_QUESTION')}}</mat-label>
+      <input matInput 
+      [placeholder]="languageService.translate('SEARCH_QUESTIONS_PLACEHOLDER')"
+       (input)="searchTerm.set($event.target.value)" />
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
   </div>
@@ -103,17 +108,17 @@
       <div class="question-button-group">
         <button type="button" (click)="onDeleteQuestion(question.id)" class="delete-question-btn" mat-flat-button>
           <mat-icon>delete</mat-icon>
-          <span>Eliminar</span>
+          <span>{{languageService.translate('DELETE')}}</span>
         </button>
 
         <button (click)="selectEditQuestion(question)" type="button" class="edit-question-btn" mat-flat-button>
           <mat-icon>edit</mat-icon>
-          <span>Editar</span>
+          <span>{{languageService.translate('EDIT')}}</span>
         </button>
 
         <button (click)="openAddAnswerForm(question)" type="button" class="add-question-btn" mat-flat-button>
           <mat-icon>add</mat-icon>
-          <span>Respuesta</span>
+          <span>{{languageService.translate('ANSWER')}}</span>
         </button>
       </div>
     </div>
@@ -125,11 +130,13 @@
   <ng-template matMenuContent let-answer="answer">
     <button (click)="openUpdateAnswerForm(answer)" mat-menu-item>
       <mat-icon color="warn">edit</mat-icon>
-      <span>Editar</span>
+      <span>{{languageService.translate('EDIT')}}</span>
     </button>
     <button (click)="onDeleteAnswer(answer)" mat-menu-item>
       <mat-icon>delete</mat-icon>
-      <span>Eliminar</span>
+      <span>
+        {{languageService.translate('DELETE')}}
+      </span>
     </button>
   </ng-template>
 </mat-menu>

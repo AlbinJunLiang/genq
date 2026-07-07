@@ -1,11 +1,12 @@
 import { afterNextRender, Component, ElementRef, inject, viewChild } from '@angular/core';
 import { MatIcon } from "@angular/material/icon";
-import { MAT_DIALOG_DATA, MatDialog, MatDialogClose, MatDialogModule } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialogModule } from "@angular/material/dialog";
 import { MatAnchor } from "@angular/material/button";
 import { Quiz } from '../../core/interfaces/quiz-interface';
 import { formatReadableDate } from '../../shared/util/date.util';
 import { Router } from '@angular/router';
 import * as QRCode from 'qrcode';
+import { LanguageService } from '../../core/services/ui/language-service';
 
 @Component({
   selector: 'app-quiz-detail-dialog',
@@ -18,7 +19,7 @@ export class QuizDetailDialog {
   public data = inject<Quiz>(MAT_DIALOG_DATA);
   private router = inject(Router);
   private qrCanvas = viewChild<ElementRef<HTMLCanvasElement>>('qrCanvas');
-
+  protected languageService = inject(LanguageService);
 
   constructor() {
     afterNextRender(() => {
@@ -50,7 +51,6 @@ export class QuizDetailDialog {
 
   }
 
-
   private generateQRCode() {
     const canvas = this.qrCanvas()?.nativeElement;
     if (!canvas) return;
@@ -65,6 +65,4 @@ export class QuizDetailDialog {
       if (error) console.error('Error generando QR', error);
     });
   }
-
-
 }

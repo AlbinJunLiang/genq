@@ -11,6 +11,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SnackBarService } from '../../core/services/ui/snackbar-service';
 import { QuestionStore } from '../../core/stores/question-store';
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { LanguageService } from '../../core/services/ui/language-service';
 
 @Component({
   selector: 'app-answer-form',
@@ -22,13 +23,17 @@ import { MatProgressSpinner } from "@angular/material/progress-spinner";
 export class AnswerForm {
 
   public dialogRef = inject(MatDialogRef);
-  private answerService = inject(AnswerService);
-  protected data = inject<AnswerDialogData>(MAT_DIALOG_DATA);
+
   private fb = inject(FormBuilder);
+  private answerService = inject(AnswerService);
+  private questionStore = inject(QuestionStore);
+
+
+  protected data = inject<AnswerDialogData>(MAT_DIALOG_DATA);
   protected snackbar = inject(SnackBarService);
   protected isLoading = signal(false);
+  protected languageService = inject(LanguageService);
 
-  private questionStore = inject(QuestionStore);
   protected answerForm = this.fb.nonNullable.group({
     content: ['', [Validators.required, Validators.maxLength(600)]],
     isCorrect: [false, [Validators.required]]
@@ -36,7 +41,7 @@ export class AnswerForm {
 
 
   close(): void {
-    this.dialogRef.close(); // Cierra sin enviar nada
+    this.dialogRef.close();
   }
 
   ok(): void {
@@ -56,7 +61,6 @@ export class AnswerForm {
   protected onSaveAnswer() {
     this.isLoading.set(true);
     const values = this.answerForm.value;
-
     const newAnswer: CreateAnswerDto = {
       content: values.content ?? '',
       isCorrect: values.isCorrect ?? false,
@@ -67,14 +71,14 @@ export class AnswerForm {
     if (this.hasCorrectAnswers(this.data.question?.answers)
       && this.data.question?.type === 'UNIQUE'
       && values.isCorrect) {
-      this.snackbar.show('Solo puedes agregar una opción correcta', 'Ok');
+      this.snackbar.show(this.languageService.translate('ONLY_ONE_CORRECT_OPTION_ALLOWED'), 'Ok');
       return;
     }
 
 
     this.answerService.createAnswer(newAnswer).subscribe({
       next: (created) => {
-        this.snackbar.show('CREADO', 'ok');
+        this.snackbar.show(this.languageService.translate('ANSWER_CREATED'), 'ok');
         this.isLoading.set(false);
         this.dialogRef.close(created);
       },
@@ -88,7 +92,6 @@ export class AnswerForm {
 
   protected onUpdateAnswer() {
     this.isLoading.set(true);
-
     const values = this.answerForm.value;
 
     if (!this.data.answer) {
@@ -97,18 +100,16 @@ export class AnswerForm {
 
     // 1. Obtén la fuente de verdad real desde el Store
     const question = this.questionStore.getQuestionById(this.data.answer?.questionId ?? 0)();
-
     // 2. Validación defensiva: si no hay pregunta, no podemos validar
     if (!question) {
       console.error('No se pudo encontrar la pregunta en el Store');
       return;
     }
-
     const isUniqueType = question.type === 'UNIQUE';
     const hasCorrectAnswerAlready = this.hasCorrectAnswers(question.answers);
 
     if (isUniqueType && hasCorrectAnswerAlready && values.isCorrect) {
-      this.snackbar.show('There is already a correct answer for this question', 'Error');
+      this.snackbar.show(this.languageService.translate('ALREADY_HAS_CORRECT_ANSWER'), 'Error');
       return;
     }
 
@@ -119,7 +120,7 @@ export class AnswerForm {
     }
     this.answerService.updateAnswer(this.data.answer.id, answer).subscribe({
       next: (created) => {
-        this.snackbar.show('Actualizado', 'ok');
+        this.snackbar.show(this.languageService.translate('UPDATED'), 'ok');
         this.dialogRef.close(created);
         this.isLoading.set(false);
 
@@ -131,6 +132,7 @@ export class AnswerForm {
     });
   }
 
+
   protected submitAnswer() {
     if (this.data.mode === 'EDIT') {
       this.onUpdateAnswer();
@@ -138,7 +140,6 @@ export class AnswerForm {
       this.onSaveAnswer();
     }
   }
-
 
   private hasCorrectAnswers(answers: Answer[] | undefined): boolean {
     return answers?.some((a: Answer) => a.isCorrect) ?? false;

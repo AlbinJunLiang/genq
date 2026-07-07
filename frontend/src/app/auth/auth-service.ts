@@ -1,6 +1,5 @@
 // auth.service.ts
 import { inject, Injectable, computed, signal, OnDestroy } from '@angular/core';
-
 import { catchError, from, map, Observable, of, Subscription, switchMap, throwError } from 'rxjs';
 import { User } from './user-interface';
 import { FirebaseAuthService } from './firebase-auth-interface';
@@ -79,9 +78,7 @@ export class AuthService implements OnDestroy {
     refreshAuthStatus(): Observable<boolean> {
         return this.provider.refreshAuthStatus().pipe(
             switchMap((isVerified) => {
-                // 1. Si el usuario está verificado, manejamos el token con RxJS puro
                 if (isVerified) {
-                    // 'from' convierte la promesa de tu proveedor en un flujo reactivo limpio
                     return from(this.provider.getIdToken()).pipe(
                         map((newToken) => {
                             this._token.set(newToken);
@@ -89,8 +86,6 @@ export class AuthService implements OnDestroy {
                         })
                     );
                 }
-
-                // 2. Si no está verificado, simplemente dejamos pasar el 'false' envuelto en un observable
                 return of(false);
             }),
             catchError((err) => {

@@ -31,7 +31,6 @@ export class AttemptService {
      * @param limit Cantidad de registros por página (opcional)
      */
 
-    
     getAttemptsByQuiz(
         quizId: number,
         sortBy: 'finished_at' | 'score' = 'finished_at',

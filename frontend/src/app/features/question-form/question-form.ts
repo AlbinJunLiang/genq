@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, computed, effect, ElementRef, inject, input, signal, untracked, viewChild } from '@angular/core';
+import { Component, computed, effect, ElementRef, inject, input, signal, untracked, viewChild } from '@angular/core';
 import { MatFormField, MatLabel, MatError, MatSuffix } from "@angular/material/form-field";
 import { MatOption } from "@angular/material/core";
 import { MatSelect } from "@angular/material/select";
@@ -20,31 +20,34 @@ import { Answer, AnswerResponse } from '../../core/interfaces/answer-interface';
 import { MatMenu, MatMenuItem, MatMenuModule } from "@angular/material/menu";
 import { AnswerService } from '../../core/services/api/answer-service';
 import { ConfirmDialogComponent } from '../../shared/component/confirm/dialog-component';
-import { MatProgressSpinner } from "@angular/material/progress-spinner";
-import { finalize } from 'rxjs';
+import { LanguageService } from '../../core/services/ui/language-service';
 
 @Component({
   selector: 'app-question-form',
   imports: [MatFormField, MatLabel, MatOption, MatSelect,
     MatInput, MatAnchor, MatListModule, MatCheckboxModule,
     MatIcon, MatIconButton, MatError, ReactiveFormsModule,
-    CommonModule, MatMenu, MatMenuItem, MatMenuModule, MatSuffix, MatProgressSpinner],
+    CommonModule, MatMenu, MatMenuItem, MatMenuModule, MatSuffix],
   templateUrl: './question-form.html',
   styleUrl: './question-form.scss',
 })
 export class QuestionForm {
+
+  public quizId = input<number>(0);
+  private fb = inject(FormBuilder);
+  private dialog = inject(MatDialog);
+  private answerService = inject(AnswerService);
+
   protected content = signal('');
   protected feedback = signal('');
   protected type = signal('');
   protected questionStore = inject(QuestionStore);
-  public quizId = input<number>(0);
-  private fb = inject(FormBuilder);
-  private dialog = inject(MatDialog);
+
   protected questionFormRef = viewChild<ElementRef>('questionFormRef');
   protected snackbar = inject(SnackBarService);
-  private answerService = inject(AnswerService);
   protected activeEditQuestion = signal<Question | null>(null);
   protected searchTerm = signal('');
+  protected languageService = inject(LanguageService)
 
   protected filteredQuestions = computed(() =>
     this.questionStore.findByContent(this.searchTerm())()
@@ -117,10 +120,10 @@ export class QuestionForm {
     }).subscribe({
       next: () => {
         this.questionForm.reset();
-        this.snackbar.show("Pregunta creada con éxito", 'Ok');
+        this.snackbar.show(this.languageService.translate('QUESTION_CREATED_SUCCESSFULLY'), 'Ok');
       },
       error: (err) => {
-        this.snackbar.show("Ha ocurrido un error", 'Ok');
+        this.snackbar.show("Error", 'Ok');
       }
     });
   }
@@ -140,10 +143,10 @@ export class QuestionForm {
     }).subscribe({
       next: (response) => {
         this.questionForm.reset();
-        this.snackbar.show("Pregunta actualizada con éxito", 'Ok');
+        this.snackbar.show(this.languageService.translate('QUESTION_UPDATED_SUCCESSFULLY'), 'Ok');
       },
       error: (err) => {
-        this.snackbar.show("Ha ocurrido un error", 'Ok');
+        this.snackbar.show("Error", 'Ok');
       }
     });
   }
@@ -186,18 +189,16 @@ export class QuestionForm {
   }
 
 
-  // ... dentro de tu clase
-
   protected onDeleteAnswer(answer: Answer) {
 
     this.answerService.deleteAnswer(answer.id).pipe(
     ).subscribe({
       next: () => {
         this.questionStore.deleteAnswer(answer.questionId, answer.id);
-        this.snackbar.show('Respuesta eliminada correctamente', 'ok');
+        this.snackbar.show(this.languageService.translate('ANSWER_DELETED_SUCCESSFULLY'), 'ok');
       },
       error: (err) => {
-        this.snackbar.show('Error al eliminar la respuesta', 'error');
+        this.snackbar.show('Error', 'ok');
       }
     });
   }
@@ -206,10 +207,10 @@ export class QuestionForm {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '400px',
       data: {
-        title: 'Eliminar Pregunta?',
-        message: '¿Estás seguro de que quieres borrar esta pregunta?',
-        confirmText: 'Borrar',
-        cancelText: 'Mejor no',
+        title: this.languageService.translate('DELETE_QUESTION_TITLE'),
+        message: this.languageService.translate('DELETE_QUESTION_CONFIRMATION'),
+        confirmText: this.languageService.translate('DELETE'),
+        cancelText: this.languageService.translate('CANCEL'),
         color: 'warn'
       }
     });
@@ -224,7 +225,7 @@ export class QuestionForm {
   private deleteQuestion(idQuestion: number) {
     this.questionStore.delete(idQuestion).subscribe({
       next: () => {
-        this.snackbar.show('Pregunta eliminada con éxito del store y de la API', 'Ok');
+        this.snackbar.show(this.languageService.translate('QUESTION_DELETED_SUCCESSFULLY'), 'Ok');
       },
       error: (err) => {
         console.error('Error al intentar eliminar:', err);

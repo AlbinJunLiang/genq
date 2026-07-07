@@ -24,18 +24,6 @@
   height: 60vh;
 }
 
-@media (min-width: 768px) {
-  .cards-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1200px) {
-  .cards-container {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
 .card {
   background: #ffffff;
   border: 1px solid #e0e0e0;
@@ -131,7 +119,7 @@
 .card-actions {
   display: flex;
   /* Pone los elementos en fila */
-  gap: 10px;
+  gap: 8px;
   /* Espacio entre los botones */
   justify-content: flex-start;
   /* O 'center' si los quieres en medio */
@@ -143,10 +131,9 @@
   border-radius: 0;
 }
 
-.edit-btn {
-  background-color: rgb(32, 98, 221);
-  color: #fff;
-  padding: 6px 10px;
+.icon-btn {
+  color: #040350;
+  padding: 5px 5px;
   border: none;
   cursor: pointer;
   width: fit-content;
@@ -168,3 +155,14 @@
 }
 
 
+@media (min-width: 768px) {
+  .cards-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .cards-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

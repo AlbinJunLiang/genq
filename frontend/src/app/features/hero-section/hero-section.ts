@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { LanguageService } from '../../core/services/ui/language-service';
 
 @Component({
   selector: 'app-hero-section',
@@ -8,6 +9,6 @@ import { Component } from '@angular/core';
 })
 export class HeroSection {
 
-
+  protected languageService = inject(LanguageService);
 
 }

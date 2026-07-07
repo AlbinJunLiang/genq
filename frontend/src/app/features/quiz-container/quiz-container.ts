@@ -1,17 +1,14 @@
 import { Component, inject, input, signal } from '@angular/core';
-import { EvaluationRequest, Quiz, QuizApiResponse, QuizDetail } from '../../core/interfaces/quiz-interface';
+import { EvaluationRequest, QuizApiResponse, QuizDetail } from '../../core/interfaces/quiz-interface';
 import { QuestionFromQuiz } from '../../core/interfaces/question-interface';
 import { Answer } from '../../core/interfaces/answer-interface';
-import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatAnchor, MatIconButton } from "@angular/material/button";
 import { QuizNavbar } from "../quiz-navbar/quiz-navbar";
 import { QuizNavService } from '../../core/services/ui/quiz-nav-service';
 import { UserAnswer } from '../../core/interfaces/user-answer-interface';
-import { getRandomInt } from '../../shared/util/random-string';
 import { QuizService } from '../../core/services/api/quiz-service';
-import { INITIAL_QUIZ_MOCK } from '../../core/services/mocks/quiz-start-mock';
 import { EvaluationResult } from '../../core/interfaces/quiz-review-interface';
-import { MatIcon, MatIconModule } from "@angular/material/icon";
+import { MatIconModule } from "@angular/material/icon";
 import { SnackBarService } from '../../core/services/ui/snackbar-service';
 import { Router } from '@angular/router';
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
@@ -19,8 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../shared/component/confirm/dialog-component';
 import { BreakpointService } from '../../core/services/ui/breakpoint-service';
 import { QuizStateService } from '../../core/services/ui/quiz-state-service';
-
-
+import { LanguageService } from '../../core/services/ui/language-service';
 
 @Component({
   selector: 'app-quiz-container',
@@ -30,13 +26,20 @@ import { QuizStateService } from '../../core/services/ui/quiz-state-service';
 })
 export class QuizContainer {
 
+  private quizService = inject(QuizService);
+  private snackbar = inject(SnackBarService);
+  private router = inject(Router);
+  private dialog = inject(MatDialog);
+  private breakpointService = inject(BreakpointService);
+  private quizStateService = inject(QuizStateService);
+
+
   protected quizUuid = input.required<string>();
   protected userAnswers = signal<UserAnswer[]>([]);
   protected quizNavService = inject(QuizNavService);
   protected isFinalized = signal<boolean>(false);
   protected attemptUuid = signal<string>('');
   protected quiz = signal<QuizDetail>({
-
     id: 0,
     uuid: "",
     title: "",
@@ -51,17 +54,10 @@ export class QuizContainer {
   });
 
   protected isLoading = signal(false);
-  private quizService = inject(QuizService);
+  protected languageService = inject(LanguageService);
+
   protected evaluationResult = signal<EvaluationResult | null>(null);
-  private snackbar = inject(SnackBarService);
-  private router = inject(Router);
-  private dialog = inject(MatDialog);
-  private breakpointService = inject(BreakpointService);
   protected isMobile = this.breakpointService.isMobile;
-  private quizStateService = inject(QuizStateService);
-
-
-
 
 
   ngOnInit() {
@@ -71,10 +67,7 @@ export class QuizContainer {
 
   private loadQuiz() {
     this.isLoading.set(true);
-
-    // 1. Intentar cargar desde el storage
     const savedQuiz = this.quizStateService.loadFromStorage();
-
     if (savedQuiz && this.savedUuidIsEqualCurrent(savedQuiz.quiz.uuid)) {
       this.applyDataToSignals(savedQuiz);
       this.isLoading.set(false);
@@ -87,22 +80,21 @@ export class QuizContainer {
             this.router.navigate(['/home']);
             return;
           }
-
-          // Inicializamos y aplicamos
           const initialized = this.quizStateService.initializeQuiz(data);
           this.applyDataToSignals(initialized);
           this.isLoading.set(false);
         },
         error: (err) => {
           this.isLoading.set(false);
-          this.snackbar.show(err.error?.message === 'Quiz not found' ? "El quiz no existe" : "Error al cargar", 'Cerrar');
+          this.snackbar.show(err.error?.message === 'Quiz not found' ?
+            this.languageService.translate('QUIZ_NOT_FOUND') : this.languageService.translate('LOAD_ERROR'), 'Cerrar');
           this.router.navigate(['/home']);
         }
       });
     }
   }
 
-  // Método único para evitar duplicar código
+
   private applyDataToSignals(data: QuizApiResponse) {
     this.quiz.set(data.quiz);
     this.attemptUuid.set(data.attemptUuid);
@@ -113,12 +105,11 @@ export class QuizContainer {
     return savedQuizUuid === this.quizUuid()
   }
 
-  selectAnswer(question: QuestionFromQuiz, selectedAnswer: Answer) {
+  protected selectAnswer(question: QuestionFromQuiz, selectedAnswer: Answer) {
     this.quiz.update(currentQuiz => {
       // 1. Clonamos el quiz para mantener la inmutabilidad
       const newQuestions = currentQuiz.questions.map(q => {
         if (q.id !== question.id) return q;
-
         // 2. Clonamos la pregunta y sus respuestas
         const newAnswers = q.answers.map(a => {
           if (q.type === 'UNIQUE') {
@@ -135,7 +126,6 @@ export class QuizContainer {
 
       return { ...currentQuiz, questions: newQuestions };
     });
-
     // 3. Después de actualizar el estado, guardamos la respuesta en userAnswers
     // Necesitamos buscar la pregunta recién actualizada
     const updatedQuestion = this.quiz().questions.find(q => q.id === question.id)!;
@@ -161,13 +151,10 @@ export class QuizContainer {
           item.questionId === question.id ? { ...item, answerIds: selectedIds } : item
         );
       }
-
       // Si no existe, agregamos
       return [...current, { questionId: question.id, answerIds: selectedIds }];
     });
   }
-
-
 
   protected isCurrentQuestionAnswered(): boolean {
     const position = this.quizNavService.currentPosition();
@@ -183,7 +170,6 @@ export class QuizContainer {
 
   protected evaluateQuiz() {
     this.isLoading.set(true);
-
     const currentQuiz = this.quiz();
     if (!currentQuiz || this.isFinalized()) return;
 
@@ -200,7 +186,7 @@ export class QuizContainer {
       next: (result: EvaluationResult) => {
         this.quizStateService.clearStorage();
         this.evaluationResult.set(result);
-        this.isFinalized.set(true);        // Cambiamos el estado a finalizado
+        this.isFinalized.set(true);       
         this.isLoading.set(false);
 
       },
@@ -212,8 +198,6 @@ export class QuizContainer {
       }
     });
   }
-
-
 
   resetQuiz() {
     this.userAnswers.set([]);
@@ -228,10 +212,10 @@ export class QuizContainer {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '400px',
       data: {
-        title: 'Reiniciar quiz',
-        message: `¿Deseas reiniciar el quiz de ${this.quiz().title}?`,
-        confirmText: 'Reiniciar',
-        cancelText: 'Mejor no',
+        title:  this.languageService.translate('RESET_QUIZ_TITLE'),
+        message:  this.languageService.translate('RESET_QUIZ_MESSAGE'),
+        confirmText: this.languageService.translate('RESET'),
+        cancelText:  this.languageService.translate('CANCEL'),
         color: 'warn'
       }
     });
@@ -249,8 +233,8 @@ export class QuizContainer {
       data: {
         title: this.quiz().title,
         message: this.quiz().description,
-        confirmText: 'Salir del quiz',
-        cancelText: 'Mejor no'
+        confirmText: this.languageService.translate('EXIT'),
+        cancelText: this.languageService.translate('CANCEL'),
       }
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -264,5 +248,4 @@ export class QuizContainer {
       }
     });
   }
-
 }

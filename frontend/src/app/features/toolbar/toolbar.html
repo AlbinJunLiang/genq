@@ -10,10 +10,10 @@
   </div>
 
   <div class="center-buttons">
-    <button routerLink="/" class="center-button" mat-button>Inicio</button>
-    <button routerLink="/quizzes" class="center-button" mat-button>Cuestionarios</button>
-    <button routerLink="/history" class="center-button" mat-button>Historial</button>
-    <button class="center-button" mat-button>Información</button>
+    <button routerLink="/" class="center-button" mat-button>{{languageService.translate('MAIN')}}</button>
+    <button routerLink="/quizzes" class="center-button" mat-button>{{languageService.translate('QUIZZES')}}</button>
+    <button routerLink="/history" class="center-button" mat-button>{{languageService.translate('HISTORY')}}</button>
+    <button class="center-button" mat-button>{{languageService.translate('INFORMATION')}}</button>
   </div>
 
   <div class="right-icons">

@@ -12,6 +12,9 @@ import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { MatDialog } from '@angular/material/dialog';
 import { QuizDetailDialog } from '../quiz-detail-dialog/quiz-detail-dialog';
 import { QuizVisibilityService } from '../../core/services/ui/quiz-visibility.service';
+import { LanguageService } from '../../core/services/ui/language-service';
+import { ConfirmDialogComponent } from '../../shared/component/confirm/dialog-component';
+import { SnackBarService } from '../../core/services/ui/snackbar-service';
 
 @Component({
   selector: 'app-quiz-grid',
@@ -26,8 +29,12 @@ export class QuizGrid {
   protected selectedQuizService = inject(SelectedQuizService);
   protected slideInModal = inject(SlideInModalService);
   protected changeSlideViewService = inject(ChangeSlideViewService);
+  protected languageService = inject(LanguageService);
+
   private dialog = inject(MatDialog);
   private visibilityService = inject(QuizVisibilityService);
+  private snackbar = inject(SnackBarService);
+
 
 
   ngOnInit() {
@@ -84,4 +91,39 @@ export class QuizGrid {
       data: quiz
     });
   }
+
+
+  onDeleteQuiz(quiz: Quiz) {
+    if (!quiz) {
+      return;
+    }
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      data: {
+        title: this.languageService.translate('DELETE_QUIZ_TITLE'),
+        message: this.languageService.translate('DELETE_QUIZ_CONFIRMATION'),
+        confirmText: this.languageService.translate('DELETE'),
+        cancelText: this.languageService.translate('CANCEL'),
+        color: 'warn'
+      }
+    });      // Bloqueamos la UI para evitar múltiples clics
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.quizStore.remove(quiz.id ?? 0).subscribe({
+          next: () => {
+            this.snackbar.show(this.languageService.translate('DELETED_SUCCESSFULLY'), 'Ok');
+            this.slideInModal.close();
+          },
+          error: (err) => {
+            console.error(err);
+            this.snackbar.show('Error', 'Ok');
+          }
+        });
+      }
+    });
+  }
+
+
 }

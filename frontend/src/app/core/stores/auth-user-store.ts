@@ -17,7 +17,6 @@ export class AuthUserStore {
     public userSyncData = computed(() => this._userSyncData());
 
 
-
     initSync() {
         runInInjectionContext(this.injector, () => {
             toObservable(this.authService.user).subscribe(user => {

@@ -64,9 +64,153 @@ export const translations = {
         PRIVACY_TITLE: "Privacidad de datos",
         PRIVACY_DESC: "La aplicación almacena información de los perfiles para mejorar la experiencia del usuario. En cuanto a los datos de los cuestionarios almacenados, estos no serán utilizados para otros fines.",
         BTN_MORE: "Ver más",
-        QUIZ_DATE_MUST_BE_FUTURE: "La fecha de finalización debe ser en el futuro."
+        QUIZ_DATE_MUST_BE_FUTURE: "La fecha de finalización debe ser en el futuro.",
+        TOO_MANY_REQUESTS: "Demasiadas solicitudes. Inténtalo de nuevo más tarde.",
+        ERROR_CREATING_QUIZ: "Error creating the quiz.",
+        GENERATE_QUIZ: 'Generar cuestionario',
+        ENTER_DOCUMENT_OR_INSTRUCTION: 'Ingrese el documento JSON',
+        ENTER_INSTRUCTION: "Ingrese la instrucción",
+        INVALID_JSON_FORMAT: 'El formato no es un JSON válido (revisa comas o llaves).',
+        EMPTY_INSTRUCTION_ERROR: 'La instrucción no puede estar vacía.',
+        MAX_INSTRUCTION_LENGTH_ERROR: 'No puede superar los 3000 caracteres',
+        MIN_INSTRUCTION_LENGTH_ERROR: 'Debe ingresar como mínimo 10 caracteres',
+        ADDITIONAL_DETAILS_PROMPT: 'Detalles adicionales (Prompt)',
+        QUIZ_PROMPT_INSTRUCTIONS: 'El prompt para la generación del quiz debe contener un máximo de 20 caracteres. El quiz generado estará compuesto por entre 1 y 10 preguntas, con una distribución del 50% de preguntas de opción múltiple y 50% de respuesta única. Cada pregunta podrá incluir entre 2 y 5 opciones.',
+        EXTERNAL_AI_JSON: 'Para IAs externas (JSON)',
+        QUIZ_GENERATOR_JSON_PROMPT: 'Eres un generador de quizzes experto sobre el tema (Indicar). Tu respuesta debe ser un objeto JSON puro. Comienza con "{" y termina con "}". No incluyas explicaciones ni etiquetas Markdown.',
+        INSTRUCTIONS: 'Instrucciones',
+        UPLOAD_PDF_DOCUMENT: 'Subir documento PDF',
+        SELECT_MODEL: 'Selecciona un modelo',
+        COPIED_TO_CLIPBOARD: '¡Copiado al portapapeles!',
+        CLOSE: 'Cerrar',
+        QUIZ_CREATED_SUCCESSFULLY: 'Quiz creado exitosamente',
+        ONLY_ONE_CORRECT_OPTION_ALLOWED: 'Solo puedes agregar una opción correcta',
+        QUESTION_CREATED: 'Pregunta creada',
+        ANSWER_CREATED: 'Respuesta creada',
 
-        // INVALID_CREDENTIALS: '¡Correo o contraseña no válidos!',
+        ALREADY_HAS_CORRECT_ANSWER: 'Ya existe una respuesta correcta para esta pregunta',
+        UPDATED: 'Actualizado',
+        ANSWER: 'Respuesta',
+        REQUIRED_FIELD: 'Campo obligatorio.',
+        CANNOT_EXCEED_THE: 'No puede superar los',
+        CHARACTERS: 'caracteres.',
+        ACCEPT: 'Aceptar',
+        MARK_AS_CORRECT: 'Marcar como correcta',
+        EDIT_ANSWER: 'Editar respuesta',
+        ADD_ANSWER: 'Añadir respuesta',
+
+        FILTER_QUIZZES: 'Filtrar quizzes',
+        PUBLIC: 'Públicos',
+        PRIVATE: 'Privados',
+        LINK_ONLY: 'Solo enlace',
+        ALL: 'Todos',
+        GLOBAL: 'Globales',
+
+        APP_DESCRIPTION: 'Desarrollando soluciones digitales de alta calidad.',
+        ALL_RIGHTS_RESERVED: 'Todos los derechos reservados.',
+        NAVIGATION: 'Navigation',
+        CONNECT_WITH_US: 'Conectemos',
+        CONTACT: 'Contacto',
+        DEVELOPER: 'Desarrollador',
+        EXPLORE_GENQ_CONTENT: 'Explora el contenido de GenQ.',
+        EXPLORE_LEARN_AND_TEST: 'Explora, aprende y pon a prueba tus conocimientos.',
+
+        UNTITLED: 'Sin título',
+
+        BEST: 'Mejores',
+        LOWEST_SCORE: 'Menor puntuación',
+        MOST_RECENT: 'Más recientes',
+        OLDEST: 'Más antiguos',
+        LOADING_DATA: 'Cargando datos',
+
+        POSITION: 'Posición',
+        FINISHED_AT: 'Fin',
+        CREATED_AT: 'Inicio',
+        USER: 'Usuario',
+        SCORE: 'Calificación',
+
+        QUESTION_DELETED_SUCCESSFULLY: 'Pregunta eliminada con éxito del store y de la API',
+
+        DELETE_QUESTION_TITLE: '¿Eliminar pregunta?',
+        DELETE_QUESTION_CONFIRMATION: '¿Estás seguro de que quieres borrar esta pregunta?',
+        DELETE: 'Borrar',
+
+        ANSWER_DELETED_SUCCESSFULLY: 'Respuesta eliminada correctamente',
+
+        QUESTION_UPDATED_SUCCESSFULLY: 'Pregunta actualizada con éxito',
+        QUESTION_CREATED_SUCCESSFULLY: 'Pregunta creada con éxito',
+
+        ADD_QUESTION: 'Añadir pregunta',
+        TYPE: 'Tipo',
+        MULTIPLE_SELECTION: 'Selección múltiple',
+        SINGLE_ANSWER: 'Respuesta única',
+
+        QUESTION_TEXT: 'Texto de la pregunta',
+
+        FEEDBACK: 'Retroalimentación',
+
+        UPDATE_QUESTION: 'Actualizar pregunta',
+        SAVE_QUESTION: 'Guardar pregunta',
+
+        SEARCH_QUESTION: 'Buscar pregunta',
+        SEARCH_QUESTIONS_PLACEHOLDER: 'Escribe para filtrar preguntas...',
+
+        EDIT: 'Editar',
+
+        QUIZ_NOT_FOUND: 'El quiz no existe',
+        LOAD_ERROR: 'Error al cargar',
+
+        RESET_QUIZ_TITLE: 'Reiniciar quiz',
+        RESET_QUIZ_MESSAGE: '¿Deseas reiniciar el quiz?',
+        RESET: 'Reiniciar',
+        QUESTION: 'Pregunta',
+
+        PREVIOUS: 'Anterior',
+        NEXT: 'Siguiente',
+        FINISH: 'Finalizar',
+
+        QUIZ_DETAILS: 'Detalles del cuestionario',
+        TITLE: 'Título',
+        DESCRIPTION: 'Descripción',
+
+        REFERENCE: 'Referencia',
+        START: 'Iniciar',
+        CREATE_QUIZ: 'Crear cuestionario',
+        EDIT_QUIZ: 'Editar cuestionario',
+        QUIZ_TITLE: 'Título del Quiz',
+        INACTIVE: 'Inactivo',
+        VISIBILITY: 'Visibilidad',
+        ATTEMPT_LIMIT: 'Límite de intentos',
+        MINIMUM_VALUE_REQUIRED: 'El valor mínimo debe ser',
+
+        END_DATE: 'Fecha de fin',
+        INVALID_DATE_FORMAT: 'La fecha es incorrecta.',
+        VALID_DATE_REQUIRED: 'Enter a valid date.',
+        DURATION_MINUTES: 'Duración (minutos)',
+
+
+        NO_QUIZZES_AVAILABLE: 'No hay quizzes disponibles.',
+        PAGE: 'Página',
+        OF: 'de',
+        ATTEMPTS_HISTORY: 'Historial de intentos',
+        RECORDS: 'registros',
+        FINISHED: 'Finalizado',
+        NO_ATTEMPTS_REGISTERED: 'No hay intentos registrados',
+        COMPLETE_QUIZ_MESSAGE: 'Cuando completes un cuestionario aparecerá aquí.',
+        DELETE_RECORD_TITLE: 'Eliminar registro',
+        DELETE_RECORD_CONFIRMATION: '¿Estás seguro de que quieres borrar el registro?',
+        DELETED_SUCCESSFULLY: 'Eliminado correctamente',
+        GENERATE_WITH_AI: 'Generar con IA',
+        SEARCH_QUIZ_PLACEHOLDER: 'Buscar cuestionario...',
+        VERIFY_ACCOUNT: 'Verificar cuenta',
+        SETTINGS: 'Configuración',
+        LANGUAGES: 'Idiomas',
+        MODELS: 'Modelos',
+        DELETE_QUIZ_TITLE: 'Eliminar Cuestionario',
+        DELETE_QUIZ_CONFIRMATION: '¿Estás seguro de que quieres borrar este quiz permanentemente?',
+
+
+
     },
 
     en: {
@@ -133,7 +277,172 @@ export const translations = {
         PRIVACY_TITLE: "Data privacy",
         PRIVACY_DESC: "The application stores profile information to improve the user experience. Regarding stored quiz data, these will not be used for other purposes.",
         BTN_MORE: "Learn more",
-        QUIZ_DATE_MUST_BE_FUTURE: 'The end date must be in the future.'
+        QUIZ_DATE_MUST_BE_FUTURE: 'The end date must be in the future.',
+        TOO_MANY_REQUESTS: "Too many requests. Try again later.",
+        ERROR_CREATING_QUIZ: "Error al crear el cuestionario.",
+        GENERATE_QUIZ: 'Generate quiz',
+        ENTER_DOCUMENT_OR_INSTRUCTION: 'Enter the JSON document',
+        ENTER_INSTRUCTION: 'Enter the instruction',
+        INVALID_JSON_FORMAT: 'The format is not a valid JSON (check commas or braces).',
+        EMPTY_INSTRUCTION_ERROR: 'The instruction cannot be empty.',
+        MAX_INSTRUCTION_LENGTH_ERROR: 'It cannot exceed 3000 characters',
+        MIN_INSTRUCTION_LENGTH_ERROR: 'You must enter at least 10 characters',
+        ADDITIONAL_DETAILS_PROMPT: 'Additional details (Prompt)',
+        QUIZ_PROMPT_INSTRUCTIONS: 'The quiz generation prompt must contain a maximum of 20 characters. The generated quiz will consist of between 1 and 10 questions, with a 50% distribution of multiple-choice questions and 50% single-answer questions. Each question may include between 2 and 5 options.',
+        EXTERNAL_AI_JSON: 'For external AIs (JSON)',
+        QUIZ_GENERATOR_JSON_PROMPT: 'You are an expert quiz generator on the topic (Indicate). Your response must be a pure JSON object. Start with "{" and end with "}". Do not include explanations or Markdown tags.',
+        INSTRUCTIONS: 'Instructions',
+        UPLOAD_PDF_DOCUMENT: 'Upload PDF document',
+        SELECT_MODEL: 'Select a model',
+        COPIED_TO_CLIPBOARD: 'Copied to clipboard!',
+        CLOSE: 'Close',
+        QUIZ_CREATED_SUCCESSFULLY: 'Quiz created successfully',
+        ONLY_ONE_CORRECT_OPTION_ALLOWED: 'You can only add one correct option',
+        QUESTION_CREATED: 'Question created',
+        ANSWER_CREATED: 'Respuesta creada',
+
+        ALREADY_HAS_CORRECT_ANSWER: 'There is already a correct answer for this question',
+        UPDATED: 'Updated',
+        ANSWER: 'Answer',
+        REQUIRED_FIELD: 'Required field.',
+        CANNOT_EXCEED_THE: 'cannot exceed the',
+        CHARACTERS: 'Characters',
+        ACCEPT: 'Accept',
+        MARK_AS_CORRECT: 'Mark as correct',
+        EDIT_ANSWER: 'Edit answer',
+        ADD_ANSWER: 'Add answer',
+
+
+        FILTER_QUIZZES: 'Filter quizzes',
+        PUBLIC: 'Public',
+        PRIVATE: 'Private',
+        LINK_ONLY: 'Link only',
+        ALL: 'All',
+        GLOBAL: 'Global',
+
+
+        APP_DESCRIPTION: 'Developing high-quality digital solutions.',
+        ALL_RIGHTS_RESERVED: 'All rights reserved.',
+        NAVIGATION: 'Navigation',
+        PROJECTS: 'Projects',
+        CONNECT_WITH_US: 'Connect with us',
+        CONTACT: 'Contact',
+        DEVELOPER: 'Developer',
+
+
+
+
+        EXPLORE_GENQ_CONTENT: 'Explore GenQ content.',
+        EXPLORE_LEARN_AND_TEST: 'Explore, learn, and test your knowledge.',
+        UNTITLED: 'Untitled',
+
+
+
+        BEST: 'Best',
+        LOWEST_SCORE: 'Lowest score',
+        MOST_RECENT: 'Most recent',
+        OLDEST: 'Oldest',
+        LOADING_DATA: 'Loading data',
+
+
+
+        POSITION: 'Position',
+        FINISHED_AT: 'End',
+        CREATED_AT: 'Start',
+        USER: 'User',
+        SCORE: 'Score',
+
+        QUESTION_DELETED_SUCCESSFULLY: 'Question successfully deleted from the store and the API',
+
+
+        DELETE_QUESTION_TITLE: 'Delete question?',
+        DELETE_QUESTION_CONFIRMATION: 'Are you sure you want to delete this question?',
+        DELETE: 'Delete',
+
+        ANSWER_DELETED_SUCCESSFULLY: 'Answer deleted successfully',
+
+
+        QUESTION_UPDATED_SUCCESSFULLY: 'Question updated successfully',
+        QUESTION_CREATED_SUCCESSFULLY: 'Question created successfully',
+
+
+        ADD_QUESTION: 'Add question',
+        TYPE: 'Type',
+        MULTIPLE_SELECTION: 'Multiple choice',
+        SINGLE_ANSWER: 'Single answer',
+
+        QUESTION_TEXT: 'Question text',
+
+        FEEDBACK: 'Feedback',
+
+        UPDATE_QUESTION: 'Update question',
+        SAVE_QUESTION: 'Save question',
+        SEARCH_QUESTION: 'Search question',
+        SEARCH_QUESTIONS_PLACEHOLDER: 'Type to filter questions...',
+        EDIT: 'Edit',
+
+        QUIZ_NOT_FOUND: 'The quiz does not exist',
+        LOAD_ERROR: 'Error loading',
+
+        RESET_QUIZ_TITLE: 'Reset quiz',
+        RESET_QUIZ_MESSAGE: 'Do you want to reset the quiz?',
+        RESET: 'Reset',
+        QUESTION: 'Question',
+
+        PREVIOUS: 'Previous',
+        NEXT: 'Next',
+        FINISH: 'Finish',
+
+
+        QUIZ_DETAILS: 'Quiz details',
+        TITLE: 'Title',
+        DESCRIPTION: 'Description',
+
+        REFERENCE: 'Reference',
+        START: 'Start',
+
+        CREATE_QUIZ: 'Create quiz',
+        EDIT_QUIZ: 'Edit quiz',
+        QUIZ_TITLE: 'Quiz title',
+        INACTIVE: 'Inactive',
+        VISIBILITY: 'Visibility',
+        ATTEMPT_LIMIT: 'Attempt limit',
+        MINIMUM_VALUE_REQUIRED: 'The minimum value must be',
+
+        END_DATE: 'End date',
+        INVALID_DATE_FORMAT: 'The date is incorrect.',
+        VALID_DATE_REQUIRED: 'Enter a valid date.',
+
+
+        DURATION_MINUTES: 'Duration (minutes)',
+
+        NO_QUIZZES_AVAILABLE: 'No quizzes available.',
+
+        PAGE: 'Page',
+        OF: 'of',
+        ATTEMPTS_HISTORY: 'Attempt history',
+        RECORDS: 'records',
+        FINISHED: 'Finished',
+
+        NO_ATTEMPTS_REGISTERED: 'No attempts registered',
+        COMPLETE_QUIZ_MESSAGE: 'When you complete a quiz, it will appear here.',
+        DELETE_RECORD_TITLE: 'Delete record',
+        DELETE_RECORD_CONFIRMATION: 'Are you sure you want to delete the record?',
+        DELETED_SUCCESSFULLY: 'Deleted successfully',
+        GENERATE_WITH_AI: 'Generate with AI',
+        SEARCH_QUIZ_PLACEHOLDER: 'Search quiz...',
+        VERIFY_ACCOUNT: 'Verify account',
+        SETTINGS: 'Settings',
+        LANGUAGES: 'Languages',
+        MODELS: 'Models',
+        DELETE_QUIZ_TITLE: 'Delete Quiz',
+        DELETE_QUIZ_CONFIRMATION: 'Are you sure you want to permanently delete this quiz?',
+
+
+
+
+
+
 
 
 

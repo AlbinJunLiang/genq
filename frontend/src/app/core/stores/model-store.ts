@@ -1,6 +1,6 @@
 import { Injectable, signal, inject } from '@angular/core';
 import { ModelService } from '../services/api/model-service';
-import { ModelResponse } from '../interfaces/model-interface'; // Asegúrate de usar la interfaz correcta
+import { ModelResponse } from '../interfaces/model-interface'; 
 import { catchError, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

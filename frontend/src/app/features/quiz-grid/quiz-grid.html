@@ -6,17 +6,18 @@
     <h2 class="card-title">{{ quiz.title }}</h2>
     <p class="card-subtitle">{{ quiz.description }}</p>
     <div class="card-actions">
-      <button (click)="openQuizDetailDialog(quiz)" class="card-btn">Ver más</button>
+      <button (click)="openQuizDetailDialog(quiz)" class="card-btn">{{languageService.translate('BTN_MORE')}}</button>
       @if (authUserStore.userSyncData()?.user?.id == quiz.userId) {
-      <button (click)="selectQuiz(quiz)" mat-icon-button class="edit-btn"><mat-icon>edit</mat-icon></button>
-      <button (click)="openLeaderBoard(quiz)" mat-icon-button class="edit-btn"><mat-icon>bar_chart</mat-icon></button>
+      <button (click)="selectQuiz(quiz)" mat-icon-button class="icon-btn"><mat-icon>edit</mat-icon></button>
+      <button (click)="openLeaderBoard(quiz)" mat-icon-button class="icon-btn"><mat-icon>bar_chart</mat-icon></button>
+      <button (click)="onDeleteQuiz(quiz)" mat-icon-button class="icon-btn"><mat-icon>delete</mat-icon></button>
 
       }
     </div>
   </div>
   } @empty {
   <div class="no-data-message">
-    <p>No hay quizzes disponibles.</p>
+    <p>{{languageService.translate('NO_QUIZZES_AVAILABLE')}}</p>
   </div>
   }
 
@@ -29,7 +30,8 @@
 </div>
 }
 <nav class="pagination-container">
-  <button class="page-btn" (click)="prevPage()">Anterior</button>
-  <span class="page-info">Página {{ quizStore.currentPage() }} de {{ quizStore.totalPages() }}</span>
-  <button class="page-btn" (click)="nextPage()">Siguiente</button>
+  <button class="page-btn" (click)="prevPage()"> {{languageService.translate('PREVIOUS')}}</button>
+  <span class="page-info">{{languageService.translate('PAGE')}} {{ quizStore.currentPage() }}
+    {{languageService.translate('OF')}} {{ quizStore.totalPages() }}</span>
+  <button class="page-btn" (click)="nextPage()"> {{languageService.translate('NEXT')}}</button>
 </nav>

@@ -17,7 +17,6 @@ export class RouteService {
         { initialValue: this.router.url }
     );
 
-    // ESTA ES LA FUNCIÓN QUE BUSCABAS
     public isRoute(route: string): boolean {
         return this.currentUrl().includes(route);
     }

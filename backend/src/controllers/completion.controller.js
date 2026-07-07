@@ -1,3 +1,4 @@
+import { mappingQuizResponse } from "../mappers/quiz-mapper.js";
 import { generateQuiz } from "../services/generate-quiz.service.js";
 
 
@@ -23,8 +24,8 @@ export const generateQuizController = async (req, res) => {
         });
 
         return res.status(201).json({
-            message: "Quiz generated successfully.",
-            quiz
+            message: "Quiz created successfully.",
+            quiz : mappingQuizResponse(quiz)
         });
 
     } catch (error) {

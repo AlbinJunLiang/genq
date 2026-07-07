@@ -6,35 +6,36 @@
 
 <mat-menu #mainMenu="matMenu">
   @if (!authService.isLoggedIn()) {
-  <button mat-menu-item (click)="openLogin()">Iniciar Sesión</button>
-  <button mat-menu-item (click)="openRegister()">Registrar</button>
-  <button mat-menu-item (click)="openForgot()">Recuperar cuenta</button>
+  <button mat-menu-item (click)="openLogin()">{{languageService.translate('LOGIN')}}</button>
+  <button mat-menu-item (click)="openRegister()">{{languageService.translate('REGISTER')}}</button>
+  <button mat-menu-item (click)="openForgot()">{{languageService.translate('RECOVER_ACCOUNT')}}</button>
   } @else {
 
   @if (!authService.isEmailVerified()) {
 
-  <button mat-menu-item (click)="openVerificationDialog()">Verificar cuenta</button>
+  <button mat-menu-item (click)="openVerificationDialog()">{{languageService.translate('VERIFY_ACCOUNT')}}</button>
   }
-  <button mat-menu-item (click)="goToChangePassword()">Cambiar contraseña</button>
+  <button mat-menu-item (click)="goToChangePassword()">{{languageService.translate('UPDATE_PASSWORD')}}</button>
 
   <button (click)="logout()" mat-menu-item>
-    <span>Cerrar sesión</span>
+    <span>{{languageService.translate('LOGOUT')}}</span>
   </button>
   }
   <mat-divider></mat-divider>
-
-  <button mat-menu-item [matMenuTriggerFor]="configMenu">Configuración</button>
+  @if(authUserStore.userSyncData()?.user?.role == 'ADMIN'){
+  <button mat-menu-item [matMenuTriggerFor]="configMenu">{{languageService.translate('SETTINGS')}}</button>
+  }
 
   <button mat-menu-item [matMenuTriggerFor]="languageMenu">
-    <span>Idiomas</span>
+    <span>{{languageService.translate('LANGUAGES')}}</span>
   </button>
 </mat-menu>
 
-<mat-menu #configMenu="matMenu">
+<mat-menu [hidden]="authUserStore.userSyncData()?.user?.role == 'ADMIN'"  #configMenu="matMenu">
   <button mat-menu-item routerLink="/models">
     <mat-icon>settings_applications</mat-icon>
 
-    <span>Modelos</span>
+    <span>{{languageService.translate('MODELS')}}</span>
   </button>
 
 

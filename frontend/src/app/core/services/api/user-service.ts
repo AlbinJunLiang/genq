@@ -6,7 +6,6 @@ import { environment } from "../../../../environments/environments";
 import { UserPaginationResponse } from "../../interfaces/offset-pagination-interface";
 import { User, UserResponse, UserUpdate } from "../../interfaces/user-interface";
 import { MOCK_USERS } from "../mocks/user-mock";
-import { generateRandomString } from "../../../shared/util/random-string";
 import { MOCK_USER_RESPONSE } from "../mocks/user-response-mock";
 
 @Injectable({
@@ -58,7 +57,6 @@ export class UserService {
 
     public updateUser(id: number, updatedUser: UserUpdate): Observable<User> {
         if (environment.mockeable) {
-            // Buscamos el índice del elemento en nuestro array mock
             const index = this.mock.findIndex(m => m.id === id);
 
             if (index === -1) {
@@ -73,7 +71,6 @@ export class UserService {
             return of(updatedMockup);
         }
 
-        // Petición real al servidor (PUT)
         return this.http.put<User>(`${this.apiUrl}/users/${id}`, updatedUser);
     }
 

@@ -37,15 +37,12 @@ export class App {
   protected isNotQuizRoute = computed(() => !this.routeService.isRoute('/quiz/'));
   protected router = inject(Router);
 
-
-
   ngOnInit() {
     this.isReady.set(false);
     setTimeout(() => {
       this.isReady.set(true);
     }, 1000);
   }
-
 
   constructor() {
     this.authUserStore.initSync();
@@ -63,11 +60,10 @@ export class App {
           this.openVerificationDialog();
         }
         const token = await this.authService.getTokenAsync();
-        console.log('¡Token recuperado con éxito!:', token);
+       // console.log('¡Token recuperado con éxito!:', token);
       }
     });
   }
-
 
   protected openVerificationDialog() {
     this.dialog.open(VerifyDialog, {
@@ -80,7 +76,4 @@ export class App {
       exitAnimationDuration: '0ms'
     });
   }
-
-
-
 }

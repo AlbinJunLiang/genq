@@ -3,16 +3,16 @@
 </button>
 
 <mat-menu #filterMenu="matMenu">
-  <button mat-menu-item disabled class="menu-title">Filtrar quizzes</button>
+  <button mat-menu-item disabled class="menu-title">{{languageService.translate('FILTER_QUIZZES')}}</button>
 
   <mat-divider></mat-divider>
 
-  <button (click)="filterQuizzesBy('PUBLIC')" mat-menu-item>Públicos</button>
+  <button (click)="filterQuizzesBy('PUBLIC')" mat-menu-item>{{languageService.translate('PUBLIC')}}</button>
   
-  <button (click)="filterQuizzesBy('PRIVATE')" mat-menu-item>Privados</button>
+  <button (click)="filterQuizzesBy('PRIVATE')" mat-menu-item>{{languageService.translate('PRIVATE')}}</button>
 
-  <button (click)="filterQuizzesBy('ACCESS_ONLY_VIA_LINK')" mat-menu-item>Solo enlace</button>
-  <button (click)="filterQuizzesBy('ALL')" mat-menu-item>Todos</button>
+  <button (click)="filterQuizzesBy('ACCESS_ONLY_VIA_LINK')" mat-menu-item>{{languageService.translate('LINK_ONLY')}}</button>
+  <button (click)="filterQuizzesBy('ALL')" mat-menu-item>{{languageService.translate('ALL')}}</button>
 
-  <button mat-menu-item (click)="filterGlobal('GLOBAL')">Globales</button>
+  <button mat-menu-item (click)="filterGlobal('GLOBAL')">{{languageService.translate('GLOBAL')}}</button>
 </mat-menu>

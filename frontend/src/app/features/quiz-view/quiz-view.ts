@@ -9,6 +9,8 @@ import { QuizStore } from '../../core/stores/quiz-store';
 import { AuthService } from '../../auth/auth-service';
 import { MatDialog } from '@angular/material/dialog';
 import { GenQuizForm } from '../quiz-gen-form/gen-quiz-form';
+import { BreakpointService } from '../../core/services/ui/breakpoint-service';
+import { LanguageService } from '../../core/services/ui/language-service';
 
 @Component({
   selector: 'app-quiz-view',
@@ -22,10 +24,11 @@ export class QuizView {
   protected changeSlideViewService = inject(ChangeSlideViewService);
   protected selectedQuizService = inject(SelectedQuizService);
   protected quizStore = inject(QuizStore);
+  protected languageService = inject(LanguageService);
+
   private authService = inject(AuthService);
   private dialog = inject(MatDialog);
-
-
+  private breakPointService = inject(BreakpointService);
 
 
   openCreateQuizView() {
@@ -43,9 +46,9 @@ export class QuizView {
       const dialogRef = this.dialog.open(GenQuizForm, {
         width: '95%',
         maxWidth: '600px',
-        height: '70%'
+        height: this.breakPointService.isMobile() ? '90%' : '75%',
+        disableClose: true,
       });
-
 
     } else {
       this.openLogin();
@@ -57,8 +60,4 @@ export class QuizView {
     this.changeSlideViewService.setView(SlideView.LOGIN);
     this.slideInModal.open();
   }
-
-
-
-
 }

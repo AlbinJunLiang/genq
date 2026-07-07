@@ -7,8 +7,6 @@ export interface ModelResponse {
     updatedAt?: string;
 }
 
-
-
 export interface ModelConfig {
     id: number;
     model: string;

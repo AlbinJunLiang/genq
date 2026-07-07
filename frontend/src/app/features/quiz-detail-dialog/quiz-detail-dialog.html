@@ -2,17 +2,16 @@
 
 <h2 mat-dialog-title class="header">
     <span style="font-size: 1.5rem; font-weight: 600; text-align: center; 
-      width: 100%">Detalles
-        del cuestionario</span>
+      width: 100%">{{languageService.translate('QUIZ_DETAILS')}}</span>
 </h2>
 <mat-dialog-content class="message">
     <div class="line">
-        <span class="label">Título:</span>
+        <span class="label">{{languageService.translate('TITLE')}}:</span>
         <span class="value">{{data.title}}</span>
     </div>
 
     <div class="line">
-        <span class="label">Descripción:</span>
+        <span class="label">{{languageService.translate('DESCRIPTION')}}:</span>
         <span class="value">{{data.description}}</span>
     </div>
 
@@ -37,22 +36,21 @@
     -->
 
     <div class="line">
-        <span class="label">Referencia:</span>
+        <span class="label">{{languageService.translate('REFERENCE')}}:</span>
         <span class="value">{{data.uuid}}</span>
     </div>
 
 
     <div class="qr-container">
-  <!-- El #qrCanvas ahora se vincula automáticamente al viewChild -->
-  <canvas #qrCanvas></canvas>
-</div>
+        <canvas #qrCanvas></canvas>
+    </div>
 
 </mat-dialog-content>
 
 
 <mat-dialog-actions class="actions">
-    <button mat-button mat-dialog-close>Cerrar</button>
-<button (click)="openQuiz()" mat-flat-button color="primary" mat-dialog-close>
-  <mat-icon>play_arrow</mat-icon>
-  <span>Iniciar</span>
-</button></mat-dialog-actions>
+    <button mat-button mat-dialog-close>{{languageService.translate('CLOSE')}}</button>
+    <button (click)="openQuiz()" mat-flat-button color="primary" mat-dialog-close>
+        <mat-icon>play_arrow</mat-icon>
+        <span>{{languageService.translate('START')}}</span>
+    </button></mat-dialog-actions>

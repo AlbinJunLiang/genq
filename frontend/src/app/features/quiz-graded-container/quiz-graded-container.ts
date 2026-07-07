@@ -9,6 +9,7 @@ import { MatIcon } from "@angular/material/icon";
 import { QuizNavService } from '../../core/services/ui/quiz-nav-service';
 import { MatDivider } from "@angular/material/divider";
 import { QuizNavbar } from "../quiz-navbar/quiz-navbar";
+import { LanguageService } from '../../core/services/ui/language-service';
 
 @Component({
   selector: 'app-quiz-graded-container',
@@ -37,6 +38,7 @@ export class QuizGradedContainer {
 
   protected questions = viewChildren<ElementRef>('question');
   protected currentQuestion = 0;
+  protected languageService = inject(LanguageService);
 
 
   ngOnInit() {

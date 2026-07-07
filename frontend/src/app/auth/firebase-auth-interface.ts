@@ -34,7 +34,7 @@ export class FirebaseAuthService implements IAuth {
             map((credential: UserCredential): User => ({
                 uid: credential.user.uid,
                 email: credential.user.email ?? '',
-                displayName: credential.user.displayName ?? undefined,
+                displayName: credential.user.displayName ?? undefined
             })),
             catchError((err) => {
                 console.log(err)
@@ -49,8 +49,7 @@ export class FirebaseAuthService implements IAuth {
 
         return runInInjectionContext(this.injector, () => {
             return from(signInWithPopup(this.auth, provider)).pipe(
-                map(() => void 0) // Transforma el resultado exitoso en void
-                // AQUÍ YA NO HAY catchError
+                map(() => void 0)
             );
         });
     }
@@ -61,7 +60,6 @@ export class FirebaseAuthService implements IAuth {
                 from(createUserWithEmailAndPassword(this.auth, email, pass)).pipe(
                     switchMap((credential: UserCredential) => {
                         if (displayName) {
-                            // Ahora updateProfile también corre protegido bajo el mismo contexto
                             return from(updateProfile(credential.user, { displayName })).pipe(
                                 map(() => credential)
                             );
@@ -98,7 +96,7 @@ export class FirebaseAuthService implements IAuth {
                 uid: user.uid,
                 email: user.email ?? '',
                 displayName: user.displayName ?? undefined,
-                emailVerified: user.emailVerified, // <--- Agrégalo aquí
+                emailVerified: user.emailVerified,
             } : null)
 
         );

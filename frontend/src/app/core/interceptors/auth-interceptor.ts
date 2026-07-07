@@ -51,6 +51,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         {
             path: '/models',
             methods: ['DELETE', 'POST', 'PUT']
+        },
+        {
+            path: '/completions',
+            methods: ['POST']
         }
     ];
 
@@ -77,7 +81,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
                 });
                 return next(clonedRequest);
             }
-
             // Si el usuario no está autenticado (token es null), la petición sigue sin token
             return next(req);
         })

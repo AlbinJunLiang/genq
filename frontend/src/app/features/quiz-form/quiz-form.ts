@@ -7,7 +7,7 @@ import { MatAnchor, MatButtonModule } from "@angular/material/button";
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
 import { SlideInModalService } from '../../core/services/ui/slide-in-modal-service';
 import { dateValidator } from '../../shared/validators/date-validator';
-import { CreateQuizDto, Quiz, UpdateQuizDto } from '../../core/interfaces/quiz-interface';
+import { Quiz } from '../../core/interfaces/quiz-interface';
 import { QuizStore } from '../../core/stores/quiz-store';
 import { SnackBarService } from '../../core/services/ui/snackbar-service';
 import { LanguageService } from '../../core/services/ui/language-service';
@@ -22,6 +22,7 @@ import { ChangeSlideViewService } from '../../core/services/ui/change-slide-view
 import { SlideView } from '../../core/enums/auth-form-type';
 import { MatCardModule } from '@angular/material/card';
 import { QuestionStore } from '../../core/stores/question-store';
+import { CreateQuizDto, UpdateQuizDto } from '../../core/types/quiz-types';
 
 
 @Component({
@@ -45,10 +46,11 @@ export class QuizForm {
   public slideView = SlideView;
   protected changeSlideModalService = inject(ChangeSlideViewService);
   protected selectedQuizService = inject(SelectedQuizService);
-  private dialog = inject(MatDialog);
   protected isDeleting = signal(false);
-    protected questionStore = inject(QuestionStore);
-  
+  protected questionStore = inject(QuestionStore);
+
+  private dialog = inject(MatDialog);
+
 
   constructor(private fb: FormBuilder) {
     this.minDate = new Date();
@@ -186,7 +188,7 @@ export class QuizForm {
           this.mappingQuizResponse(response.quiz)
         );
 
-        this.snackbar.show('Actualizado correctamente', 'Ok');
+        this.snackbar.show(this.languageService.translate('UPDATED'), 'Ok');
         this.changeSlideModalService.setView(SlideView.EDIT_QUIZ_FORM);
         this.quizForm.enable();
 
@@ -200,8 +202,6 @@ export class QuizForm {
   }
 
 
-  // En tu componente (ej: quiz-form.ts)
-
   onDeleteQuiz() {
     this.isDeleting.set(true);
     const quizId = this.selectedQuizService.selectedQuiz()?.id ?? this.localQuiz()?.id;
@@ -213,10 +213,10 @@ export class QuizForm {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '400px',
       data: {
-        title: 'Eliminar Cuestionario',
-        message: '¿Estás seguro de que quieres borrar este quiz permanentemente?',
-        confirmText: 'Borrar',
-        cancelText: 'Mejor no',
+        title: this.languageService.translate('DELETE_QUIZ_TITLE'),
+        message: this.languageService.translate('DELETE_QUIZ_CONFIRMATION'),
+        confirmText: this.languageService.translate('DELETE'),
+        cancelText: this.languageService.translate('CANCEL'),
         color: 'warn'
       }
     });      // Bloqueamos la UI para evitar múltiples clics
@@ -225,7 +225,7 @@ export class QuizForm {
       if (result) {
         this.quizStore.remove(quizId).subscribe({
           next: () => {
-            this.snackbar.show('Quiz eliminado correctamente', 'Ok');
+            this.snackbar.show(this.languageService.translate('DELETED_SUCCESSFULLY'), 'Ok');
             this.changeSlideModalService.setView(SlideView.CREATE_QUIZ_FORM);
             this.quizForm.reset();
             this.slideInModal.close();
@@ -233,7 +233,7 @@ export class QuizForm {
           },
           error: (err) => {
             console.error(err);
-            this.snackbar.show('Error al eliminar el quiz', 'Ok');
+            this.snackbar.show('Error', 'Ok');
             this.isDeleting.set(false);
           }
         });

@@ -58,33 +58,19 @@
 .main-title {
   text-align: center;
   width: 100%;
-  /* Asegura que en móviles use todo el espacio disponible */
   font-family: 'Finlandica Text', sans-serif;
   font-size: 2.5rem;
-  /* Tamaño grande base */
   line-height: 1.2;
-  /* Espaciado entre líneas para que sea legible */
 
-  /* El secreto: Definir el degradado */
   background: linear-gradient(90deg,
       #040433,
-      /* Color inicial */
       #3b82f6,
-      /* Color medio (puedes cambiarlo) */
-      #040433
-      /* Color final igual al inicial para un ciclo suave */
-    );
+      #040433);
 
   background-size: 200% 100%;
-  /* Hacemos el fondo más ancho que el texto */
   -webkit-background-clip: text;
-  /* Recorta el fondo a la forma del texto */
   background-clip: text;
-
-  /* Hacemos que el color del texto sea transparente para que se vea el fondo */
   color: transparent;
-
-  /* Animación */
   animation: gradient-flow 3s linear infinite;
 }
 
@@ -100,15 +86,10 @@
 .subtitle {
   font-family: 'Finlandica Text', sans-serif;
   color: #666;
-  /* Un gris oscuro, menos agresivo que el negro */
   font-size: 1.1rem;
-  /* Un poco más pequeño que el título */
   margin-top: 10px;
-  /* Espacio entre el título y el texto */
   max-width: 600px;
-  /* Para que no sea demasiado larga y sea legible */
   line-height: 1.5;
-  /* Más espacio entre líneas para lectura cómoda */
   text-align: center;
 }
 
@@ -117,13 +98,11 @@
 @media (max-width: 768px) {
 
   .hero-section {
-  min-height: 80vh;
-}
-
+    min-height: 80vh;
+  }
 
   .header-section {
     padding: 60px 20px 20px 20px;
-
   }
 
   .header-image {

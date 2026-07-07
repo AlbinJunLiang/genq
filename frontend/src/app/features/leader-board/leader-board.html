@@ -8,23 +8,27 @@
         <mat-icon style="font-size: 20px; width: 20px; height: 20px;">close</mat-icon>
     </button>
     <h1 class="header-title">
-        Ranking: {{ leaderboardAttempts()?.[0]?.quizTitle ?? 'Sin título' }}
+        Ranking: {{ leaderboardAttempts()?.[0]?.quizTitle ?? languageService.translate('UNTITLED') }}
     </h1>
-
-
 
 
     <div class="table-wrapper">
         <div style="overflow-x: auto">
             <mat-chip-listbox (change)="onFilterChange($event.value)" hideSingleSelectionIndicator="true">
-                <mat-chip-option value="top"
-                    [selected]="sortBy() === 'score' && order() === 'DESC'">Mejores</mat-chip-option>
-                <mat-chip-option value="bottom" [selected]="sortBy() === 'score' && order() === 'ASC'">Menor
-                    Puntuación</mat-chip-option>
-                <mat-chip-option value="recent" [selected]="sortBy() === 'finished_at' && order() === 'DESC'">Más
-                    recientes</mat-chip-option>
-                <mat-chip-option value="oldest" [selected]="sortBy() === 'finished_at' && order() === 'ASC'">Más
-                    antiguos</mat-chip-option>
+                <mat-chip-option value="top" [selected]="sortBy() === 'score' && order() === 'DESC'">{{
+                    languageService.translate('BEST')}}</mat-chip-option>
+                <mat-chip-option value="bottom" [selected]="sortBy() === 'score' && order() === 'ASC'"> {{
+                    languageService.translate('LOWEST_SCORE')}}
+
+                </mat-chip-option>
+                <mat-chip-option value="recent" [selected]="sortBy() === 'finished_at' && order() === 'DESC'">
+
+                    {{ languageService.translate('MOST_RECENT')}}
+                </mat-chip-option>
+                <mat-chip-option value="oldest" [selected]="sortBy() === 'finished_at' && order() === 'ASC'">
+                    {{ languageService.translate('OLDEST')}}
+
+                </mat-chip-option>
             </mat-chip-listbox>
             @if (leaderboardAttempts(); as attempts) {
             <table mat-table class="custom-table" [dataSource]="attempts">
@@ -47,9 +51,7 @@
                         }@else if (col === 'score') {
                         <span style="font-size: 20px; font-weight: bold;" [class.red]="(element[col] ?? 0)<70"
                             [class.orange]="(element[col]??0)>70 &&  (element[col]??0) < 90"
-                            [class.green]="(element[col]??0)>=90"{{
-                            element[col] }}
-                            >
+                            [class.green]="(element[col]??0)>=90" {{ element[col] }}>
                             {{ getCellValue(element, col) }}
                         </span>
                         } @else {
@@ -70,7 +72,7 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns" class="row-customize"></tr>
             </table>
             } @else {
-            <p>Cargando datos...</p>
+            <p>{{languageService.translate('LOADING_DATA')}}</p>
             }
         </div>
 

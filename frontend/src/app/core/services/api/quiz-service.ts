@@ -1,12 +1,16 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { catchError, from, map, Observable, of, throwError } from 'rxjs';
-import { CreateQuizDto, EvaluationRequest, Quiz, QuizApiResponse, QuizCreateResponse, QuizDetail, QuizListResponse, UpdateQuizDto } from '../../interfaces/quiz-interface';
+import {
+    EvaluationRequest, FullQuiz, Quiz, QuizApiResponse, QuizCreateResponse
+    , QuizListResponse
+} from '../../interfaces/quiz-interface';
 import { environment } from '../../../../environments/environments';
 import { generateRandomString } from '../../../shared/util/random-string';
 import { MOCK_USER_RESPONSE } from '../mocks/user-response-mock';
 import { EvaluationResult } from '../../interfaces/quiz-review-interface';
 import { INITIAL_QUIZ_MOCK } from '../mocks/quiz-start-mock';
+import { CreateQuizDto, UpdateQuizDto } from '../../types/quiz-types';
 
 
 @Injectable({
@@ -227,13 +231,30 @@ export class QuizService {
         if (environment.mockeable) {
             return of(INITIAL_QUIZ_MOCK);
         }
-        return this.http.post<QuizApiResponse>(`${this.apiUrl}/uuid/${uuid}`,{}).pipe(
+        return this.http.post<QuizApiResponse>(`${this.apiUrl}/uuid/${uuid}`, {}).pipe(
             catchError(this.handleError)
         );
     }
     // En tu quiz-service.ts
     evaluateQuiz(uuid: string, payload: EvaluationRequest): Observable<EvaluationResult> {
         return this.http.post<EvaluationResult>(`${this.apiUrl}/evaluate/${uuid}`, payload).pipe(
+            catchError(this.handleError)
+        );
+    }
+
+    createFullQuiz(quizData: FullQuiz): Observable<QuizCreateResponse> {
+        return this.http.post<QuizCreateResponse>(`${this.apiUrl}/full`, quizData).pipe(
+            catchError(this.handleError)
+        );
+    }
+
+    generateQuiz(content: string, model: string, provider: string, language: string = 'Español'): Observable<QuizCreateResponse> {
+        return this.http.post<QuizCreateResponse>(`${environment.apiUrl}/completions/generate-quiz`, {
+            content,
+            model,
+            provider,
+            language
+        }).pipe(
             catchError(this.handleError)
         );
     }

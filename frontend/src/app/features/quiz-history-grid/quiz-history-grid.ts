@@ -1,7 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { MatIcon } from "@angular/material/icon";
 import { formatReadableDate } from '../../shared/util/date.util';
-import { AttemptService } from '../../core/services/api/attempt-service';
 import { AttemptStore } from '../../core/stores/attempt-store';
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { SnackBarService } from '../../core/services/ui/snackbar-service';
@@ -10,6 +9,7 @@ import { ConfirmDialogComponent } from '../../shared/component/confirm/dialog-co
 import { Router } from '@angular/router';
 import { QuizAttemptResponse } from '../../core/interfaces/attempt-interface';
 import { QuizGradedService } from '../../core/services/ui/quiz-graded-service';
+import { LanguageService } from '../../core/services/ui/language-service';
 
 @Component({
   selector: 'app-quiz-history-grid',
@@ -22,6 +22,8 @@ export class QuizHistoryGrid {
 
   protected attemptStore = inject(AttemptStore);
   protected snackbar = inject(SnackBarService);
+  protected languageService = inject(LanguageService);
+
   private dialog = inject(MatDialog);
   private limit = signal<number>(0);
   private router = inject(Router);
@@ -61,10 +63,10 @@ export class QuizHistoryGrid {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '400px',
       data: {
-        title: 'Eliminar registro',
-        message: '¿Estás seguro de que quieres borrar el registro?',
+        title: this.languageService.translate('DELETE_RECORD_TITLE'),
+        message: this.languageService.translate('DELETE_RECORD_CONFIRMATION'),
         confirmText: 'Borrar',
-        cancelText: 'Mejor no',
+        cancelText: this.languageService.translate('CANCEL'),
         color: 'warn'
       }
     });      // Bloqueamos la UI para evitar múltiples clics
@@ -74,11 +76,11 @@ export class QuizHistoryGrid {
 
         this.attemptStore.deleteATtempt(attemptId).subscribe({
           next: () => {
-            this.snackbar.show('Eliminado correctamente', 'Ok');
+            this.snackbar.show(this.languageService.translate('DELETED_SUCCESSFULLY'), 'Ok');
           },
           error: (err) => {
             console.error(err);
-            this.snackbar.show('Error al eliminar', 'Ok');
+            this.snackbar.show('Error', 'Ok');
           }
         });
       }
@@ -101,10 +103,10 @@ export class QuizHistoryGrid {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '400px',
       data: {
-        title: 'Nuevo intento',
-        message: '¿Deseas volver a intentar de nuevo?',
-        confirmText: 'Aceptar',
-        cancelText: 'Canceler',
+        title: this.languageService.translate('RESET_QUIZ_TITLE'),
+        message: this.languageService.translate('RESET_QUIZ_MESSAGE'),
+        confirmText: this.languageService.translate('ACCEPT'),
+        cancelText: this.languageService.translate('CANCEL'),
         color: 'warn'
       }
     });      // Bloqueamos la UI para evitar múltiples clics

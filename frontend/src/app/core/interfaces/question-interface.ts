@@ -17,7 +17,7 @@ export interface Question {
 export interface QuestionFromQuiz {
     id: number;
     content: string;
-    type: 'MULTIPLE' | 'UNIQUE'; // Ajusta según tus valores de ENUM
+    type: 'MULTIPLE' | 'UNIQUE';
     status: string;
     score?: number;
     quizId: number;

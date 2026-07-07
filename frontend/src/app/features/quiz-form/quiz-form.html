@@ -1,68 +1,68 @@
-
-
 <div class="quiz-container">
   <h2 style="text-align: center; margin-top: 0; font-size: 35px">
     {{
     changeSlideModalService.currentView() === slideView.CREATE_QUIZ_FORM
-    ? 'Crear cuestionario'
-    : 'Editar cuestionario'
+    ? languageService.translate('CREATE_QUIZ')
+    :languageService.translate('EDIT_QUIZ')
     }}
   </h2>
   <form [formGroup]="quizForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="outline" class="w-100">
-      <mat-label>Título del Quiz</mat-label>
+      <mat-label>{{languageService.translate('QUIZ_TITLE')}}</mat-label>
       <input matInput formControlName="title" placeholder="Ej: Fundamentos de IA" />
       @if (quizForm.get('title')?.hasError('required')) {
-      <mat-error style="width: 100%">Campo obligatorio.</mat-error>
+      <mat-error style="width: 100%">{{languageService.translate('REQUIRED_FIELD')}}</mat-error>
       }
       @if (quizForm.get('title')?.hasError('maxlength')) {
       <mat-error>
-        No puede superar los
-        {{ quizForm.get('title')?.getError('maxlength').requiredLength }} caracteres.
+        {{languageService.translate('CANNOT_EXCEED_THE')}}
+        {{ quizForm.get('title')?.getError('maxlength').requiredLength }} {{languageService.translate('CHARACTERS')}}.
       </mat-error>
       }
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="w-100">
-      <mat-label>Descripción</mat-label>
+      <mat-label>{{languageService.translate('DESCRIPTION')}}</mat-label>
       <textarea matInput formControlName="description" rows="3"></textarea>
 
       @if (quizForm.get('description')?.hasError('required')) {
-      <mat-error style="width: 100%">Campo obligatorio.</mat-error>
+      <mat-error style="width: 100%">{{languageService.translate('QUIZ_TITLE')}}</mat-error>
       }
       @if (quizForm.get('description')?.hasError('maxlength')) {
       <mat-error>
-        No puede superar los
-        {{ quizForm.get('description')?.getError('maxlength').requiredLength }} caracteres.
+        {{languageService.translate('CANNOT_EXCEED_THE')}} {{
+        quizForm.get('description')?.getError('maxlength').requiredLength }}
+        {{languageService.translate('CHARACTERS')}}.
       </mat-error>
       }
     </mat-form-field>
 
     <div class="flex-container" style="display: flex; gap: 10px; width: 100%">
       <mat-form-field appearance="outline" style="flex: 1">
-        <mat-label>Visibilidad</mat-label>
+        <mat-label>{{languageService.translate('VISIBILITY')}}</mat-label>
         <mat-select formControlName="visibility">
-          <mat-option value="PUBLIC">Público</mat-option>
-          <mat-option value="PRIVATE">Privado</mat-option>
-          <mat-option value="ACCESS_ONLY_VIA_LINK">Solo enlace</mat-option>
-          <mat-option value="INACTIVE">Inactivo</mat-option>
+          <mat-option value="PUBLIC">{{languageService.translate('PUBLIC')}}</mat-option>
+          <mat-option value="PRIVATE">{{languageService.translate('PRIVATE')}}</mat-option>
+          <mat-option value="ACCESS_ONLY_VIA_LINK">{{languageService.translate('LINK_ONLY')}}</mat-option>
+          <mat-option value="INACTIVE">{{languageService.translate('INACTIVE')}}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline" style="flex: 1">
-        <mat-label>Límite de intentos</mat-label>
+        <mat-label>{{languageService.translate('ATTEMPT_LIMIT')}}</mat-label>
         <input matInput min="0" type="number" formControlName="attemptsLimit" />
 
         @if (quizForm.get('attemptsLimit')?.hasError('min')) {
         <mat-error>
-          El valor mínimo debe ser {{ quizForm.get('attemptsLimit')?.getError('min').min }}
+          {{languageService.translate('MINIMUM_VALUE_REQUIRED')}} {{ quizForm.get('attemptsLimit')?.getError('min').min
+          }}
         </mat-error>
         }
       </mat-form-field>
     </div>
 
     <mat-form-field appearance="outline" class="w-100">
-      <mat-label>Fecha de fin</mat-label>
+      <mat-label>{{languageService.translate('END_DATE')}}</mat-label>
       <input [min]="minDate" matInput [matDatepicker]="picker" formControlName="endAt" />
 
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -70,20 +70,21 @@
       <mat-datepicker #picker></mat-datepicker>
 
       @if (quizForm.get('endAt')?.hasError('invalidDateFormat')) {
-      <mat-error>La fecha es incorrecta.</mat-error>
+      <mat-error>{{languageService.translate('INVALID_DATE_FORMAT')}}</mat-error>
       }
       @if (quizForm.get('endAt')?.hasError('required')) {
-      <mat-error>Ingrese una fecha válida.</mat-error>
+      <mat-error>{{languageService.translate('VALID_DATE_REQUIRED')}}</mat-error>
       }
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="w-100">
-      <mat-label>Duración (minutos)</mat-label>
+      <mat-label>{{languageService.translate('DURATION_MINUTES')}}</mat-label>
       <input matInput [min]="0" type="number" formControlName="durationSeconds" />
 
       @if (quizForm.get('durationSeconds')?.hasError('min')) {
       <mat-error>
-        El valor mínimo debe ser {{ quizForm.get('durationSeconds')?.getError('min').min }}
+        {{languageService.translate('MINIMUM_VALUE_REQUIRED')}} {{ quizForm.get('durationSeconds')?.getError('min').min
+        }}
       </mat-error>
       }
     </mat-form-field>
@@ -94,8 +95,8 @@
         } @else {
         {{
         changeSlideModalService.currentView() === slideView.CREATE_QUIZ_FORM
-        ? 'Guardar Cuestionario'
-        : 'Editar Cuestionario'
+        ? languageService.translate('CREATE_QUIZ')
+        : languageService.translate('EDIT_QUIZ')
         }}
         }
       </button>
@@ -114,12 +115,13 @@
         @if (isDeleting()) {
         <mat-spinner class="spinner-white" diameter="20"></mat-spinner>
         } @else {
-        <span style="vertical-align: middle">Eliminar</span>
+        <span style="vertical-align: middle">{{languageService.translate('DELETE')}}</span>
         }
       </button>
       }
 
-      <button class="cancel-button" (click)="closeForm()" mat-raised-button>Cancelar</button>
+      <button class="cancel-button" (click)="closeForm()"
+        mat-raised-button>{{languageService.translate('CANCEL')}}</button>
     </div>
 
     <mat-divider style="margin-top: 30px"></mat-divider>
@@ -133,7 +135,5 @@
   <div class="spinner-overlay">
     <mat-spinner diameter="50"></mat-spinner>
   </div>
-}
+  }
 </div>
-
-

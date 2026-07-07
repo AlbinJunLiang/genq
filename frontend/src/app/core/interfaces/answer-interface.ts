@@ -3,8 +3,8 @@ export interface Answer {
   content: string;
   isCorrect?: boolean;
   questionId: number;
-  status: 'ACTIVE' | 'INACTIVE'; // O puedes usar un tipo global para status
-  isSelected? : boolean;
+  status: 'ACTIVE' | 'INACTIVE';
+  isSelected?: boolean;
 }
 
 export interface AnswerResponse {
@@ -12,18 +12,18 @@ export interface AnswerResponse {
   content: string;
   isCorrect: boolean;
   questionId: number;
-  status: 'ACTIVE' | 'INACTIVE'; // O puedes usar un tipo global para status
+  status: 'ACTIVE' | 'INACTIVE';
 }
 
 export interface CreateAnswerDto {
   content: string;
   isCorrect: boolean;
   questionId: number;
-  status: 'ACTIVE' | 'INACTIVE'; // O puedes usar un tipo global para status
+  status: 'ACTIVE' | 'INACTIVE';
 }
 
 export interface UpdateAnswerDto {
   content: string;
   isCorrect: boolean;
-  status: 'ACTIVE' | 'INACTIVE'; // O puedes usar un tipo global para status
+  status: 'ACTIVE' | 'INACTIVE';
 }

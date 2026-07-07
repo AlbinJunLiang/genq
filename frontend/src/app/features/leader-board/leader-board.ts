@@ -3,7 +3,6 @@ import { MatIcon } from "@angular/material/icon";
 import { SlideInModalService } from '../../core/services/ui/slide-in-modal-service';
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { MatButtonModule } from "@angular/material/button";
-import { MatMenu } from "@angular/material/menu";
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { AttemptService } from '../../core/services/api/attempt-service';
@@ -13,7 +12,9 @@ import { finalize } from 'rxjs';
 import { formatReadableDate } from '../../shared/util/date.util';
 import { SelectedQuizService } from '../../core/services/ui/selected-quiz-service';
 
-import { MatChipSelectionChange, MatChipsModule } from '@angular/material/chips';
+import { MatChipsModule } from '@angular/material/chips';
+import { LanguageService } from '../../core/services/ui/language-service';
+
 type SortAttempt = 'finished_at' | 'score';
 type OrderAttempt = 'ASC' | 'DESC';
 
@@ -42,6 +43,7 @@ export class LeaderBoard {
   protected totalItems = signal(0);
   protected sortBy = signal<SortAttempt>('score');
   protected order = signal<OrderAttempt>('DESC');
+  protected languageService = inject(LanguageService);
 
 
   constructor() {
@@ -52,14 +54,10 @@ export class LeaderBoard {
   }
 
 
-
-
   private loadAttempts(quizId: number) {
     if (!quizId) return;
 
     this.isLoading.set(true);
-
-    // 2. Usamos las señales directamente, eliminando riesgo de parámetros cruzados
     this.attemptService.getAttemptsByQuiz(
       quizId,
       this.sortBy(),
@@ -77,7 +75,6 @@ export class LeaderBoard {
             position: offset + index + 1 // Asigna la posición calculada
           }));
           this.leaderboardAttempts.set(attemptsWithPosition);
-          // Si la API devuelve el total, actualiza la señal si es necesario
         }
       });
   }
@@ -88,54 +85,47 @@ export class LeaderBoard {
     if (col != undefined && (col === 'finishedAt' || col === 'createdAt'))
       return formatReadableDate((`${element[col]}`));
 
-
     return (`${element[col]}`);
   }
 
   protected columnNames: { [key: string]: string } = {
-    position: 'posición',
-    finishedAt: 'Fin',
-    createdAt: 'Inicio',
-    email: 'Usuario',
-    score: 'Calificación'
+    position: this.languageService.translate('POSITION'),
+    finishedAt: this.languageService.translate('FINISHED_AT'),
+    createdAt: this.languageService.translate('CREATED_AT'),
+    email: this.languageService.translate('EMAIL'),
+    score: this.languageService.translate('SCORE')
   };
 
-  // 3. Paginación simplificada
   protected onPageChange(event: PageEvent): void {
     this.currentPage.set(event.pageIndex + 1);
     this.pageSize.set(event.pageSize);
-
     const quizId = this.selectedQuizService.selectedQuiz()?.id ?? 0;
     this.loadAttempts(quizId);
   }
 
-protected onFilterChange(value: string): void {
-
-
-  switch (value) {
-    case 'top':
-      this.sortBy.set('score');
-      this.order.set('DESC');
-      break;
-    case 'bottom':
-      this.sortBy.set('score');
-      this.order.set('ASC');
-      break;
-    case 'recent':
-      this.sortBy.set('finished_at');
-      this.order.set('DESC');
-      break;
-    case 'oldest':
-      this.sortBy.set('finished_at');
-      this.order.set('ASC');
-      break;
+  protected onFilterChange(value: string): void {
+    switch (value) {
+      case 'top':
+        this.sortBy.set('score');
+        this.order.set('DESC');
+        break;
+      case 'bottom':
+        this.sortBy.set('score');
+        this.order.set('ASC');
+        break;
+      case 'recent':
+        this.sortBy.set('finished_at');
+        this.order.set('DESC');
+        break;
+      case 'oldest':
+        this.sortBy.set('finished_at');
+        this.order.set('ASC');
+        break;
+    }
+    this.currentPage.set(1);
+    const quizId = this.selectedQuizService.selectedQuiz()?.id ?? 0;
+    this.loadAttempts(quizId);
   }
-
-  // 3. Reset y carga
-  this.currentPage.set(1);
-  const quizId = this.selectedQuizService.selectedQuiz()?.id ?? 0;
-  this.loadAttempts(quizId);
-}
 
   protected closeSlide() {
     this.slideInModal.close();
