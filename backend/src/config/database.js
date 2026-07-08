@@ -1,3 +1,4 @@
+import 'mysql2';
 import { Sequelize } from 'sequelize';
 import { env } from './env.js';
 

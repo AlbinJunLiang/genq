@@ -2,13 +2,13 @@
   "version": 2,
   "functions": {
     "api/**/*.js": {
-      "includeFiles": "src/**"
+      "includeFiles": "{src/**,node_modules/mysql2/**}"
     }
   },
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "/api/index.js"
+      "source": "/(.*)",
+      "destination": "/api/index.js"
     }
   ],
   "build": {
