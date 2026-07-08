@@ -1,5 +1,4 @@
 import { getAuth } from "../config/firebase.js";
-
 import { User } from "../models/user.model.js";
 
 

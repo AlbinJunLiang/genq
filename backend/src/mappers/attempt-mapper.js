@@ -1,6 +1,3 @@
-
-
-
 export function mappingAttemptResponse(attempt) {
     return {
         id: attempt.id,
@@ -18,8 +15,6 @@ export function mappingAttemptResponse(attempt) {
         quizAttemptedContent: attempt.quiz_attempted_content
     }
 }
-
-
 
 
 export function mappingAttemptResponse2(attempt) {

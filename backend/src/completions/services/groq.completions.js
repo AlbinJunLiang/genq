@@ -1,4 +1,3 @@
-
 export const groqCompletion = async ({
     content,
     instruction,

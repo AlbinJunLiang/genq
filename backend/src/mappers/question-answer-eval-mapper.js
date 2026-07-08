@@ -1,5 +1,4 @@
 // mappers/question.mapper.js
-
 export const mappingQuestionAndAnswerEvaluation = (question) => (
     {
     id: question.id,

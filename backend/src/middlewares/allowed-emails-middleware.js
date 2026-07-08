@@ -20,6 +20,5 @@ export const allowOnlyEmails = (req, res, next) => {
             message: "Access denied"
         });
     }
-
     next();
 };

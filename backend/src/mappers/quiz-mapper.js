@@ -7,10 +7,10 @@ export function mappingQuizResponse(user) {
         title: user.title,
         description: user.description,
         visibility: user.visibility,
-        endAt: user.end_at,              // Mapeo
-        durationSeconds: user.duration_seconds, // Mapeo
-        attemptsLimit: user.attempts_limit,     // Mapeo
-        userId: user.user_id,            // Mapeo
+        endAt: user.end_at,          
+        durationSeconds: user.duration_seconds,
+        attemptsLimit: user.attempts_limit,    
+        userId: user.user_id,          
         createdAt: user.created_at
     }
 }
@@ -30,7 +30,6 @@ export const mapQuizWithQuestion = (quiz) => {
         questions: quiz.questions ? quiz.questions.map(mappingQuestionWithOutFeedback) : []
     };
 };
-
 
 
 export const mapQuizWithQuestionAndAnswers = (quiz) => {

@@ -2,7 +2,6 @@ import { db } from './src/config/firebase.js';
 import app from './src/app.js';
 import sequelize from './src/config/database.js';
 import { env } from './src/config/env.js';
-
 // 2. Importa las asociaciones para que Sequelize registre las relaciones
 // Esto debe ocurrir antes del sync()
 import './src/models/associations.js';
@@ -18,7 +17,6 @@ const startServer = async () => {
         if (env.ENVIRONMENT === 'development') {
             // 4. Sincronización explícita
             // Nota: Usar { alter: true } es correcto para desarrollo, 
-            // pero asegúrate de haber nombrado tus índices como te sugerí antes.
             await sequelize.sync({ alter: true });
             console.log('✅ Modelos sincronizados.');
         }
@@ -26,12 +24,13 @@ const startServer = async () => {
         app.listen(PORT, () => {
             console.log(`Servidor en http://localhost:${PORT}`);
         });
-        // En tu catch(error) en server.js
     } catch (error) {
         console.error('❌ Error al iniciar el servidor:');
-        console.error(error); // ESTO mostrará el "stack trace" completo y el error de SQL real
+        console.error(error);
         process.exit(1);
     }
 };
 
-startServer();
+if (env.ENVIRONMENT === 'development') {
+    startServer();
+}
