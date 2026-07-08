@@ -67,7 +67,7 @@ export const translations = {
         QUIZ_DATE_MUST_BE_FUTURE: "La fecha de finalización debe ser en el futuro.",
         TOO_MANY_REQUESTS: "Demasiadas solicitudes. Inténtalo de nuevo más tarde.",
         ERROR_CREATING_QUIZ: "Error creating the quiz.",
-        GENERATE_QUIZ: 'Generar cuestionario',
+        GENERATE_QUIZ: 'Generar Quiz',
         ENTER_DOCUMENT_OR_INSTRUCTION: 'Ingrese el documento JSON',
         ENTER_INSTRUCTION: "Ingrese la instrucción",
         INVALID_JSON_FORMAT: 'El formato no es un JSON válido (revisa comas o llaves).',

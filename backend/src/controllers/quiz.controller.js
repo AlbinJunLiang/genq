@@ -214,35 +214,16 @@ export const getQuizEvaluation = async (req, res) => {
 
 export const createFullQuiz = async (req, res) => {
     try {
-        const {
-            title,
-            description,
-            visibility,
-            attemptsLimit,
-            questions
-        } = req.body;
-
         const userId = req.user.id;
         const validatedData = quizSchema.parse(req.body);
-
-        const formattedQuestions = questions.map(question => ({
-            content: question.content,
-            feedback: question.feedback,
-            type: question.type,
-            answers: question.answers.map(answer => ({
-                content: answer.content,
-                is_correct: answer.isCorrect
-            }))
-        }));
-
-
+        const { title, description, visibility, attemptsLimit, questions } = validatedData;
 
         const newQuiz = await quizService.createFullQuiz({
             title,
             description,
             visibility,
             attempts_limit: attemptsLimit,
-            questions: formattedQuestions
+            questions
         }, userId);
 
         res.status(201).json({
