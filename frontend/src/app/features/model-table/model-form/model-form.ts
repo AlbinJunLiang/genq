@@ -1,6 +1,6 @@
 import { Component, effect, inject, input, model } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatFormField, MatError, MatOption, MatSelect, MatSuffix } from "@angular/material/select";
+import { MatFormField, MatError, MatSuffix } from "@angular/material/select";
 import { MatIcon } from "@angular/material/icon";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { MatInput } from "@angular/material/input";
@@ -12,7 +12,7 @@ import { ModelConfig } from '../../../core/interfaces/model-interface';
 @Component({
   selector: 'app-model-form',
   imports: [MatFormField, MatIcon,
-    MatError, MatOption, MatProgressSpinner, MatSelect,
+    MatError, MatProgressSpinner,
     ReactiveFormsModule, MatInput, MatSuffix, MatAnchor],
   templateUrl: './model-form.html',
   styleUrl: './model-form.scss',
