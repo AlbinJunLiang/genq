@@ -99,6 +99,7 @@
 
         </div>
 
+        @if(isJsonDocument() == false){
         <mat-form-field appearance="outline" class="w-100" style="margin-top: 20px;">
             <mat-label>{{languageService.translate('SELECT_MODEL')}}</mat-label>
 
@@ -113,6 +114,7 @@
                 }
             </mat-select>
         </mat-form-field>
+        }
 
 
     </mat-dialog-content>

@@ -32,18 +32,18 @@
                 <div class="actions">
                     <span [matTooltip]="languageService.translate('RESET')" (click)="onRestartQuiz(attempt.quizUuid)"
                         class="badge">
-                        <img src="play.svg" style="width: 24px; height: 24px" />
+                        <img src="grid/play.svg" style="width: 24px; height: 24px" />
                     </span>
 
                     <span [matTooltip]="languageService.translate('DELETE')" (click)="onDeleteAttempt(attempt.id)"
                         class="badge">
-                        <img src="delete.svg" style="width: 24px; height: 24px" />
+                        <img src="grid/delete.svg" style="width: 24px; height: 24px" />
                     </span>
 
                     @if (attempt.quizAttemptedContent != null) {
 
                     <span (click)="goToGradedQuiz(attempt)" class="badge">
-                        <img src="eye.svg" style="width: 24px; height: 24px" />
+                        <img src="grid/eye.svg" style="width: 24px; height: 24px" />
                     </span>
                     }
                 </div>
