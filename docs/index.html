@@ -4,10 +4,10 @@
 <head>
   <script>
     (function () {
-      const redirect = sessionStorage.getItem("redirect_shapper");
+      const redirect = sessionStorage.getItem("redirect_genq");
 
       if (redirect) {
-        sessionStorage.removeItem("redirect_shapper");
+        sessionStorage.removeItem("redirect_genq");
         history.replaceState(null, "", redirect);
       }
     })();
