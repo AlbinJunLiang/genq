@@ -4,7 +4,7 @@ import sequelize from './src/config/database.js';
 import { env } from './src/config/env.js';
 // 2. Importa las asociaciones para que Sequelize registre las relaciones
 // Esto debe ocurrir antes del sync()
-import './src/models/associations.js';
+//import './src/models/associations.js';
 
 const PORT = env.API_PORT || 3000;
 
