@@ -8,10 +8,6 @@ import cors from "cors";
 import attemptRouter from './routes/attempt.routes.js';
 import completionRouter from './routes/completion.routes.js';
 import modelRouter from './routes/model.routes.js';
-import sequelize from './src/config/database.js';
-
-import './src/models/associations.js';
-
 
 const app = express();
 const apiVersion = 'v1';

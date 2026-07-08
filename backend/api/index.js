@@ -1,7 +1,7 @@
-// api/index.js
+import app from '../src/app.js';
+import sequelize from '../src/config/database.js';
+import '../src/models/associations.js';
 
-import app from "../src/app.js";
+await sequelize.authenticate();
 
-// Vercel requiere que exportes una función o la instancia de Express
-// para manejar las peticiones entrantes.
 export default app;
