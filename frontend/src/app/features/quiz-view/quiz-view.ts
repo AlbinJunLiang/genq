@@ -33,36 +33,48 @@ export class QuizView {
 
 
   openCreateQuizView() {
-    const isVerified = this.authService.user()?.emailVerified;
-    if (this.authService.isLoggedIn() && isVerified) {
-      this.selectedQuizService.clearSelectedQuiz();
-      this.changeSlideViewService.setView(SlideView.CREATE_QUIZ_FORM);
-      this.slideInModal.open()
-    } else if (!isVerified) {
-      this.openVerificationDialog();
-    } else {
+    const isLoggedIn = this.authService.isLoggedIn();
+
+    if (!isLoggedIn) {
       this.openLogin();
+      return;
     }
+
+    const isVerified = this.authService.user()?.emailVerified === true;
+
+    if (!isVerified) {
+      this.openVerificationDialog();
+      return;
+    }
+
+    this.selectedQuizService.clearSelectedQuiz();
+    this.changeSlideViewService.setView(SlideView.CREATE_QUIZ_FORM);
+    this.slideInModal.open();
   }
 
   openGenerate() {
-    const isVerified = this.authService.user()?.emailVerified;
+    const isLoggedIn = this.authService.isLoggedIn();
 
-    if (this.authService.isLoggedIn() && isVerified) {
-      const dialogRef = this.dialog.open(GenQuizForm, {
-        width: '95%',
-        maxWidth: '600px',
-        height: this.breakPointService.isMobile() ? '90%' : '75%',
-        disableClose: true,
-      });
-    } else if (!isVerified) {
-      this.openVerificationDialog();
-
-    } else {
+    if (!isLoggedIn) {
       this.openLogin();
+      return;
     }
 
+    const isVerified = this.authService.user()?.emailVerified;
+
+    if (!isVerified) {
+      this.openVerificationDialog();
+      return;
+    }
+
+    this.dialog.open(GenQuizForm, {
+      width: '95%',
+      maxWidth: '600px',
+      height: this.breakPointService.isMobile() ? '90%' : '75%',
+      disableClose: true,
+    });
   }
+
 
   openLogin() {
     this.changeSlideViewService.setView(SlideView.LOGIN);
