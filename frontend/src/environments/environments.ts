@@ -1,7 +1,7 @@
 export const environment = {
     production: false,
     mockeable: false,
-    apiUrl: 'https://d6f0xwzt-3000.use.devtunnels.ms/api/v1',
+    apiUrl: 'aphttps://genq-dcrz7260z-albins-projects-8bf66c7a.vercel.app/api/v1',
     firebaseConfig: {
         apiKey: "AIzaSyCemNzI_j3VmV9w0D4jf3ctrezjtbh8U9c",
         authDomain: "genq-e4704.firebaseapp.com",
