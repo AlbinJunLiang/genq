@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GenQuizForm } from '../quiz-gen-form/gen-quiz-form';
 import { BreakpointService } from '../../core/services/ui/breakpoint-service';
 import { LanguageService } from '../../core/services/ui/language-service';
+import { VerifyDialog } from '../verify-dialog/verify-dialog';
 
 @Component({
   selector: 'app-quiz-view',
@@ -32,23 +33,30 @@ export class QuizView {
 
 
   openCreateQuizView() {
-    if (this.authService.isLoggedIn()) {
+    const isVerified = this.authService.user()?.emailVerified;
+    if (this.authService.isLoggedIn() && isVerified) {
       this.selectedQuizService.clearSelectedQuiz();
       this.changeSlideViewService.setView(SlideView.CREATE_QUIZ_FORM);
       this.slideInModal.open()
+    } else if (!isVerified) {
+      this.openVerificationDialog();
     } else {
       this.openLogin();
     }
   }
 
   openGenerate() {
-    if (this.authService.isLoggedIn()) {
+    const isVerified = this.authService.user()?.emailVerified;
+
+    if (this.authService.isLoggedIn() && isVerified) {
       const dialogRef = this.dialog.open(GenQuizForm, {
         width: '95%',
         maxWidth: '600px',
         height: this.breakPointService.isMobile() ? '90%' : '75%',
         disableClose: true,
       });
+    } else if (!isVerified) {
+      this.openVerificationDialog();
 
     } else {
       this.openLogin();
@@ -59,5 +67,19 @@ export class QuizView {
   openLogin() {
     this.changeSlideViewService.setView(SlideView.LOGIN);
     this.slideInModal.open();
+  }
+
+
+
+  protected openVerificationDialog() {
+    this.dialog.open(VerifyDialog, {
+      width: '100%',
+      maxWidth: '380px',
+      disableClose: true,
+      autoFocus: false,
+      restoreFocus: false,
+      enterAnimationDuration: '0ms',
+      exitAnimationDuration: '0ms'
+    });
   }
 }

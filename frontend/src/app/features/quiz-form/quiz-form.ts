@@ -125,7 +125,6 @@ export class QuizForm {
     this.quizStore.create(newQuiz).subscribe({
       next: (response) => {
         this.localQuiz.set(response.quiz);
-        console.log(response.quiz)
         this.quizForm.reset();
         this.quizForm.patchValue(
           this.mappingQuizResponse(response.quiz)

@@ -10,10 +10,11 @@ import { Router } from '@angular/router';
 import { QuizAttemptResponse } from '../../core/interfaces/attempt-interface';
 import { QuizGradedService } from '../../core/services/ui/quiz-graded-service';
 import { LanguageService } from '../../core/services/ui/language-service';
+import { MatTooltip } from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-quiz-history-grid',
-  imports: [MatIcon, MatProgressSpinner],
+  imports: [MatIcon, MatProgressSpinner, MatTooltip],
   templateUrl: './quiz-history-grid.html',
   styleUrl: './quiz-history-grid.scss',
 })

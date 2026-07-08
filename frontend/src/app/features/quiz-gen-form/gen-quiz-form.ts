@@ -127,7 +127,7 @@ export class GenQuizForm {
       const response = await this.pdfService.extractText(this.file);
       this.instruction.set(response);
     } catch (e) {
-      console.log(e)
+      // console.log(e)
       this.instruction.set('Error PDF');
     }
   }

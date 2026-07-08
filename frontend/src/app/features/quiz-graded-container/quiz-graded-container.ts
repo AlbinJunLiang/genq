@@ -52,7 +52,6 @@ export class QuizGradedContainer {
 
     if (this.quizData) {
       this.evaluationResult.set(this.quizData.quizAttemptedContent);
-      console.log('Datos recibidos con éxito:', this.quizData);
       // Ya puedes usar this.quizData en tu HTML
     } else {
       this.router.navigate(['/history']);

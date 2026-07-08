@@ -2,7 +2,6 @@
 
 
 export function mappingAttemptResponse(attempt) {
-    console.log(attempt)
     return {
         id: attempt.id,
         uuid: attempt.uuid,
@@ -24,7 +23,6 @@ export function mappingAttemptResponse(attempt) {
 
 
 export function mappingAttemptResponse2(attempt) {
-    console.log(attempt)
     return {
         id: attempt.id,
         uuid: attempt.uuid,

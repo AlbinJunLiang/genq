@@ -30,11 +30,13 @@
                     attempt.score }}%</div>
 
                 <div class="actions">
-                    <span (click)="onRestartQuiz(attempt.quizUuid)" class="badge">
+                    <span [matTooltip]="languageService.translate('RESET')" (click)="onRestartQuiz(attempt.quizUuid)"
+                        class="badge">
                         <img src="play.svg" style="width: 24px; height: 24px" />
                     </span>
 
-                    <span (click)="onDeleteAttempt(attempt.id)" class="badge">
+                    <span [matTooltip]="languageService.translate('DELETE')" (click)="onDeleteAttempt(attempt.id)"
+                        class="badge">
                         <img src="delete.svg" style="width: 24px; height: 24px" />
                     </span>
 

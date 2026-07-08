@@ -23,7 +23,14 @@
   </nav>
 
   <nav class="footer-links">
-    <a href="#">{{languageService.translate('INFORMATION')}}</a>
+    <a routerLink="/support">{{languageService.translate('SUPPORT')}}</a>
     <a href="https://albinjunliang.github.io/portfolio/">{{languageService.translate('DEVELOPER')}}</a>
   </nav>
+
+
+  @if(userStore.userSyncData()){
+  <div class="user-info">
+    <span>Bienvenido, <strong>{{ userStore.userSyncData()?.user?.email ?? ''}}</strong></span>
+  </div>
+  }
 </footer>

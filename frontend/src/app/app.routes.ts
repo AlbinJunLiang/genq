@@ -15,6 +15,10 @@ export const routes: Routes = [
     { path: 'home', redirectTo: '', pathMatch: 'full' },
     { path: 'quiz/:quizUuid', component: QuizContainer },
     { path: 'graded', component: QuizGradedContainer, canActivate: [authGuard] },
-    { path: 'models', component: ModelTable, canActivate:[adminGuard] },
+    { path: 'models', component: ModelTable, canActivate: [adminGuard] },
+    {
+        path: 'support',
+        loadComponent: () => import('./features/support-section/support-section').then(m => m.SupportSection)
+    },
     { path: '**', redirectTo: '', pathMatch: 'full' }
 ];

@@ -58,7 +58,7 @@ export class ModelTable {
         this.snackbar.show('¡Eliminado exitósamente!', 'Ok');
       },
       error: (err) => {
-        console.log(err)
+      //  console.log(err)
         this.snackbar.show('Error al eliminar', 'ok');
       }
     });

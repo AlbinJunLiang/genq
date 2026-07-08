@@ -13,7 +13,7 @@
     <button routerLink="/" class="center-button" mat-button>{{languageService.translate('MAIN')}}</button>
     <button routerLink="/quizzes" class="center-button" mat-button>{{languageService.translate('QUIZZES')}}</button>
     <button routerLink="/history" class="center-button" mat-button>{{languageService.translate('HISTORY')}}</button>
-    <button class="center-button" mat-button>{{languageService.translate('INFORMATION')}}</button>
+    <button routerLink="/support" class="center-button" mat-button>{{languageService.translate('SUPPORT')}}</button>
   </div>
 
   <div class="right-icons">
@@ -26,7 +26,8 @@
     </button>
 
     @if (authService.isLoggedIn()) {
-    <app-filter-menu class="toolbar-main-menu"> </app-filter-menu>
+    <app-filter-menu [matTooltip]="languageService.translate('FILTER_QUIZZES')" class="toolbar-main-menu">
+    </app-filter-menu>
     }
 
 

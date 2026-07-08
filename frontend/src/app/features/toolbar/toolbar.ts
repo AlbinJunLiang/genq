@@ -9,10 +9,11 @@ import { RouterLink } from "@angular/router";
 import { FilterMenu } from "../filter-menu/filter-menu";
 import { AuthService } from '../../auth/auth-service';
 import { LanguageService } from '../../core/services/ui/language-service';
+import { MatTooltip } from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-toolbar',
-  imports: [MatToolbar, MatIcon, MatButtonModule, MatMenuModule, ToolbarMainMenu, RouterLink, FilterMenu],
+  imports: [MatToolbar, MatIcon, MatButtonModule, MatMenuModule, ToolbarMainMenu, RouterLink, FilterMenu, MatTooltip],
   templateUrl: './toolbar.html',
   styleUrl: './toolbar.scss',
 })

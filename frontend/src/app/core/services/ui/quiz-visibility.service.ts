@@ -7,7 +7,7 @@ import { QuizVisibility } from '../../types/quiz-visibility';
 })
 export class QuizVisibilityService {
     // Signal para almacenar el estado actual
-    private currentVisibility = signal<QuizVisibility>('ALL');
+    private currentVisibility = signal<QuizVisibility>('GLOBAL');
 
     // Signal pública (de solo lectura para los componentes)
     public visibility = this.currentVisibility.asReadonly();

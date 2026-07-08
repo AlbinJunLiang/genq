@@ -70,7 +70,6 @@ const getProvider = (provider) => {
  *   provider: 'openai'
  * });
  *
- * console.log(response);
  */
 export const generateCompletion = async ({
     content = '',

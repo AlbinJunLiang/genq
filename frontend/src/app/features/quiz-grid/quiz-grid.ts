@@ -15,10 +15,11 @@ import { QuizVisibilityService } from '../../core/services/ui/quiz-visibility.se
 import { LanguageService } from '../../core/services/ui/language-service';
 import { ConfirmDialogComponent } from '../../shared/component/confirm/dialog-component';
 import { SnackBarService } from '../../core/services/ui/snackbar-service';
+import { MatTooltip } from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-quiz-grid',
-  imports: [MatButtonModule, MatIcon, MatProgressSpinner],
+  imports: [MatButtonModule, MatIcon, MatProgressSpinner, MatTooltip],
   templateUrl: './quiz-grid.html',
   styleUrl: './quiz-grid.scss',
 })

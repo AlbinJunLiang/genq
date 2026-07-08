@@ -4,7 +4,7 @@ import {
     getQuizEvaluation, remove, search, update,
     createFullQuiz
 } from '../controllers/quiz.controller.js';
-import { verifyFirebaseToken, verifyFirebaseTokenAndUser } from '../middlewares/firebase-middleware.js';
+import {  verifyFirebaseToken, verifyFirebaseTokenAndUser } from '../middlewares/firebase-middleware.js';
 import { authorize } from '../middlewares/authorize-middleware.js';
 import { getQuizMiddleware } from '../middlewares/get-quiz-middleware.js';
 import { paginationValidationRules } from '../validators/pagination-validator.js';
@@ -353,7 +353,7 @@ quizRouter.post('/uuid/:uuid', initRateLimit(1, 100), checkUser, startQuizByUuid
  *         description: Token Firebase inválido o ausente
  */
 
-quizRouter.get('/me', initRateLimit(5, 10000), paginationValidationRules, validateRequest, verifyFirebaseTokenAndUser, getMyQuizzes);
+quizRouter.get('/me', initRateLimit(5, 10000), paginationValidationRules, validateRequest, verifyFirebaseToken, getMyQuizzes);
 
 /**
  * @swagger

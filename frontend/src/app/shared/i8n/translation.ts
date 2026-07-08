@@ -208,7 +208,49 @@ export const translations = {
         MODELS: 'Modelos',
         DELETE_QUIZ_TITLE: 'Eliminar Cuestionario',
         DELETE_QUIZ_CONFIRMATION: '¿Estás seguro de que quieres borrar este quiz permanentemente?',
+        SUPPORT: 'Soporte',
+        SUPPORT_TITLE: 'Centro de Soporte',
+        SUPPORT_DESCRIPTION: 'Encuentra información útil para resolver tus dudas y conocer las principales funcionalidades de GenQ.',
 
+        SECURITY_TITLE: 'Seguridad',
+        SECURITY_DESCRIPTION: 'Aprende a gestionar tus credenciales, verificar tu cuenta y mantener seguro tu acceso a GenQ.',
+
+        FIRST_STEPS_TITLE: 'Primeros pasos con GenQ',
+        FIRST_STEPS_DESCRIPTION: 'Conoce cómo crear cuestionarios y generar contenido utilizando inteligencia artificial.',
+
+        CONFIGURATION_TITLE: 'Configuraciones disponibles',
+        CONFIGURATION_DESCRIPTION: 'Administra tus preferencias, idioma y opciones relacionadas con la personalización de la plataforma.',
+
+        PRIVACY_DESCRIPTION: 'Conoce cómo se gestionan tus datos y quién puede acceder a la información generada en tu cuenta.',
+
+        FAQ_TITLE: 'Preguntas frecuentes',
+
+        FAQ_PASSWORD_QUESTION: '¿Cómo puedo actualizar mi contraseña?',
+        FAQ_PASSWORD_ANSWER: 'Puedes actualizar tu contraseña desde el menú ubicado en la esquina superior derecha. Al seleccionar esta opción, recibirás un correo electrónico en la cuenta registrada con el enlace para realizar la actualización.',
+
+        FAQ_VERIFY_QUESTION: '¿Cómo verifico mi cuenta?',
+        FAQ_VERIFY_ANSWER: 'La opción de verificación se encuentra disponible en el menú ubicado en la esquina superior derecha. Al seleccionarla, recibirás un correo electrónico con las instrucciones necesarias para completar la verificación de tu cuenta.',
+
+        FAQ_VERIFICATION_FEATURES_QUESTION: '¿Qué funciones requieren verificación de cuenta?',
+        FAQ_VERIFICATION_FEATURES_ANSWER: 'La creación y actualización de cuestionarios requieren que la cuenta del usuario se encuentre verificada.',
+
+        FAQ_CREATE_QUIZ_QUESTION: '¿Cómo puedo crear un cuestionario?',
+        FAQ_CREATE_QUIZ_ANSWER: 'Para crear un cuestionario, dirígete al formulario disponible desde el menú principal y selecciona la opción "Crear Quiz". Luego completa la información solicitada y presiona el botón de creación para finalizar el proceso.',
+
+        FAQ_AI_QUIZ_QUESTION: '¿Cómo puedo generar un Quiz utilizando inteligencia artificial?',
+        FAQ_AI_QUIZ_ANSWER: 'GenQ permite generar cuestionarios mediante inteligencia artificial utilizando un texto de instrucciones (prompt) o un archivo PDF. Esta funcionalidad está disponible desde la opción "Crear Cuestionario". Al acceder, se abrirá una ventana donde podrás ingresar la instrucción y seleccionar el modelo de inteligencia artificial que deseas utilizar. Existen algunas limitaciones: los archivos PDF y prompts no pueden superar los 3000 caracteres, además existe un límite de 10 solicitudes dentro de una ventana de 8 horas. Si alcanzas este límite, deberás esperar hasta que finalice el periodo establecido. Como alternativa, puedes generar cuestionarios mediante formato JSON utilizando una herramienta externa de inteligencia artificial siguiendo el esquema proporcionado dentro del formulario.',
+
+        FAQ_SHARE_QUIZ_QUESTION: '¿Puedo compartir mi cuestionario con otros usuarios?',
+        FAQ_SHARE_QUIZ_ANSWER: 'Sí. Puedes compartir un cuestionario mediante un código QR o un enlace generado al momento de crear el Quiz. Para permitir que otros usuarios puedan acceder, el cuestionario debe estar configurado como público o disponible para usuarios con el enlace.',
+
+        FAQ_RESULTS_QUESTION: '¿Quiénes pueden ver los resultados de un Quiz?',
+        FAQ_RESULTS_ANSWER: 'Los resultados pueden ser consultados por el usuario que realizó el Quiz y por el propietario del cuestionario. El propietario únicamente podrá visualizar información general como la calificación obtenida y las fechas de inicio y finalización.',
+
+        FAQ_SETTINGS_QUESTION: '¿Qué configuraciones se mantienen guardadas?',
+        FAQ_SETTINGS_ANSWER: 'GenQ conserva las preferencias seleccionadas por el usuario, como el idioma de la aplicación y el modelo de inteligencia artificial elegido para la generación de cuestionarios.',
+
+        FAQ_LANGUAGE_QUESTION: '¿La aplicación permite cambiar de idioma?',
+        FAQ_LANGUAGE_ANSWER: 'Sí. Desde el menú principal puedes cambiar el idioma de la aplicación entre español e inglés.'
 
 
     },
@@ -276,7 +318,7 @@ export const translations = {
         ACCESS_DESC: "Visitors or unregistered users can interact with public access quizzes, either through the page, URL, or QR.",
         PRIVACY_TITLE: "Data privacy",
         PRIVACY_DESC: "The application stores profile information to improve the user experience. Regarding stored quiz data, these will not be used for other purposes.",
-        BTN_MORE: "Learn more",
+        BTN_MORE: "View more",
         QUIZ_DATE_MUST_BE_FUTURE: 'The end date must be in the future.',
         TOO_MANY_REQUESTS: "Too many requests. Try again later.",
         ERROR_CREATING_QUIZ: "Error al crear el cuestionario.",
@@ -437,18 +479,49 @@ export const translations = {
         MODELS: 'Models',
         DELETE_QUIZ_TITLE: 'Delete Quiz',
         DELETE_QUIZ_CONFIRMATION: 'Are you sure you want to permanently delete this quiz?',
+        SUPPORT: 'Support',
 
+        SUPPORT_TITLE: 'Support Center',
+        SUPPORT_DESCRIPTION: 'Find useful information to answer your questions and learn about the main features of GenQ.',
 
+        SECURITY_TITLE: 'Security',
+        SECURITY_DESCRIPTION: 'Learn how to manage your credentials, verify your account, and keep your GenQ access secure.',
 
+        FIRST_STEPS_TITLE: 'Getting started with GenQ',
+        FIRST_STEPS_DESCRIPTION: 'Learn how to create quizzes and generate content using artificial intelligence.',
 
+        CONFIGURATION_TITLE: 'Available settings',
+        CONFIGURATION_DESCRIPTION: 'Manage your preferences, language, and customization options available on the platform.',
 
+        PRIVACY_DESCRIPTION: 'Learn how your data is managed and who can access the information generated in your account.',
 
+        FAQ_TITLE: 'Frequently asked questions',
 
+        FAQ_PASSWORD_QUESTION: 'How can I update my password?',
+        FAQ_PASSWORD_ANSWER: 'You can update your password from the menu located in the upper-right corner. After selecting this option, you will receive an email at your registered account with the link to update your password.',
 
+        FAQ_VERIFY_QUESTION: 'How do I verify my account?',
+        FAQ_VERIFY_ANSWER: 'The verification option is available in the menu located in the upper-right corner. After selecting it, you will receive an email with the instructions needed to complete your account verification.',
 
+        FAQ_VERIFICATION_FEATURES_QUESTION: 'Which features require account verification?',
+        FAQ_VERIFICATION_FEATURES_ANSWER: 'Creating and updating quizzes require the user account to be verified.',
 
+        FAQ_CREATE_QUIZ_QUESTION: 'How can I create a quiz?',
+        FAQ_CREATE_QUIZ_ANSWER: 'To create a quiz, go to the form available from the main menu and select the "Create Quiz" option. Then complete the requested information and click the create button to finish the process.',
 
+        FAQ_AI_QUIZ_QUESTION: 'How can I generate a Quiz using artificial intelligence?',
+        FAQ_AI_QUIZ_ANSWER: 'GenQ allows users to generate quizzes using artificial intelligence through an instruction text (prompt) or a PDF file. This feature is available from the "Create Quiz" option. When accessed, a dialog will open where you can enter the instruction and select the artificial intelligence model you want to use. There are some limitations: PDF files and prompts cannot exceed 3000 characters, and there is a limit of 10 requests within an 8-hour window. If you reach this limit, you must wait until the remaining period ends. As an alternative, you can generate quizzes using JSON format with an external artificial intelligence tool following the schema provided inside the form.',
 
+        FAQ_SHARE_QUIZ_QUESTION: 'Can I share my quiz with other users?',
+        FAQ_SHARE_QUIZ_ANSWER: 'Yes. You can share a quiz using a QR code or a reference link generated when creating the quiz. To allow other users to access it, the quiz must be configured as public or available for users with the link.',
 
+        FAQ_RESULTS_QUESTION: 'Who can view the results of a Quiz?',
+        FAQ_RESULTS_ANSWER: 'The results can be viewed by the user who completed the Quiz and by the owner of the quiz. The owner can only view general information such as the obtained score and the start and completion dates.',
+
+        FAQ_SETTINGS_QUESTION: 'Which settings are saved?',
+        FAQ_SETTINGS_ANSWER: 'GenQ saves user preferences such as the application language and the selected artificial intelligence model used for quiz generation.',
+
+        FAQ_LANGUAGE_QUESTION: 'Can the application language be changed?',
+        FAQ_LANGUAGE_ANSWER: 'Yes. From the main menu, you can change the application language between Spanish and English.'
     }
 } as const;

@@ -50,7 +50,6 @@ export class ModelForm {
   createModel() {
     if (this.modelForm.invalid) return;
     const formValues = this.modelForm.getRawValue();
-    console.log(formValues)
     this.modelStore.createModel(formValues).subscribe({
       next: () => {
         this.isFormOpen.set(false);

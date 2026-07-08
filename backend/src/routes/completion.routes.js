@@ -99,7 +99,7 @@ const completionRouter = Router();
 completionRouter.post("/generate-quiz",
     genQuizValidationRules,
     verifyFirebaseTokenAndUser,
-    rateLimitWithAdminExclusion(10, 10),
+    rateLimitWithAdminExclusion(480, 10),
     validateRequest,
     generateQuizController);
 

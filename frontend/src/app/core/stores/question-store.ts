@@ -39,7 +39,7 @@ export class QuestionStore {
         })
       )
       .subscribe(res => {
-        console.log(res)
+       // console.log(res)
         this._questions.set(res.questions)
       });
   }

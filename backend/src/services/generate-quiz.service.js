@@ -93,8 +93,6 @@ export const generateQuiz = async ({
             "The model response does not comply with the quiz schema."
         );
     }
-
-    console.log(JSON.stringify(validation.data))
     const savedQuiz = await createFullQuiz(validation.data, userId);
 
 
