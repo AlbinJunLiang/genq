@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1783561899018,
+  "timestamp": 1783568366958,
   "index": "/genq/index.html",
   "assetGroups": [
     {
@@ -18,7 +18,6 @@
         "/genq/favicon.ico",
         "/genq/index.html",
         "/genq/main-GTYXECIB.js",
-        "/genq/manifest.webmanifest",
         "/genq/styles-2MCY77WB.css"
       ],
       "patterns": []
@@ -26,21 +25,11 @@
     {
       "name": "assets",
       "installMode": "lazy",
-      "updateMode": "prefetch",
+      "updateMode": "lazy",
       "cacheQueryOptions": {
         "ignoreVary": true
       },
       "urls": [
-        "/genq/exit.svg",
-        "/genq/first.svg",
-        "/genq/google.svg",
-        "/genq/graded/check.svg",
-        "/genq/graded/wrong.svg",
-        "/genq/grid/delete.svg",
-        "/genq/grid/eye.svg",
-        "/genq/grid/play.svg",
-        "/genq/hand.svg",
-        "/genq/home/computer.png",
         "/genq/icons/icon-128x128.png",
         "/genq/icons/icon-144x144.png",
         "/genq/icons/icon-152x152.png",
@@ -48,15 +37,7 @@
         "/genq/icons/icon-384x384.png",
         "/genq/icons/icon-512x512.png",
         "/genq/icons/icon-72x72.png",
-        "/genq/icons/icon-96x96.png",
-        "/genq/login.svg",
-        "/genq/magic.svg",
-        "/genq/nav/history.svg",
-        "/genq/nav/home.svg",
-        "/genq/nav/quiz.svg",
-        "/genq/rabbit.png",
-        "/genq/toolbar/more_vert.svg",
-        "/genq/toolbar/search.svg"
+        "/genq/icons/icon-96x96.png"
       ],
       "patterns": []
     }
@@ -67,17 +48,7 @@
     "/genq/chunk-QW77H7ZB.js": "f5355f56bfb3c43aabb1bdefc36df7e3bab420df",
     "/genq/chunk-QXIBXHVB.js": "7e0b07c5a389001acd33154ef32db0fea03d0518",
     "/genq/chunk-VJZX2ZJP.js": "c3e3d932b7425f496537e5f498b43f3278594d31",
-    "/genq/exit.svg": "6891a89ac1f00d76ac4afea0406ef51608bda134",
     "/genq/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
-    "/genq/first.svg": "63c22cac3204515e7126378562e62dca54edd513",
-    "/genq/google.svg": "3d52c5304ccf8bf9235e9fc9a56eac487bf8011f",
-    "/genq/graded/check.svg": "10770c32fa04167b6d3b083d822571f6f22d3cec",
-    "/genq/graded/wrong.svg": "8715c7b5d54d879b07e2356180a55e2bdf266ec7",
-    "/genq/grid/delete.svg": "30a8d1316193f1e07db32ad64f1c9e655b36c8de",
-    "/genq/grid/eye.svg": "e187d6d52e787fa64416427b853af539d955ffcf",
-    "/genq/grid/play.svg": "78ae85b55f8aba4e2fa72e82e86f38a09302d21a",
-    "/genq/hand.svg": "6844cee15decc3c8d9bc3352bf37e996995abbbf",
-    "/genq/home/computer.png": "dd19f23236c8076c61feb772d9b2ebe43eb3a763",
     "/genq/icons/icon-128x128.png": "40e770782dc472809f69f43390820834b0fa1d8d",
     "/genq/icons/icon-144x144.png": "12bf8152dd94af1f513f7f39514b569186aee0b9",
     "/genq/icons/icon-152x152.png": "cc589599f9487a79f067a65bb8e78e9c8c95d0ec",
@@ -87,17 +58,8 @@
     "/genq/icons/icon-72x72.png": "b78c7af78ee664bfff4a5c47468f68e304a62e30",
     "/genq/icons/icon-96x96.png": "771f8597a73203d470e8690d2739e5b3344d8d04",
     "/genq/index.html": "714d59c0dd623d438468c41946baa05b95f6adac",
-    "/genq/login.svg": "e213998b556f54a9784272c6e09f48151b63e686",
-    "/genq/magic.svg": "00ff4578a93630e1a853f276797f0195dabfda46",
     "/genq/main-GTYXECIB.js": "296c30737697639f0797ea23458d98492af55592",
-    "/genq/manifest.webmanifest": "4713c64739ff581e059201e4ce98e3e23d0cfe54",
-    "/genq/nav/history.svg": "81eac6f5b005ca6170a7ea7f9f13b9c121378b52",
-    "/genq/nav/home.svg": "78713a9fe600bae475738295c2125ccb025509f9",
-    "/genq/nav/quiz.svg": "e74eb47e710849bb65090a5600c3cb3a9b321b66",
-    "/genq/rabbit.png": "81b8f915098ca43315648c98ba0aeef73fda15f0",
-    "/genq/styles-2MCY77WB.css": "ee676cb0199e0bbcc8e5521309f830022a66461c",
-    "/genq/toolbar/more_vert.svg": "6452c1bd71d12192b5024cde2e45c5336464ccef",
-    "/genq/toolbar/search.svg": "c485188a1b0760fc9a7a2adb90e33259bf038157"
+    "/genq/styles-2MCY77WB.css": "ee676cb0199e0bbcc8e5521309f830022a66461c"
   },
   "navigationUrls": [
     {
