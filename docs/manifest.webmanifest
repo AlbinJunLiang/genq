@@ -1,6 +1,6 @@
 {
-  "name": "frontend",
-  "short_name": "frontend",
+  "name": "genq",
+  "short_name": "genQ",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",

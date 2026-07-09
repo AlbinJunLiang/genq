@@ -1,5 +1,5 @@
 export const environment = {
-    production: false,
+    production: true,
     mockeable: false,
     apiUrl: 'https://genq-inky.vercel.app/api/v1',
     firebaseConfig: {

@@ -129,7 +129,7 @@ export const translations = {
         USER: 'Usuario',
         SCORE: 'Calificación',
 
-        QUESTION_DELETED_SUCCESSFULLY: 'Pregunta eliminada con éxito del store y de la API',
+        QUESTION_DELETED_SUCCESSFULLY: 'Pregunta eliminada con éxito.',
 
         DELETE_QUESTION_TITLE: '¿Eliminar pregunta?',
         DELETE_QUESTION_CONFIRMATION: '¿Estás seguro de que quieres borrar esta pregunta?',
@@ -394,7 +394,7 @@ export const translations = {
         USER: 'User',
         SCORE: 'Score',
 
-        QUESTION_DELETED_SUCCESSFULLY: 'Question successfully deleted from the store and the API',
+        QUESTION_DELETED_SUCCESSFULLY: 'Question successfully deleted.',
 
 
         DELETE_QUESTION_TITLE: 'Delete question?',

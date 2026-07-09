@@ -7,6 +7,7 @@ import { formatReadableDate } from '../../shared/util/date.util';
 import { Router } from '@angular/router';
 import * as QRCode from 'qrcode';
 import { LanguageService } from '../../core/services/ui/language-service';
+import { environment } from '../../../environments/environments';
 
 @Component({
   selector: 'app-quiz-detail-dialog',
@@ -26,7 +27,7 @@ export class QuizDetailDialog {
       this.generateQRCode();
     });
   }
-  
+
   protected formatDate(date: string) {
     return formatReadableDate(date);
   }
@@ -54,9 +55,7 @@ export class QuizDetailDialog {
   private generateQRCode() {
     const canvas = this.qrCanvas()?.nativeElement;
     if (!canvas) return;
-
-    // Obtener la URL actual de tu página
-    const baseUrl = window.location.origin;
+    const baseUrl = environment.production ? `${window.location.origin}/genq` : window.location.origin;
     const dynamicUrl = `${baseUrl}/quiz/${this.data.uuid}`;
     QRCode.toCanvas(canvas, dynamicUrl, {
       width: 200,

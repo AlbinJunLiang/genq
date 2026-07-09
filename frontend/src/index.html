@@ -1,6 +1,17 @@
 <!doctype html>
 <html lang="en">
+
 <head>
+  <script>
+    (function () {
+      const redirect = sessionStorage.getItem("redirect_genq");
+
+      if (redirect) {
+        sessionStorage.removeItem("redirect_genq");
+        history.replaceState(null, "", redirect);
+      }
+    })();
+  </script>
   <meta charset="utf-8">
   <title>GenQ</title>
   <base href="/">
@@ -12,8 +23,10 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="manifest" href="manifest.webmanifest">
 </head>
+
 <body>
   <app-root></app-root>
   <noscript>Please enable JavaScript to continue using this application.</noscript>
 </body>
+
 </html>

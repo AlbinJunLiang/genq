@@ -136,4 +136,11 @@ export class QuizStore {
             })
         );
     }
+
+    public clearState() {
+        this._quizzes.set([]);
+        this._total.set(0);
+        this._currentPage.set(1);
+        this._loading.set(false);
+    }
 }

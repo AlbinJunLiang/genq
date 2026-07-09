@@ -16,6 +16,7 @@ import { LanguageService } from '../../core/services/ui/language-service';
 import { ConfirmDialogComponent } from '../../shared/component/confirm/dialog-component';
 import { SnackBarService } from '../../core/services/ui/snackbar-service';
 import { MatTooltip } from "@angular/material/tooltip";
+import { SearchService } from '../../core/services/ui/search-service';
 
 @Component({
   selector: 'app-quiz-grid',
@@ -35,6 +36,7 @@ export class QuizGrid {
   private dialog = inject(MatDialog);
   private visibilityService = inject(QuizVisibilityService);
   private snackbar = inject(SnackBarService);
+  private searchService = inject(SearchService);
 
 
 
@@ -43,6 +45,7 @@ export class QuizGrid {
       this.quizStore.loadQuizzes(1, 8);
     }
   }
+
 
   nextPage() {
     if (this.quizStore.isLoading()) return;
