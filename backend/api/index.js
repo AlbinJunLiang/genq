@@ -5,11 +5,16 @@ import '../src/models/associations.js';
 let dbReady = false;
 
 async function initDatabase() {
-    if (!dbReady) {
-        await sequelize.authenticate();
-        dbReady = true;
-        console.log('✅ Base de datos conectada');
+  if (!dbReady) {
+    try {
+      await sequelize.authenticate();
+      dbReady = true;
+      console.log('✅ Base de datos conectada');
+    } catch (err) {
+      console.error('❌ Error conectando a la base de datos:', err.message);
+      // no relanzamos: dejamos que la función siga viva
     }
+  }
 }
 
 await initDatabase();
