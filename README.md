@@ -8,7 +8,7 @@ The platform allows users to create, manage, and share quizzes while integrating
 
 <div align="center">
   <div style="
-    background-color: white;
+    background-color: rgb(255,25,80);
     width: 210px;
     height: 210px;
     border-radius: 50%;
